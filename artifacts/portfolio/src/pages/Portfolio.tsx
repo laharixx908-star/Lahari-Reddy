@@ -222,11 +222,11 @@ function About() {
   return (
     <section id="about" style={{ padding: "3rem 1.5rem 5rem" }}>
       <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>About</p>
+        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Introduction</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "2rem" }}>About Me</h2>
         <div className="card" style={{ textAlign: "center" }}>
           <p style={{ color: "var(--muted-fg)", fontSize: "0.95rem", lineHeight: 1.85, margin: 0 }}>
-            ECE student who builds real-world tech projects by combining hardware and software. Always learning, experimenting, and improving through hands-on work.
+            My interests span embedded systems, digital design, and software development. Currently preparing for GATE while building projects that push me to think critically — both as an engineer and a problem-solver. I'm always looking to grow through work that has real technical depth.
           </p>
         </div>
       </div>
@@ -346,7 +346,7 @@ function Skills() {
             <div key={cat.label} className="card">
               <p className="label-upper" style={{ marginBottom: "1.25rem", color: "var(--primary)" }}>{cat.label}</p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-                {cat.skills.map((skill) => <span key={skill} className="tag">{skill}</span>)}
+                {cat.skills.map((skill) => <span key={skill} className="tag-explore">{skill}</span>)}
               </div>
               {cat.exploring.length > 0 && (
                 <>
@@ -371,7 +371,7 @@ function Experience() {
   return (
     <section id="experience" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
       <div style={{ maxWidth: "720px", margin: "0 auto" }}>
-        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Background</p>
+        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Professional Path</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Experience</h2>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
 
@@ -456,8 +456,8 @@ function Journey() {
     "I come from a single-parent family and grew up as an only child. For a long time, I struggled with consistency and direction. I used to give up easily and didn't take things seriously, which affected my academics and confidence.",
     "I had dreams like joining the Indian Navy through NDA, but I couldn't clear the first stage. I also wrote several Olympiad exams in school and couldn't clear them, which made me question myself a lot.",
     "A lot was invested in my education—my intermediate alone cost around 8 lakhs—but I still couldn't even score 90%. That made me feel like I wasn't doing justice to the opportunities I was given.",
-    "My family had expectations from me, and I often felt like I wasn't meeting them. But things started to change when I qualified EAMCET with very limited preparation. That moment made my family slowly start believing in me, and it made me realize that I had potential—I just wasn't using it properly.",
     "I was also involved in sports like basketball and kho-kho. Even though I didn't win, those experiences taught me how to keep going and not quit easily.",
+    "My family had expectations from me, and I often felt like I wasn't meeting them. But things started to change when I qualified EAMCET with very limited preparation. That moment made my family slowly start believing in me, and it made me realize that I had potential—I just wasn't using it properly.",
     "Getting selected as an intern at EvolveX meant a lot—after all the failures, it felt like a step forward.",
     "There was one moment that stayed with me. My mother once said that instead of spending so much on me, the same could have helped a hardworking child who needed it more. That line didn't leave me.",
     "I didn't take it as discouragement—I took it as responsibility. Someday, I want to build something meaningful and give back by starting a non-profit for children who don't have the opportunities I had.",
@@ -469,7 +469,7 @@ function Journey() {
   return (
     <section id="journey" style={{ padding: "5rem 1.5rem" }}>
       <div style={{ maxWidth: "720px", margin: "0 auto" }}>
-        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Story</p>
+        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Personal Narrative</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "0.75rem" }}>My Journey</h2>
         <p style={{ textAlign: "center", fontStyle: "italic", color: "var(--muted-fg)", fontSize: "0.88rem", marginBottom: "3rem", opacity: 0.75 }}>
           "A story of failure."
