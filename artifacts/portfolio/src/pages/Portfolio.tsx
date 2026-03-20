@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { Github, Linkedin, Mail, MapPin, X, ArrowRight, Moon, Sun } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Github, Linkedin, Mail, X, ArrowRight, Moon, Sun } from "lucide-react";
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
@@ -51,11 +51,7 @@ function Modal({ title, content, imageUrl, onClose }: ModalProps) {
         </div>
         <hr className="divider" style={{ marginBottom: "1.5rem" }} />
         {imageUrl && (
-          <img
-            src={imageUrl}
-            alt={title}
-            style={{ width: "100%", borderRadius: "6px", border: "0.5px solid var(--border-color)", display: "block" }}
-          />
+          <img src={imageUrl} alt={title} style={{ width: "100%", borderRadius: "6px", border: "0.5px solid var(--border-color)", display: "block" }} />
         )}
         {content && (
           Array.isArray(content) ? (
@@ -75,7 +71,6 @@ function Modal({ title, content, imageUrl, onClose }: ModalProps) {
 
 function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void }) {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -84,56 +79,56 @@ function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void })
   }, []);
 
   const navBg = dark
-    ? scrolled ? "rgba(26, 13, 10, 0.95)" : "rgba(26, 13, 10, 0.75)"
-    : scrolled ? "rgba(253, 248, 246, 0.95)" : "rgba(253, 248, 246, 0.75)";
+    ? scrolled ? "rgba(26,13,10,0.96)" : "rgba(26,13,10,0.80)"
+    : scrolled ? "rgba(253,248,246,0.96)" : "rgba(253,248,246,0.80)";
 
   return (
     <nav style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
       background: navBg,
-      backdropFilter: "blur(16px)",
-      WebkitBackdropFilter: "blur(16px)",
+      backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)",
       borderBottom: scrolled ? "0.5px solid var(--border-color)" : "0.5px solid transparent",
       transition: "all 0.3s ease",
     }}>
-      <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: "60px" }}>
-        <span style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.05rem", color: "var(--foreground)", letterSpacing: "0.05em" }}>
-          Sai Lahari
-        </span>
+      <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 2rem", display: "flex", alignItems: "center", height: "58px", gap: "0.5rem" }}>
+        <button
+          onClick={() => scrollTo("#home")}
+          style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.15rem", color: "var(--foreground)", letterSpacing: "0.06em", background: "none", border: "none", cursor: "pointer", padding: 0, marginRight: "0.75rem", flexShrink: 0 }}
+        >
+          LAHARI
+        </button>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "0.1rem", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0rem", flex: 1, flexWrap: "wrap" }}>
           {navItems.map((item) => (
-            <button key={item.label} className="nav-link" onClick={() => { setMenuOpen(false); scrollTo(item.href); }}>
+            <button key={item.label} className="nav-link" onClick={() => scrollTo(item.href)}>
               {item.label}
             </button>
           ))}
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexShrink: 0 }}>
+          <div style={{
+            display: "flex", alignItems: "center", gap: "0.375rem",
+            border: "0.5px solid var(--border-color)", borderRadius: "20px",
+            padding: "0.3rem 0.75rem",
+            fontSize: "0.7rem", letterSpacing: "0.1em", color: "var(--muted-fg)",
+          }}>
+            <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--primary)", display: "inline-block" }}></span>
+            theme set
+          </div>
           <button
             onClick={toggleDark}
             style={{
               background: "none", border: "0.5px solid var(--border-color)", cursor: "pointer",
               color: "var(--muted-fg)", padding: "0.375rem", borderRadius: "50%",
               display: "flex", alignItems: "center", justifyContent: "center",
-              marginLeft: "0.5rem", transition: "all 0.2s ease", width: "32px", height: "32px",
+              transition: "all 0.2s ease", width: "32px", height: "32px", flexShrink: 0,
             }}
-            title={dark ? "Switch to light mode" : "Switch to dark mode"}
+            title={dark ? "Light mode" : "Dark mode"}
           >
             {dark ? <Sun size={14} /> : <Moon size={14} />}
           </button>
         </div>
-
-        {menuOpen && (
-          <div style={{
-            position: "absolute", top: "60px", left: 0, right: 0,
-            borderTop: "0.5px solid var(--border-color)", background: "var(--surface)", padding: "0.75rem 1.5rem",
-          }}>
-            {navItems.map((item) => (
-              <button key={item.label} className="nav-link" style={{ display: "block", width: "100%", textAlign: "left", marginBottom: "0.25rem" }}
-                onClick={() => { setMenuOpen(false); scrollTo(item.href); }}>
-                {item.label}
-              </button>
-            ))}
-          </div>
-        )}
       </div>
     </nav>
   );
@@ -141,44 +136,71 @@ function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void })
 
 function Hero() {
   return (
-    <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "6rem 1.5rem 4rem" }}>
-      <div style={{ maxWidth: "700px", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: "1.25rem" }}>
-        <div style={{
-          width: "108px", height: "108px", borderRadius: "50%",
-          border: "0.5px solid var(--border-color)",
-          overflow: "hidden",
-          background: "#ede0da",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          marginBottom: "0.25rem",
-        }}>
-          <span style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.5rem", color: "var(--muted-fg)", letterSpacing: "0.05em" }}>SL</span>
+    <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", paddingTop: "58px" }}>
+      <div style={{ maxWidth: "1180px", margin: "0 auto", width: "100%", padding: "3rem 2rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "3rem" }}>
+
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p className="label-upper" style={{ color: "var(--primary)", marginBottom: "1.25rem", letterSpacing: "0.15em" }}>
+            Atelier Portfolio
+          </p>
+
+          <h1 style={{
+            fontFamily: "var(--app-font-serif)", fontWeight: 400,
+            fontSize: "clamp(2.8rem, 5.5vw, 4.2rem)",
+            lineHeight: 1.05, color: "var(--foreground)", margin: "0 0 1.25rem",
+          }}>
+            Sai Lahari Reddy
+          </h1>
+
+          <p style={{
+            fontFamily: "var(--app-font-serif)", fontStyle: "italic",
+            fontSize: "clamp(1rem, 2vw, 1.25rem)",
+            color: "var(--primary)", lineHeight: 1.5, margin: "0 0 1rem", maxWidth: "480px",
+          }}>
+            I build, experiment, and turn ideas into reality.
+          </p>
+
+          <p style={{ fontSize: "0.92rem", color: "var(--muted-fg)", lineHeight: 1.75, margin: "0 0 2rem", maxWidth: "440px" }}>
+            ECE student and GATE aspirant exploring the intersection of hardware and software.
+          </p>
+
+          <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+            <a href="https://github.com/laharixx908-star" target="_blank" rel="noopener noreferrer" className="icon-link" title="GitHub">
+              <Github size={17} />
+            </a>
+            <a href="https://www.linkedin.com/in/sai-lahari-reddy-b-799818396" target="_blank" rel="noopener noreferrer" className="icon-link" title="LinkedIn">
+              <Linkedin size={17} />
+            </a>
+            <a href="mailto:laharicareer19@gmail.com" className="icon-link" title="Email">
+              <Mail size={17} />
+            </a>
+          </div>
         </div>
 
-        <p className="label-upper">Portfolio</p>
-
-        <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.2rem)", lineHeight: 1.15, color: "var(--foreground)", margin: 0, fontFamily: "var(--app-font-serif)", fontWeight: 400 }}>
-          Sai Lahari Reddy
-        </h1>
-
-        <p style={{ fontSize: "1rem", color: "var(--muted-fg)", maxWidth: "460px", margin: 0, lineHeight: 1.7 }}>
-          I build, experiment, and turn ideas into reality.
-        </p>
-
-        <p style={{ fontSize: "0.85rem", color: "var(--muted-fg)", maxWidth: "400px", margin: 0, opacity: 0.75 }}>
-          ECE student and GATE aspirant exploring the intersection of hardware and software.
-        </p>
-
-        <div style={{ display: "flex", gap: "1rem", alignItems: "center", marginTop: "0.5rem" }}>
-          <a href="https://github.com/laharixx908-star" target="_blank" rel="noopener noreferrer" className="icon-link" title="GitHub">
-            <Github size={18} />
-          </a>
-          <a href="https://www.linkedin.com/in/sai-lahari-reddy-b-799818396" target="_blank" rel="noopener noreferrer" className="icon-link" title="LinkedIn">
-            <Linkedin size={18} />
-          </a>
-          <a href="mailto:laharicareer19@gmail.com" className="icon-link" title="Email">
-            <Mail size={18} />
-          </a>
+        <div style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{
+            width: "clamp(220px, 28vw, 340px)",
+            height: "clamp(220px, 28vw, 340px)",
+            borderRadius: "50%",
+            overflow: "hidden",
+            border: "0.5px solid var(--border-color)",
+            background: "#ede0da",
+            position: "relative",
+          }}>
+            <img
+              src={`${BASE}/profile.jpeg`}
+              alt="Sai Lahari Reddy"
+              style={{
+                width: "100%",
+                height: "133%",
+                objectFit: "cover",
+                objectPosition: "top center",
+                display: "block",
+              }}
+            />
+          </div>
         </div>
+
       </div>
     </section>
   );
@@ -186,7 +208,7 @@ function Hero() {
 
 function About() {
   return (
-    <section id="about" style={{ padding: "5rem 1.5rem" }}>
+    <section id="about" style={{ padding: "3rem 1.5rem 5rem" }}>
       <div style={{ maxWidth: "700px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>About</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "2rem" }}>About Me</h2>
@@ -194,10 +216,6 @@ function About() {
           <p style={{ color: "var(--muted-fg)", fontSize: "0.95rem", lineHeight: 1.85, margin: 0 }}>
             ECE student who builds real-world tech projects by combining hardware and software. Always learning, experimenting, and improving through hands-on work.
           </p>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.375rem", marginTop: "1.25rem", color: "var(--dusty-rose)", fontSize: "0.8rem", letterSpacing: "0.08em" }}>
-            <MapPin size={13} />
-            <span>Hyderabad, India</span>
-          </div>
         </div>
       </div>
     </section>
@@ -219,26 +237,15 @@ function Projects() {
 
   const projects = [
     {
-      title: "Line Follower Robot",
-      tag: "Hardware",
-      shortDesc: "An autonomous mobile system that detects and follows a predefined path using DC motors and IR sensors.",
-      fullDesc: lineFollowerDesc,
-      action: null,
-      descPoints: undefined,
+      title: "Line Follower Robot", tag: "Hardware", shortDesc: "An autonomous mobile system that detects and follows a predefined path using DC motors and IR sensors.",
+      fullDesc: lineFollowerDesc, action: null, descPoints: undefined,
     },
     {
-      title: "Mind-Mate",
-      tag: null,
-      shortDesc: "A platform designed to support students who experience emotional imbalance or frequent mood swings — powered by an AI companion and a rewards system.",
-      fullDesc: mindMateDesc,
-      action: { label: "Visit Project", href: "https://mind-mate-orpin.vercel.app/" },
-      descPoints: undefined,
+      title: "Mind-Mate", tag: null, shortDesc: "A platform designed to support students who experience emotional imbalance or frequent mood swings — powered by an AI companion and a rewards system.",
+      fullDesc: mindMateDesc, action: { label: "Visit Project", href: "https://mind-mate-orpin.vercel.app/" }, descPoints: undefined,
     },
     {
-      title: "Velora",
-      tag: "Upcoming",
-      shortDesc: null,
-      fullDesc: null,
+      title: "Velora", tag: "Upcoming", shortDesc: null, fullDesc: null,
       action: { label: "Coming Soon", href: null },
       descPoints: [
         "It explore's around Women Safety, and how technology can help create safer environments and faster support systems.",
@@ -252,19 +259,14 @@ function Projects() {
       <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Work</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Projects</h2>
-
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
           {projects.map((project) => (
             <div key={project.title} className="card" style={{ display: "flex", flexDirection: "column", gap: "1rem", background: "var(--background)" }}>
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.75rem" }}>
-                <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.15rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>
-                  {project.title}
-                </h3>
+                <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.15rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>{project.title}</h3>
                 {project.tag && <span className="tag">{project.tag}</span>}
               </div>
-
               <hr className="divider" />
-
               {project.descPoints ? (
                 <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: "0.6rem", flex: 1 }}>
                   {project.descPoints.map((pt, i) => (
@@ -275,27 +277,19 @@ function Projects() {
                   ))}
                 </ul>
               ) : (
-                <p style={{ color: "var(--muted-fg)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0, flex: 1 }}>
-                  {project.shortDesc}
-                </p>
+                <p style={{ color: "var(--muted-fg)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0, flex: 1 }}>{project.shortDesc}</p>
               )}
-
               <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap", marginTop: "auto", paddingTop: "0.375rem" }}>
                 {project.fullDesc && (
-                  <button className="btn-text" onClick={() => setActiveModal({ title: project.title, content: project.fullDesc! })}>
-                    View more details
-                  </button>
+                  <button className="btn-text" onClick={() => setActiveModal({ title: project.title, content: project.fullDesc! })}>View more details</button>
                 )}
                 {project.action && (
                   project.action.href ? (
-                    <a href={project.action.href} target="_blank" rel="noopener noreferrer" className="btn-primary"
-                      style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>
+                    <a href={project.action.href} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>
                       {project.action.label}
                     </a>
                   ) : (
-                    <span style={{ fontSize: "0.75rem", color: "var(--muted-fg)", letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.65 }}>
-                      {project.action.label}
-                    </span>
+                    <span style={{ fontSize: "0.75rem", color: "var(--muted-fg)", letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.65 }}>{project.action.label}</span>
                   )
                 )}
               </div>
@@ -303,31 +297,16 @@ function Projects() {
           ))}
         </div>
       </div>
-
-      {activeModal && (
-        <Modal title={activeModal.title} content={activeModal.content} onClose={() => setActiveModal(null)} />
-      )}
+      {activeModal && <Modal title={activeModal.title} content={activeModal.content} onClose={() => setActiveModal(null)} />}
     </section>
   );
 }
 
 function Skills() {
   const categories = [
-    {
-      label: "Core",
-      skills: ["C", "Python"],
-      exploring: ["IoT", "VLSI"],
-    },
-    {
-      label: "Tools",
-      skills: ["GitHub", "Vercel", "Canva", "AI Studio", "Antigravity"],
-      exploring: [],
-    },
-    {
-      label: "Hardware",
-      skills: ["Arduino", "Sensors", "Basic Electronics"],
-      exploring: [],
-    },
+    { label: "Core", skills: ["C", "Python"], exploring: ["IoT", "VLSI"] },
+    { label: "Tools", skills: ["GitHub", "Vercel", "Canva", "AI Studio", "Antigravity"], exploring: [] },
+    { label: "Hardware", skills: ["Arduino", "Sensors", "Basic Electronics"], exploring: [] },
   ];
 
   return (
@@ -340,19 +319,13 @@ function Skills() {
             <div key={cat.label} className="card">
               <p className="label-upper" style={{ marginBottom: "1.25rem", color: "var(--primary)" }}>{cat.label}</p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-                {cat.skills.map((skill) => (
-                  <span key={skill} className="tag">{skill}</span>
-                ))}
+                {cat.skills.map((skill) => <span key={skill} className="tag">{skill}</span>)}
               </div>
               {cat.exploring.length > 0 && (
                 <>
-                  <p className="label-upper" style={{ marginTop: "1.25rem", marginBottom: "0.75rem", fontSize: "0.65rem", opacity: 0.7 }}>
-                    Currently Exploring
-                  </p>
+                  <p className="label-upper" style={{ marginTop: "1.25rem", marginBottom: "0.75rem", fontSize: "0.65rem", opacity: 0.7 }}>Currently Exploring</p>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-                    {cat.exploring.map((skill) => (
-                      <span key={skill} className="tag-explore">{skill}</span>
-                    ))}
+                    {cat.exploring.map((skill) => <span key={skill} className="tag-explore">{skill}</span>)}
                   </div>
                 </>
               )}
@@ -369,18 +342,8 @@ function Experience() {
   const certUrl = `${BASE}/hackforge-certificate.png`;
 
   const entries = [
-    {
-      role: "EvolveX Intern",
-      badge: "Full Stack Dev",
-      description: "Currently working on building and improving web applications while gaining practical experience.",
-      extra: null,
-    },
-    {
-      role: "Hackforge Hackathon Participant",
-      badge: null,
-      description: "Participated in a 48-hour hackathon, working in a team to build a project under time constraints.",
-      extra: { label: "View Certificate", action: () => setCertModal(true) },
-    },
+    { role: "EvolveX Intern", badge: "Full Stack Dev", description: "Currently working on building and improving web applications while gaining practical experience.", extra: null },
+    { role: "Hackforge Hackathon Participant", badge: null, description: "Participated in a 48-hour hackathon, working in a team to build a project under time constraints.", extra: { label: "View Certificate", action: () => setCertModal(true) } },
   ];
 
   return (
@@ -393,29 +356,20 @@ function Experience() {
             <div key={entry.role} className="card" style={{ background: "var(--background)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
                 <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--primary)", flexShrink: 0 }}></div>
-                <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.05rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>
-                  {entry.role}
-                </h3>
+                <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.05rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>{entry.role}</h3>
                 {entry.badge && <span className="highlight-badge">{entry.badge}</span>}
               </div>
-              <p style={{ color: "var(--muted-fg)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>
-                {entry.description}
-              </p>
+              <p style={{ color: "var(--muted-fg)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>{entry.description}</p>
               {entry.extra && (
                 <div style={{ paddingLeft: "1.25rem", marginTop: "0.875rem" }}>
-                  <button className="btn-text" onClick={entry.extra.action}>
-                    {entry.extra.label}
-                  </button>
+                  <button className="btn-text" onClick={entry.extra.action}>{entry.extra.label}</button>
                 </div>
               )}
             </div>
           ))}
         </div>
       </div>
-
-      {certModal && (
-        <Modal title="Hackforge Certificate" imageUrl={certUrl} onClose={() => setCertModal(false)} />
-      )}
+      {certModal && <Modal title="Hackforge Certificate" imageUrl={certUrl} onClose={() => setCertModal(false)} />}
     </section>
   );
 }
@@ -517,16 +471,14 @@ function Contact() {
 
   return (
     <section id="contact" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
-      <div style={{ maxWidth: "680px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Get In Touch</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Contact</h2>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: "1.5rem", alignItems: "start" }}>
+
           <div className="card" style={{ background: "var(--background)" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.375rem", marginBottom: "1.5rem", color: "var(--dusty-rose)", fontSize: "0.8rem", letterSpacing: "0.08em" }}>
-              <MapPin size={13} />
-              <span>Hyderabad, India</span>
-            </div>
+            <p className="label-upper" style={{ marginBottom: "1.5rem", color: "var(--primary)" }}>Contact Details</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem" }}>
               {links.map((link) => (
                 <a key={link.label} href={link.href}
@@ -534,8 +486,8 @@ function Contact() {
                   rel="noopener noreferrer"
                   style={{
                     display: "flex", alignItems: "center", gap: "0.875rem",
-                    padding: "0.875rem 1rem",
-                    borderRadius: "8px", border: "0.5px solid var(--border-color)",
+                    padding: "0.875rem 1rem", borderRadius: "8px",
+                    border: "0.5px solid var(--border-color)",
                     background: "var(--surface)", textDecoration: "none", color: "inherit",
                     transition: "border-color 0.2s",
                   }}
@@ -543,9 +495,9 @@ function Contact() {
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--border-color)"; }}
                 >
                   <span style={{ color: "var(--primary)" }}>{link.icon}</span>
-                  <div style={{ flex: 1 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
                     <div className="label-upper" style={{ fontSize: "0.65rem", marginBottom: "0.15rem" }}>{link.label}</div>
-                    <div style={{ fontSize: "0.86rem", color: "var(--foreground)" }}>{link.display}</div>
+                    <div style={{ fontSize: "0.83rem", color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{link.display}</div>
                   </div>
                 </a>
               ))}
@@ -556,55 +508,26 @@ function Contact() {
             <p className="label-upper" style={{ marginBottom: "1.5rem", color: "var(--primary)" }}>Send a Message</p>
             <form onSubmit={handleSend} style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
               <div>
-                <label style={{ display: "block", fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>
-                  Name
-                </label>
-                <input
-                  className="contact-input"
-                  type="text"
-                  placeholder="Your name"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  required
-                />
+                <label style={{ display: "block", fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Name</label>
+                <input className="contact-input" type="text" placeholder="Your name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>
-                  Email ID
-                </label>
-                <input
-                  className="contact-input"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  required
-                />
+                <label style={{ display: "block", fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Email ID</label>
+                <input className="contact-input" type="email" placeholder="your@email.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>
-                  Message
-                </label>
-                <textarea
-                  className="contact-input"
-                  placeholder="Type your message here..."
-                  rows={5}
-                  value={form.message}
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  required
-                  style={{ resize: "vertical", minHeight: "120px" }}
-                />
+                <label style={{ display: "block", fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Message</label>
+                <textarea className="contact-input" placeholder="Type your message here..." rows={5} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} required style={{ resize: "vertical", minHeight: "110px" }} />
               </div>
               <button type="submit" className="btn-primary" style={{ alignSelf: "flex-start", marginTop: "0.25rem" }}>
                 {sent ? "Opening mail client..." : "Send Message"}
               </button>
               {sent && (
-                <p style={{ fontSize: "0.8rem", color: "var(--primary)", margin: 0, fontStyle: "italic" }}>
-                  Your email client should open with the message pre-filled.
-                </p>
+                <p style={{ fontSize: "0.8rem", color: "var(--primary)", margin: 0, fontStyle: "italic" }}>Your email client should open with the message pre-filled.</p>
               )}
             </form>
           </div>
+
         </div>
       </div>
     </section>
@@ -613,15 +536,9 @@ function Contact() {
 
 function Footer({ dark }: { dark: boolean }) {
   return (
-    <footer style={{
-      padding: "2.5rem 1.5rem",
-      borderTop: "0.5px solid var(--border-color)",
-      background: dark ? "var(--background)" : "var(--surface)"
-    }}>
-      <div style={{ maxWidth: "1100px", margin: "0 auto", textAlign: "center" }}>
-        <p style={{ color: "var(--muted-fg)", fontSize: "0.75rem", letterSpacing: "0.08em", opacity: 0.65, margin: 0 }}>
-          © 2025 Sai Lahari Reddy
-        </p>
+    <footer style={{ padding: "2.5rem 1.5rem", borderTop: "0.5px solid var(--border-color)", background: dark ? "var(--background)" : "var(--surface)" }}>
+      <div style={{ maxWidth: "1180px", margin: "0 auto", textAlign: "center" }}>
+        <p style={{ color: "var(--muted-fg)", fontSize: "0.75rem", letterSpacing: "0.08em", opacity: 0.65, margin: 0 }}>© 2025 Sai Lahari Reddy</p>
       </div>
     </footer>
   );
@@ -629,12 +546,9 @@ function Footer({ dark }: { dark: boolean }) {
 
 export default function Portfolio() {
   const [dark, setDark] = useState(false);
-
-  const toggleDark = () => setDark((d) => !d);
-
   return (
     <div className={dark ? "dark-mode" : ""} style={{ minHeight: "100vh", background: "var(--background)", transition: "background 0.3s ease" }}>
-      <Navbar dark={dark} toggleDark={toggleDark} />
+      <Navbar dark={dark} toggleDark={() => setDark((d) => !d)} />
       <Hero />
       <About />
       <Projects />
