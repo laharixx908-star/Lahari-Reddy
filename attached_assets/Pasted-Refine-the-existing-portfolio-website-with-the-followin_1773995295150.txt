@@ -1,0 +1,178 @@
+Refine the existing portfolio website with the following STRICT instructions. Do NOT add any extra content on your own.
+
+---
+
+1. HERO SECTION:
+- Name: Sai Lahari Reddy
+- Tagline: I build, experiment, and turn ideas into reality.
+- Subtext: ECE student and GATE aspirant exploring the intersection of hardware and software.
+- Add two buttons:
+  - View Projects
+  - Contact Me
+- Include profile image placeholder
+- Make hero section visually dominant
+
+---
+
+2. NAVBAR:
+- Sticky glassmorphism navbar
+- Items: Home, About, Projects, Skills, Journey, Experience, Future Goals, Hobbies, Contact
+- Add blur effect and transparency
+
+---
+
+3. ABOUT SECTION (SHORT):
+Replace content with:
+"ECE student who builds real-world tech projects by combining hardware and software. Always learning, experimenting, and improving through hands-on work."
+
+---
+
+4. PROJECTS SECTION:
+Remove ALL auto-generated/fake projects.
+
+Keep ONLY:
+
+Project 1:
+Title: Mind-Mate (In Progress)
+Description: A platform designed to help students manage emotional balance through tasks, rewards, and an AI companion.
+Button: Coming Soon
+
+Project 2:
+Title: Velora (Upcoming)
+Description: A wearable safety concept designed as a stylish accessory that enables instant emergency alerts.
+Button: Coming Soon
+
+---
+
+5. SKILLS SECTION (STRICT – NO FAKE SKILLS):
+
+Core:
+- C
+- Python
+
+Tools:
+- GitHub
+- Vercel
+- Canva
+- AI Studio
+- Antigravity
+
+Hardware:
+- Arduino
+- Sensors
+- Basic Electronics
+
+Do NOT include any other technologies.
+
+Display in clean categorized glass cards.
+
+---
+
+6. JOURNEY SECTION:
+
+Title: My Journey  
+Tagline (italic): "A story of failure."
+
+Content:
+
+"I come from a single-parent family and grew up as an only child. For a long time, I struggled with consistency and direction. I used to give up easily and didn’t take things seriously, which affected my academics and confidence.
+
+I had dreams like joining the Indian Navy through NDA, but I couldn’t clear the first stage. I also wrote several Olympiad exams in school and couldn’t clear them, which made me question myself a lot.
+
+A lot was invested in my education—my intermediate alone cost around 8 lakhs—but I still couldn’t even score 90%. That made me feel like I wasn’t doing justice to the opportunities I was given.
+
+My family had expectations from me, and I often felt like I wasn’t meeting them. But things started to change when I qualified EAMCET with very limited preparation. That moment made my family slowly start believing in me, and it made me realize that I had potential—I just wasn’t using it properly.
+
+I was also involved in sports like basketball and kho-kho. Even though I didn’t win, those experiences taught me how to keep going and not quit easily.
+
+Getting selected as an intern at EvolveX meant a lot—after all the failures, it felt like a step forward.
+
+There was one moment that stayed with me. My mother once said that instead of spending so much on me, the same could have helped a hardworking child who needed it more. That line didn’t leave me.
+
+I didn’t take it as discouragement—I took it as responsibility. Someday, I want to build something meaningful and give back by starting a non-profit for children who don’t have the opportunities I had.
+
+Over time, I started reflecting on myself and decided to change. I’m now working on becoming more focused, disciplined, and consistent.
+
+Today, my goals are clear: improve my skills, prepare for GATE, work towards opportunities like DRDO, build Velora into something real, and give back through that non-profit. Most importantly, I want to make my mother proud."
+
+---
+
+7. EXPERIENCE SECTION:
+
+Title: Experience
+
+Entry 1:
+EvolveX Intern  
+"Currently working on building and improving web applications while gaining practical experience."
+
+Entry 2:
+Hackforge Hackathon Participant  
+"Participated in a 48-hour hackathon, working in a team to build a project under time constraints."
+
+---
+
+8. FUTURE GOALS:
+
+"I aim to contribute to impactful technological advancements, with a long-term goal of working with DRDO.
+
+I also aspire to transform Velora into a real-world startup focused on safety solutions.
+
+Beyond technology, I hope to establish a non-profit organization dedicated to supporting underprivileged children."
+
+---
+
+9. HOBBIES SECTION:
+
+Title: Beyond Tech
+
+"Beyond my technical pursuits, I am a basketball player. I also play badminton and enjoy outdoor activities.
+
+I read romantic novels and spend time drawing and doing craft work while exploring new skills."
+
+---
+
+10. CONTACT SECTION:
+
+Add clickable links:
+
+- GitHub: https://github.com/laharixx908-star
+- LinkedIn: https://www.linkedin.com/in/sai-lahari-reddy-b-799818396
+- Email: laharicareer19@gmail.com
+
+Requirements:
+- All links must open in new tab
+- Email should use mailto
+- Add icons
+
+---
+
+11. PERSONAL DETAILS:
+- Location: Hyderabad, India
+- Remove Availability completely
+
+---
+
+12. DESIGN (VERY IMPORTANT – GLASSMORPHISM):
+
+- Dark gradient background (black + subtle purple/blue)
+- Glass cards:
+  background: rgba(255,255,255,0.05)
+  backdrop-filter: blur(12px)
+  border: 1px solid rgba(255,255,255,0.1)
+  border-radius: 16px
+
+- Navbar:
+  glass effect + blur + sticky
+
+- Buttons:
+  glass style + hover glow
+
+- Ensure text is HIGH CONTRAST and readable
+
+---
+
+13. FINAL RULES:
+- Do NOT add extra content
+- Keep layout clean and minimal
+- Ensure proper spacing and alignment
+- Make UI modern and premium
