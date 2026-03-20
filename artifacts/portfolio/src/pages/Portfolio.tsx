@@ -514,15 +514,31 @@ function Journey() {
 
 function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
-  const handleSend = (e: React.FormEvent) => {
+  const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Portfolio Contact from ${form.name}`);
-    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`);
-    window.location.href = `mailto:laharicareer.19@gmail.com?subject=${subject}&body=${body}`;
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
+    setStatus("sending");
+    try {
+      await import("@emailjs/browser").then(({ send }) =>
+        send(
+          "service_2wuux2h",
+          "template_au3tdn9",
+          {
+            from_name: form.name,
+            from_email: form.email,
+            message: form.message,
+          },
+          "bV0sHD8MKjCOTpr1v"
+        )
+      );
+      setStatus("sent");
+      setForm({ name: "", email: "", message: "" });
+      setTimeout(() => setStatus("idle"), 4000);
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
   };
 
   const links = [
@@ -581,12 +597,9 @@ function Contact() {
                 <label style={{ display: "block", fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Message</label>
                 <textarea className="contact-input" placeholder="Type your message here..." rows={5} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} required style={{ resize: "vertical", minHeight: "110px" }} />
               </div>
-              <button type="submit" className="btn-primary" style={{ alignSelf: "flex-start", marginTop: "0.25rem" }}>
-                {sent ? "Opening mail client..." : "Send Message"}
+              <button type="submit" className="btn-primary" style={{ alignSelf: "flex-start", marginTop: "0.25rem" }} disabled={status === "sending"}>
+                {status === "sending" ? "Sending..." : status === "sent" ? "Message Sent!" : status === "error" ? "Failed, Try Again" : "Send Message"}
               </button>
-              {sent && (
-                <p style={{ fontSize: "0.8rem", color: "var(--primary)", margin: 0, fontStyle: "italic" }}>Stay connected! your response will be replied soon.</p>
-              )}
             </form>
           </div>
 
@@ -595,7 +608,6 @@ function Contact() {
     </section>
   );
 }
-
 function Footer({ dark }: { dark: boolean }) {
   return (
     <footer style={{ padding: "2.5rem 1.5rem", borderTop: "0.5px solid var(--border-color)", background: dark ? "var(--background)" : "var(--surface)" }}>
