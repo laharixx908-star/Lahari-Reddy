@@ -25,10 +25,11 @@ interface ModalProps {
   content?: string | string[];
   imageUrl?: string;
   images?: string[];
+  videoUrl?: string;
   onClose: () => void;
 }
 
-function Modal({ title, content, imageUrl, images, onClose }: ModalProps) {
+function Modal({ title, content, imageUrl, images, videoUrl, onClose }: ModalProps) {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", handler);
@@ -51,6 +52,13 @@ function Modal({ title, content, imageUrl, images, onClose }: ModalProps) {
           </button>
         </div>
         <hr className="divider" style={{ marginBottom: "1.5rem" }} />
+        {videoUrl && (
+          <video
+            src={videoUrl}
+            controls
+            style={{ width: "100%", borderRadius: "6px", border: "0.5px solid var(--border-color)", display: "block", marginBottom: images || imageUrl ? "1rem" : 0, background: "#000" }}
+          />
+        )}
         {imageUrl && (
           <img src={imageUrl} alt={title} style={{ width: "100%", borderRadius: "6px", border: "0.5px solid var(--border-color)", display: "block" }} />
         )}
@@ -235,7 +243,7 @@ function About() {
 }
 
 function Projects() {
-  const [activeModal, setActiveModal] = useState<null | { title: string; content?: string | string[]; images?: string[] }>(null);
+  const [activeModal, setActiveModal] = useState<null | { title: string; content?: string | string[]; images?: string[]; videoUrl?: string }>(null);
 
   const mindMateDesc = [
     "A platform designed to support students who experience emotional imbalance or frequent mood swings. The platform provides an AI companion that listens and offers supportive guidance, along with tasks and activities that help users build healthier habits and improve their emotional well-being. To keep users engaged, the platform includes a points and rewards system, where users can earn points by completing activities and playing games, and later redeem them to purchase coupons.",
@@ -255,7 +263,7 @@ function Projects() {
       shortDesc: "An autonomous mobile system that detects and follows a predefined path using DC motors and IR sensors.",
       actions: [
         { label: "View more details", type: "text", onClick: () => setActiveModal({ title: "Line Follower Robot", content: lineFollowerDesc }) },
-        { label: "View Project", type: "primary", onClick: () => setActiveModal({ title: "Line Follower Robot — Build Photos", images: lfImages }) },
+        { label: "View Project", type: "primary", onClick: () => setActiveModal({ title: "Line Follower Robot — Build", images: lfImages, videoUrl: `${BASE}/lf-video.mp4` }) },
       ],
       descPoints: undefined,
     },
@@ -322,6 +330,7 @@ function Projects() {
           title={activeModal.title}
           content={activeModal.content}
           images={activeModal.images}
+          videoUrl={activeModal.videoUrl}
           onClose={() => setActiveModal(null)}
         />
       )}
