@@ -583,7 +583,7 @@ function Contact() {
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Get In Touch</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Contact</h2>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: "1.5rem", alignItems: "start" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem", alignItems: "start" }}>
 
           <div className="card" style={{ background: "var(--background)" }}>
             <p className="label-upper" style={{ marginBottom: "1.5rem", color: "var(--primary)" }}>Contact Details</p>
