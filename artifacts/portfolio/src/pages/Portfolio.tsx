@@ -638,7 +638,7 @@ function Contact() {
                 <div>
                   <label style={{ display: "block", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Email</label>
                   <input className="contact-input" type="email" placeholder="your@email.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required
-                    style={{ background: "var(--foreground)", color: "var(--background)", borderColor: "var(--foreground)" }}
+                    style={{}}
                   />
                 </div>
               </div>
