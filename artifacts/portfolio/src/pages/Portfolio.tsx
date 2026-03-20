@@ -632,7 +632,7 @@ function Contact() {
                 <div>
                   <label style={{ display: "block", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Your Name</label>
                   <input className="contact-input" type="text" placeholder="your name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required
-                    style={{ background: "var(--foreground)", color: "var(--background)", borderColor: "var(--foreground)" }}
+                    style={{}}
                   />
                 </div>
                 <div>
