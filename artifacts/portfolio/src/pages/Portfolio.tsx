@@ -24,10 +24,11 @@ interface ModalProps {
   title: string;
   content?: string | string[];
   imageUrl?: string;
+  images?: string[];
   onClose: () => void;
 }
 
-function Modal({ title, content, imageUrl, onClose }: ModalProps) {
+function Modal({ title, content, imageUrl, images, onClose }: ModalProps) {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", handler);
@@ -53,15 +54,22 @@ function Modal({ title, content, imageUrl, onClose }: ModalProps) {
         {imageUrl && (
           <img src={imageUrl} alt={title} style={{ width: "100%", borderRadius: "6px", border: "0.5px solid var(--border-color)", display: "block" }} />
         )}
+        {images && images.length > 0 && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            {images.map((src, i) => (
+              <img key={i} src={src} alt={`${title} ${i + 1}`} style={{ width: "100%", borderRadius: "6px", border: "0.5px solid var(--border-color)", display: "block" }} />
+            ))}
+          </div>
+        )}
         {content && (
           Array.isArray(content) ? (
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem", marginTop: imageUrl || images ? "1.5rem" : 0 }}>
               {content.map((para, i) => (
                 <p key={i} style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: "1.75", margin: 0 }}>{para}</p>
               ))}
             </div>
           ) : (
-            <p style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: "1.75", margin: 0 }}>{content}</p>
+            <p style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: "1.75", margin: 0, marginTop: imageUrl || images ? "1.5rem" : 0 }}>{content}</p>
           )
         )}
       </div>
@@ -90,45 +98,49 @@ function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void })
       borderBottom: scrolled ? "0.5px solid var(--border-color)" : "0.5px solid transparent",
       transition: "all 0.3s ease",
     }}>
-      <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 2rem", display: "flex", alignItems: "center", height: "58px", gap: "0.5rem" }}>
+      <div style={{
+        maxWidth: "1280px", margin: "0 auto", padding: "0 1.5rem",
+        display: "flex", alignItems: "center", height: "52px", gap: "0.25rem",
+        flexWrap: "nowrap", overflow: "hidden",
+      }}>
         <button
           onClick={() => scrollTo("#home")}
-          style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.15rem", color: "var(--foreground)", letterSpacing: "0.06em", background: "none", border: "none", cursor: "pointer", padding: 0, marginRight: "0.75rem", flexShrink: 0 }}
+          style={{
+            fontFamily: "var(--app-font-serif)", fontSize: "1.05rem",
+            color: "#5c3022",
+            letterSpacing: "0.06em", background: "none", border: "none",
+            cursor: "pointer", padding: 0, marginRight: "0.5rem", flexShrink: 0,
+            fontWeight: 700,
+          }}
         >
           LAHARI
         </button>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "0rem", flex: 1, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", flex: 1, flexWrap: "nowrap", overflow: "hidden" }}>
           {navItems.map((item) => (
-            <button key={item.label} className="nav-link" onClick={() => scrollTo(item.href)}>
+            <button
+              key={item.label}
+              className="nav-link"
+              onClick={() => scrollTo(item.href)}
+              style={{ whiteSpace: "nowrap", fontSize: "0.68rem", padding: "0.25rem 0.5rem" }}
+            >
               {item.label}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexShrink: 0 }}>
-          <div style={{
-            display: "flex", alignItems: "center", gap: "0.375rem",
-            border: "0.5px solid var(--border-color)", borderRadius: "20px",
-            padding: "0.3rem 0.75rem",
-            fontSize: "0.7rem", letterSpacing: "0.1em", color: "var(--muted-fg)",
-          }}>
-            <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--primary)", display: "inline-block" }}></span>
-            theme set
-          </div>
-          <button
-            onClick={toggleDark}
-            style={{
-              background: "none", border: "0.5px solid var(--border-color)", cursor: "pointer",
-              color: "var(--muted-fg)", padding: "0.375rem", borderRadius: "50%",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              transition: "all 0.2s ease", width: "32px", height: "32px", flexShrink: 0,
-            }}
-            title={dark ? "Light mode" : "Dark mode"}
-          >
-            {dark ? <Sun size={14} /> : <Moon size={14} />}
-          </button>
-        </div>
+        <button
+          onClick={toggleDark}
+          style={{
+            background: "none", border: "0.5px solid var(--border-color)", cursor: "pointer",
+            color: "var(--muted-fg)", padding: "0.375rem", borderRadius: "50%",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            transition: "all 0.2s ease", width: "30px", height: "30px", flexShrink: 0,
+          }}
+          title={dark ? "Light mode" : "Dark mode"}
+        >
+          {dark ? <Sun size={13} /> : <Moon size={13} />}
+        </button>
       </div>
     </nav>
   );
@@ -141,7 +153,7 @@ function Hero() {
 
         <div style={{ flex: 1, minWidth: 0 }}>
           <p className="label-upper" style={{ color: "var(--primary)", marginBottom: "1.25rem", letterSpacing: "0.15em" }}>
-            Atelier Portfolio
+            Portfolio
           </p>
 
           <h1 style={{
@@ -223,7 +235,7 @@ function About() {
 }
 
 function Projects() {
-  const [activeModal, setActiveModal] = useState<null | { title: string; content: string | string[] }>(null);
+  const [activeModal, setActiveModal] = useState<null | { title: string; content?: string | string[]; images?: string[] }>(null);
 
   const mindMateDesc = [
     "A platform designed to support students who experience emotional imbalance or frequent mood swings. The platform provides an AI companion that listens and offers supportive guidance, along with tasks and activities that help users build healthier habits and improve their emotional well-being. To keep users engaged, the platform includes a points and rewards system, where users can earn points by completing activities and playing games, and later redeem them to purchase coupons.",
@@ -235,18 +247,31 @@ function Projects() {
     "This project demonstrates fundamental concepts of robotics such as sensor integration, motor control, and real-time decision-making. It is widely used in automation applications like industrial transport systems and smart delivery robots.",
   ];
 
+  const lfImages = [`${BASE}/lf1.jpeg`, `${BASE}/lf2.jpeg`, `${BASE}/lf3.jpeg`];
+
   const projects = [
     {
-      title: "Line Follower Robot", tag: "Hardware", shortDesc: "An autonomous mobile system that detects and follows a predefined path using DC motors and IR sensors.",
-      fullDesc: lineFollowerDesc, action: null, descPoints: undefined,
+      title: "Line Follower Robot", tag: "Hardware",
+      shortDesc: "An autonomous mobile system that detects and follows a predefined path using DC motors and IR sensors.",
+      actions: [
+        { label: "View more details", type: "text", onClick: () => setActiveModal({ title: "Line Follower Robot", content: lineFollowerDesc }) },
+        { label: "View Project", type: "primary", onClick: () => setActiveModal({ title: "Line Follower Robot — Build Photos", images: lfImages }) },
+      ],
+      descPoints: undefined,
     },
     {
-      title: "Mind-Mate", tag: null, shortDesc: "A platform designed to support students who experience emotional imbalance or frequent mood swings — powered by an AI companion and a rewards system.",
-      fullDesc: mindMateDesc, action: { label: "Visit Project", href: "https://mind-mate-orpin.vercel.app/" }, descPoints: undefined,
+      title: "Mind-Mate", tag: null,
+      shortDesc: "A platform designed to support students who experience emotional imbalance or frequent mood swings — powered by an AI companion and a rewards system.",
+      actions: [
+        { label: "View more details", type: "text", onClick: () => setActiveModal({ title: "Mind-Mate", content: mindMateDesc }) },
+        { label: "Visit Project", type: "primary-link", href: "https://mind-mate-orpin.vercel.app/" },
+      ],
+      descPoints: undefined,
     },
     {
-      title: "Velora", tag: "Upcoming", shortDesc: null, fullDesc: null,
-      action: { label: "Coming Soon", href: null },
+      title: "Velora", tag: "Upcoming",
+      shortDesc: null,
+      actions: [{ label: "Coming Soon", type: "muted", onClick: undefined }],
       descPoints: [
         "It explore's around Women Safety, and how technology can help create safer environments and faster support systems.",
         "A wearable safety concept designed as a stylish accessory that enables instant emergency alerts.",
@@ -279,25 +304,27 @@ function Projects() {
               ) : (
                 <p style={{ color: "var(--muted-fg)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0, flex: 1 }}>{project.shortDesc}</p>
               )}
-              <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap", marginTop: "auto", paddingTop: "0.375rem" }}>
-                {project.fullDesc && (
-                  <button className="btn-text" onClick={() => setActiveModal({ title: project.title, content: project.fullDesc! })}>View more details</button>
-                )}
-                {project.action && (
-                  project.action.href ? (
-                    <a href={project.action.href} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>
-                      {project.action.label}
-                    </a>
-                  ) : (
-                    <span style={{ fontSize: "0.75rem", color: "var(--muted-fg)", letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.65 }}>{project.action.label}</span>
-                  )
-                )}
+              <div style={{ display: "flex", gap: "0.625rem", alignItems: "center", flexWrap: "wrap", marginTop: "auto", paddingTop: "0.375rem" }}>
+                {project.actions.map((action, i) => {
+                  if (action.type === "text") return <button key={i} className="btn-text" onClick={action.onClick}>{action.label}</button>;
+                  if (action.type === "primary") return <button key={i} className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }} onClick={action.onClick}>{action.label}</button>;
+                  if (action.type === "primary-link") return <a key={i} href={(action as { href?: string }).href} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>{action.label}</a>;
+                  if (action.type === "muted") return <span key={i} style={{ fontSize: "0.75rem", color: "var(--muted-fg)", letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.65 }}>{action.label}</span>;
+                  return null;
+                })}
               </div>
             </div>
           ))}
         </div>
       </div>
-      {activeModal && <Modal title={activeModal.title} content={activeModal.content} onClose={() => setActiveModal(null)} />}
+      {activeModal && (
+        <Modal
+          title={activeModal.title}
+          content={activeModal.content}
+          images={activeModal.images}
+          onClose={() => setActiveModal(null)}
+        />
+      )}
     </section>
   );
 }
@@ -341,32 +368,38 @@ function Experience() {
   const [certModal, setCertModal] = useState(false);
   const certUrl = `${BASE}/hackforge-certificate.png`;
 
-  const entries = [
-    { role: "EvolveX Intern", badge: "Full Stack Dev", description: "Currently working on building and improving web applications while gaining practical experience.", extra: null },
-    { role: "Hackforge Hackathon Participant", badge: null, description: "Participated in a 48-hour hackathon, working in a team to build a project under time constraints.", extra: { label: "View Certificate", action: () => setCertModal(true) } },
-  ];
-
   return (
     <section id="experience" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
       <div style={{ maxWidth: "720px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Background</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Experience</h2>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          {entries.map((entry) => (
-            <div key={entry.role} className="card" style={{ background: "var(--background)" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
-                <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--primary)", flexShrink: 0 }}></div>
-                <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.05rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>{entry.role}</h3>
-                {entry.badge && <span className="highlight-badge">{entry.badge}</span>}
-              </div>
-              <p style={{ color: "var(--muted-fg)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>{entry.description}</p>
-              {entry.extra && (
-                <div style={{ paddingLeft: "1.25rem", marginTop: "0.875rem" }}>
-                  <button className="btn-text" onClick={entry.extra.action}>{entry.extra.label}</button>
-                </div>
-              )}
+
+          <div className="card" style={{ background: "var(--background)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
+              <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--primary)", flexShrink: 0 }}></div>
+              <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.05rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>EvolveX Intern</h3>
+              <span className="highlight-badge">Full Stack Dev</span>
             </div>
-          ))}
+            <p style={{ color: "var(--muted-fg)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>
+              Currently working on building and improving web applications while gaining practical experience.
+            </p>
+          </div>
+
+          <div className="card" style={{ background: "var(--background)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
+              <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--primary)", flexShrink: 0 }}></div>
+              <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.05rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>Hackforge Hackathon Participant</h3>
+            </div>
+            <p style={{ color: "var(--muted-fg)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>
+              Participated in HackForge Hackathon, a 48-hour hackathon conducted by the StudentForge team in collaboration with Promptechies at CMR Institute of Technology. During the event, we worked intensively on building Mind-Mate.
+            </p>
+            <div style={{ paddingLeft: "1.25rem", marginTop: "0.875rem", display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+              <button className="btn-text" onClick={() => setCertModal(true)}>View Certificate</button>
+              <button className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }} onClick={() => scrollTo("#projects")}>View Project Details</button>
+            </div>
+          </div>
+
         </div>
       </div>
       {certModal && <Modal title="Hackforge Certificate" imageUrl={certUrl} onClose={() => setCertModal(false)} />}
@@ -429,8 +462,9 @@ function Journey() {
     "There was one moment that stayed with me. My mother once said that instead of spending so much on me, the same could have helped a hardworking child who needed it more. That line didn't leave me.",
     "I didn't take it as discouragement—I took it as responsibility. Someday, I want to build something meaningful and give back by starting a non-profit for children who don't have the opportunities I had.",
     "Over time, I started reflecting on myself and decided to change. I'm now working on becoming more focused, disciplined, and consistent.",
-    "Today, my goals are clear: improve my skills, prepare for GATE, work towards opportunities like DRDO, build Velora into something real, and give back through that non-profit. Most importantly, I want to make my mother proud.",
   ];
+
+  const closingQuote = "Today, my goals are clear: improve my skills, prepare for GATE, work towards opportunities like DRDO, build Velora into something real, and give back through that non-profit. Most importantly, I want to make my mother proud.";
 
   return (
     <section id="journey" style={{ padding: "5rem 1.5rem" }}>
@@ -444,6 +478,25 @@ function Journey() {
           {paragraphs.map((para, i) => (
             <p key={i} style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: 1.85, margin: 0 }}>{para}</p>
           ))}
+
+          <blockquote style={{
+            margin: "0.5rem 0 0",
+            padding: "1.125rem 1.5rem",
+            borderLeft: "3px solid var(--primary)",
+            background: "var(--surface)",
+            borderRadius: "0 6px 6px 0",
+          }}>
+            <p style={{
+              fontFamily: "var(--app-font-serif)",
+              fontStyle: "italic",
+              fontSize: "0.975rem",
+              lineHeight: 1.85,
+              color: "var(--foreground)",
+              margin: 0,
+            }}>
+              {closingQuote}
+            </p>
+          </blockquote>
         </div>
       </div>
     </section>
@@ -491,7 +544,7 @@ function Contact() {
                     background: "var(--surface)", textDecoration: "none", color: "inherit",
                     transition: "border-color 0.2s",
                   }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--dusty-rose)"; }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--primary)"; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--border-color)"; }}
                 >
                   <span style={{ color: "var(--primary)" }}>{link.icon}</span>
