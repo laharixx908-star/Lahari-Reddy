@@ -154,7 +154,8 @@ function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void })
   );
 }
 function Hero() {
-  const [emailModal, setEmailModal] = useState(false);
+ const [emailModal, setEmailModal] = useState(false);
+ const [copied, setCopied] = useState(false);
   return (
     <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", paddingTop: "58px" }}>
       <div style={{ maxWidth: "1180px", margin: "0 auto", width: "100%", padding: "3rem 2rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "3rem" }}>
