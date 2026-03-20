@@ -192,7 +192,7 @@ function Hero() {
             <a href="https://www.linkedin.com/in/sai-lahari-reddy-b-799818396" target="_blank" rel="noopener noreferrer" className="icon-link" title="LinkedIn">
               <Linkedin size={17} />
             </a>
-           <button className="btn-text" onClick={() => { 
+           <button className="btn-text" onClick={() => {
   navigator.clipboard.writeText("laharicareer.19@gmail.com");
   setCopied(true);
   setTimeout(() => setCopied(false), 2000);
