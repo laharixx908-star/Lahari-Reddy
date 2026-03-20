@@ -242,13 +242,17 @@ function Hero() {
         laharicareer.19@gmail.com
       </div>
       <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center" }}>
-        <button className="btn-text" onClick={() => { navigator.clipboard.writeText("laharicareer.19@gmail.com"); }}>
-          Copy Email
-        </button>
-        <a href="https://mail.google.com/mail/?view=cm&to=laharicareer.19@gmail.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>
-          Open Gmail
-        </a>
-      </div>
+  <button className="btn-text" onClick={() => {
+    navigator.clipboard.writeText("laharicareer.19@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }}>
+    {copied ? "Copied!" : "Copy Email"}
+  </button>
+  <a href="https://mail.google.com/mail/?view=cm&to=laharicareer.19@gmail.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>
+    Open Gmail
+  </a>
+</div>
     </div>
   </div>
 )}
