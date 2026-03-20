@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Github, Linkedin, Mail, MapPin, X, ExternalLink, ArrowRight } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Github, Linkedin, Mail, MapPin, X, ArrowRight, Moon, Sun } from "lucide-react";
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
@@ -8,10 +8,10 @@ const navItems = [
   { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
   { label: "Skills", href: "#skills" },
-  { label: "Journey", href: "#journey" },
   { label: "Experience", href: "#experience" },
-  { label: "Future Goals", href: "#goals" },
   { label: "Hobbies", href: "#hobbies" },
+  { label: "Future Goals", href: "#goals" },
+  { label: "Journey", href: "#journey" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -22,44 +22,58 @@ function scrollTo(href: string) {
 
 interface ModalProps {
   title: string;
-  content: string | string[];
+  content?: string | string[];
+  imageUrl?: string;
   onClose: () => void;
 }
 
-function Modal({ title, content, onClose }: ModalProps) {
+function Modal({ title, content, imageUrl, onClose }: ModalProps) {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
   }, [onClose]);
 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.5rem" }}>
-          <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.4rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>
+          <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.3rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>
             {title}
           </h3>
-          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted-fg)", padding: "0.25rem" }}>
-            <X size={18} />
+          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted-fg)", padding: "0.25rem", lineHeight: 1 }}>
+            <X size={17} />
           </button>
         </div>
         <hr className="divider" style={{ marginBottom: "1.5rem" }} />
-        {Array.isArray(content) ? (
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
-            {content.map((para, i) => (
-              <p key={i} style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: "1.75", margin: 0 }}>{para}</p>
-            ))}
-          </div>
-        ) : (
-          <p style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: "1.75", margin: 0 }}>{content}</p>
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt={title}
+            style={{ width: "100%", borderRadius: "6px", border: "0.5px solid var(--border-color)", display: "block" }}
+          />
+        )}
+        {content && (
+          Array.isArray(content) ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+              {content.map((para, i) => (
+                <p key={i} style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: "1.75", margin: 0 }}>{para}</p>
+              ))}
+            </div>
+          ) : (
+            <p style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: "1.75", margin: 0 }}>{content}</p>
+          )
         )}
       </div>
     </div>
   );
 }
 
-function Navbar() {
+function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -69,55 +83,58 @@ function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const navBg = dark
+    ? scrolled ? "rgba(26, 13, 10, 0.95)" : "rgba(26, 13, 10, 0.75)"
+    : scrolled ? "rgba(253, 248, 246, 0.95)" : "rgba(253, 248, 246, 0.75)";
+
   return (
-    <nav
-      style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-        background: scrolled ? "rgba(253, 248, 246, 0.92)" : "rgba(253, 248, 246, 0.75)",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-        borderBottom: scrolled ? "0.5px solid var(--border-color)" : "0.5px solid transparent",
-        transition: "all 0.3s ease",
-      }}
-    >
+    <nav style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
+      background: navBg,
+      backdropFilter: "blur(16px)",
+      WebkitBackdropFilter: "blur(16px)",
+      borderBottom: scrolled ? "0.5px solid var(--border-color)" : "0.5px solid transparent",
+      transition: "all 0.3s ease",
+    }}>
       <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: "60px" }}>
-        <span style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.1rem", color: "var(--foreground)", letterSpacing: "0.05em" }}>
+        <span style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.05rem", color: "var(--foreground)", letterSpacing: "0.05em" }}>
           Sai Lahari
         </span>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }} className="hidden-mobile">
+        <div style={{ display: "flex", alignItems: "center", gap: "0.1rem", flexWrap: "wrap" }}>
           {navItems.map((item) => (
             <button key={item.label} className="nav-link" onClick={() => { setMenuOpen(false); scrollTo(item.href); }}>
               {item.label}
             </button>
           ))}
+          <button
+            onClick={toggleDark}
+            style={{
+              background: "none", border: "0.5px solid var(--border-color)", cursor: "pointer",
+              color: "var(--muted-fg)", padding: "0.375rem", borderRadius: "50%",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              marginLeft: "0.5rem", transition: "all 0.2s ease", width: "32px", height: "32px",
+            }}
+            title={dark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {dark ? <Sun size={14} /> : <Moon size={14} />}
+          </button>
         </div>
 
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted-fg)", display: "none", padding: "0.5rem" }}
-          className="show-mobile"
-        >
-          <div style={{ width: "18px", height: "1px", background: "currentColor", marginBottom: "5px" }}></div>
-          <div style={{ width: "18px", height: "1px", background: "currentColor", marginBottom: "5px" }}></div>
-          <div style={{ width: "18px", height: "1px", background: "currentColor" }}></div>
-        </button>
+        {menuOpen && (
+          <div style={{
+            position: "absolute", top: "60px", left: 0, right: 0,
+            borderTop: "0.5px solid var(--border-color)", background: "var(--surface)", padding: "0.75rem 1.5rem",
+          }}>
+            {navItems.map((item) => (
+              <button key={item.label} className="nav-link" style={{ display: "block", width: "100%", textAlign: "left", marginBottom: "0.25rem" }}
+                onClick={() => { setMenuOpen(false); scrollTo(item.href); }}>
+                {item.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
-
-      {menuOpen && (
-        <div style={{ borderTop: "0.5px solid var(--border-color)", background: "var(--surface)", padding: "0.75rem 1.5rem" }}>
-          {navItems.map((item) => (
-            <button
-              key={item.label}
-              className="nav-link"
-              style={{ display: "block", width: "100%", textAlign: "left", marginBottom: "0.25rem" }}
-              onClick={() => { setMenuOpen(false); scrollTo(item.href); }}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-      )}
     </nav>
   );
 }
@@ -125,28 +142,42 @@ function Navbar() {
 function Hero() {
   return (
     <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "6rem 1.5rem 4rem" }}>
-      <div style={{ maxWidth: "900px", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: "1.5rem" }}>
-        <div style={{ width: "96px", height: "96px", borderRadius: "50%", background: "#ede0da", border: "0.5px solid var(--border-color)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "0.5rem" }}>
+      <div style={{ maxWidth: "700px", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: "1.25rem" }}>
+        <div style={{
+          width: "108px", height: "108px", borderRadius: "50%",
+          border: "0.5px solid var(--border-color)",
+          overflow: "hidden",
+          background: "#ede0da",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          marginBottom: "0.25rem",
+        }}>
           <span style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.5rem", color: "var(--muted-fg)", letterSpacing: "0.05em" }}>SL</span>
         </div>
 
         <p className="label-upper">Portfolio</p>
 
-        <h1 style={{ fontSize: "clamp(2.4rem, 5vw, 3.5rem)", lineHeight: 1.15, color: "var(--foreground)", margin: 0, fontFamily: "var(--app-font-serif)", fontWeight: 400 }}>
+        <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.2rem)", lineHeight: 1.15, color: "var(--foreground)", margin: 0, fontFamily: "var(--app-font-serif)", fontWeight: 400 }}>
           Sai Lahari Reddy
         </h1>
 
-        <p style={{ fontSize: "1.1rem", color: "var(--muted-fg)", maxWidth: "500px", margin: 0, fontWeight: 400, lineHeight: 1.65 }}>
+        <p style={{ fontSize: "1rem", color: "var(--muted-fg)", maxWidth: "460px", margin: 0, lineHeight: 1.7 }}>
           I build, experiment, and turn ideas into reality.
         </p>
 
-        <p style={{ fontSize: "0.88rem", color: "var(--muted-fg)", maxWidth: "420px", margin: 0, opacity: 0.8 }}>
+        <p style={{ fontSize: "0.85rem", color: "var(--muted-fg)", maxWidth: "400px", margin: 0, opacity: 0.75 }}>
           ECE student and GATE aspirant exploring the intersection of hardware and software.
         </p>
 
-        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", justifyContent: "center", marginTop: "0.5rem" }}>
-          <button className="btn-primary" onClick={() => scrollTo("#projects")}>View Projects</button>
-          <button className="btn-ghost" onClick={() => scrollTo("#contact")}>Contact Me</button>
+        <div style={{ display: "flex", gap: "1rem", alignItems: "center", marginTop: "0.5rem" }}>
+          <a href="https://github.com/laharixx908-star" target="_blank" rel="noopener noreferrer" className="icon-link" title="GitHub">
+            <Github size={18} />
+          </a>
+          <a href="https://www.linkedin.com/in/sai-lahari-reddy-b-799818396" target="_blank" rel="noopener noreferrer" className="icon-link" title="LinkedIn">
+            <Linkedin size={18} />
+          </a>
+          <a href="mailto:laharicareer19@gmail.com" className="icon-link" title="Email">
+            <Mail size={18} />
+          </a>
         </div>
       </div>
     </section>
@@ -160,10 +191,10 @@ function About() {
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>About</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "2rem" }}>About Me</h2>
         <div className="card" style={{ textAlign: "center" }}>
-          <p style={{ color: "var(--muted-fg)", fontSize: "0.95rem", lineHeight: 1.8, margin: 0 }}>
+          <p style={{ color: "var(--muted-fg)", fontSize: "0.95rem", lineHeight: 1.85, margin: 0 }}>
             ECE student who builds real-world tech projects by combining hardware and software. Always learning, experimenting, and improving through hands-on work.
           </p>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.375rem", marginTop: "1.25rem", color: "var(--dusty-rose)", fontSize: "0.82rem", letterSpacing: "0.08em" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.375rem", marginTop: "1.25rem", color: "var(--dusty-rose)", fontSize: "0.8rem", letterSpacing: "0.08em" }}>
             <MapPin size={13} />
             <span>Hyderabad, India</span>
           </div>
@@ -188,43 +219,45 @@ function Projects() {
 
   const projects = [
     {
-      title: "Mind-Mate",
-      tag: null,
-      shortDesc: "A platform designed to support students who experience emotional imbalance or frequent mood swings — powered by an AI companion and a rewards system.",
-      fullDesc: mindMateDesc,
-      action: { label: "Visit Project", href: "https://mind-mate-orpin.vercel.app/", external: true },
-    },
-    {
-      title: "Velora",
-      tag: "Upcoming",
-      shortDesc: "A wearable safety concept designed as a stylish accessory that enables instant emergency alerts.",
-      descPoints: [
-        "It explore's around Women Safety, and how technology can help create safer environments and faster support systems.",
-        "A wearable safety concept designed as a stylish accessory that enables instant emergency alerts.",
-      ],
-      fullDesc: null,
-      action: { label: "Coming Soon", href: null },
-    },
-    {
       title: "Line Follower Robot",
       tag: "Hardware",
       shortDesc: "An autonomous mobile system that detects and follows a predefined path using DC motors and IR sensors.",
       fullDesc: lineFollowerDesc,
       action: null,
+      descPoints: undefined,
+    },
+    {
+      title: "Mind-Mate",
+      tag: null,
+      shortDesc: "A platform designed to support students who experience emotional imbalance or frequent mood swings — powered by an AI companion and a rewards system.",
+      fullDesc: mindMateDesc,
+      action: { label: "Visit Project", href: "https://mind-mate-orpin.vercel.app/" },
+      descPoints: undefined,
+    },
+    {
+      title: "Velora",
+      tag: "Upcoming",
+      shortDesc: null,
+      fullDesc: null,
+      action: { label: "Coming Soon", href: null },
+      descPoints: [
+        "It explore's around Women Safety, and how technology can help create safer environments and faster support systems.",
+        "A wearable safety concept designed as a stylish accessory that enables instant emergency alerts.",
+      ],
     },
   ];
 
   return (
-    <section id="projects" style={{ padding: "5rem 1.5rem" }}>
+    <section id="projects" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
       <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Work</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Projects</h2>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
           {projects.map((project) => (
-            <div key={project.title} className="card" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <div key={project.title} className="card" style={{ display: "flex", flexDirection: "column", gap: "1rem", background: "var(--background)" }}>
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.75rem" }}>
-                <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.2rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>
+                <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.15rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>
                   {project.title}
                 </h3>
                 {project.tag && <span className="tag">{project.tag}</span>}
@@ -233,42 +266,34 @@ function Projects() {
               <hr className="divider" />
 
               {project.descPoints ? (
-                <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: "0.625rem", flex: 1 }}>
+                <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: "0.6rem", flex: 1 }}>
                   {project.descPoints.map((pt, i) => (
                     <li key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
-                      <span style={{ color: "var(--primary)", marginTop: "0.3rem", flexShrink: 0, fontSize: "0.7rem" }}>—</span>
-                      <p style={{ color: "var(--muted-fg)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0 }}>{pt}</p>
+                      <span style={{ color: "var(--primary)", marginTop: "0.35rem", flexShrink: 0, fontSize: "0.65rem" }}>—</span>
+                      <p style={{ color: "var(--muted-fg)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0 }}>{pt}</p>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p style={{ color: "var(--muted-fg)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, flex: 1 }}>
+                <p style={{ color: "var(--muted-fg)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0, flex: 1 }}>
                   {project.shortDesc}
                 </p>
               )}
 
-              <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap", marginTop: "auto", paddingTop: "0.5rem" }}>
+              <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap", marginTop: "auto", paddingTop: "0.375rem" }}>
                 {project.fullDesc && (
-                  <button
-                    className="btn-text"
-                    onClick={() => setActiveModal({ title: project.title, content: project.fullDesc! })}
-                  >
+                  <button className="btn-text" onClick={() => setActiveModal({ title: project.title, content: project.fullDesc! })}>
                     View more details
                   </button>
                 )}
                 {project.action && (
                   project.action.href ? (
-                    <a
-                      href={project.action.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-primary"
-                      style={{ textDecoration: "none", fontSize: "0.75rem", padding: "0.5rem 1.25rem" }}
-                    >
+                    <a href={project.action.href} target="_blank" rel="noopener noreferrer" className="btn-primary"
+                      style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>
                       {project.action.label}
                     </a>
                   ) : (
-                    <span style={{ fontSize: "0.78rem", color: "var(--muted-fg)", letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.7 }}>
+                    <span style={{ fontSize: "0.75rem", color: "var(--muted-fg)", letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.65 }}>
                       {project.action.label}
                     </span>
                   )
@@ -280,11 +305,7 @@ function Projects() {
       </div>
 
       {activeModal && (
-        <Modal
-          title={activeModal.title}
-          content={activeModal.content}
-          onClose={() => setActiveModal(null)}
-        />
+        <Modal title={activeModal.title} content={activeModal.content} onClose={() => setActiveModal(null)} />
       )}
     </section>
   );
@@ -295,39 +316,146 @@ function Skills() {
     {
       label: "Core",
       skills: ["C", "Python"],
-      note: "Currently exploring: IoT, VLSI",
+      exploring: ["IoT", "VLSI"],
     },
     {
       label: "Tools",
       skills: ["GitHub", "Vercel", "Canva", "AI Studio", "Antigravity"],
-      note: null,
+      exploring: [],
     },
     {
       label: "Hardware",
       skills: ["Arduino", "Sensors", "Basic Electronics"],
-      note: null,
+      exploring: [],
     },
   ];
 
   return (
-    <section id="skills" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
+    <section id="skills" style={{ padding: "5rem 1.5rem" }}>
       <div style={{ maxWidth: "900px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Expertise</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Skills</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.25rem" }}>
           {categories.map((cat) => (
-            <div key={cat.label} className="card" style={{ background: "var(--background)" }}>
+            <div key={cat.label} className="card">
               <p className="label-upper" style={{ marginBottom: "1.25rem", color: "var(--primary)" }}>{cat.label}</p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: cat.note ? "1rem" : 0 }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
                 {cat.skills.map((skill) => (
                   <span key={skill} className="tag">{skill}</span>
                 ))}
               </div>
-              {cat.note && (
-                <p style={{ fontSize: "0.78rem", color: "var(--muted-fg)", marginTop: "0.75rem", fontStyle: "italic", opacity: 0.8, margin: 0 }}>
-                  {cat.note}
-                </p>
+              {cat.exploring.length > 0 && (
+                <>
+                  <p className="label-upper" style={{ marginTop: "1.25rem", marginBottom: "0.75rem", fontSize: "0.65rem", opacity: 0.7 }}>
+                    Currently Exploring
+                  </p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                    {cat.exploring.map((skill) => (
+                      <span key={skill} className="tag-explore">{skill}</span>
+                    ))}
+                  </div>
+                </>
               )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Experience() {
+  const [certModal, setCertModal] = useState(false);
+  const certUrl = `${BASE}/hackforge-certificate.png`;
+
+  const entries = [
+    {
+      role: "EvolveX Intern",
+      badge: "Full Stack Dev",
+      description: "Currently working on building and improving web applications while gaining practical experience.",
+      extra: null,
+    },
+    {
+      role: "Hackforge Hackathon Participant",
+      badge: null,
+      description: "Participated in a 48-hour hackathon, working in a team to build a project under time constraints.",
+      extra: { label: "View Certificate", action: () => setCertModal(true) },
+    },
+  ];
+
+  return (
+    <section id="experience" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
+      <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Background</p>
+        <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Experience</h2>
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          {entries.map((entry) => (
+            <div key={entry.role} className="card" style={{ background: "var(--background)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
+                <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--primary)", flexShrink: 0 }}></div>
+                <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.05rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>
+                  {entry.role}
+                </h3>
+                {entry.badge && <span className="highlight-badge">{entry.badge}</span>}
+              </div>
+              <p style={{ color: "var(--muted-fg)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>
+                {entry.description}
+              </p>
+              {entry.extra && (
+                <div style={{ paddingLeft: "1.25rem", marginTop: "0.875rem" }}>
+                  <button className="btn-text" onClick={entry.extra.action}>
+                    {entry.extra.label}
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {certModal && (
+        <Modal title="Hackforge Certificate" imageUrl={certUrl} onClose={() => setCertModal(false)} />
+      )}
+    </section>
+  );
+}
+
+function Hobbies() {
+  return (
+    <section id="hobbies" style={{ padding: "5rem 1.5rem" }}>
+      <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Personal</p>
+        <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Interests & Hobbies</h2>
+        <div className="card" style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+          {[
+            "Beyond my technical pursuits, I am a basketball player. I also play badminton and enjoy outdoor activities.",
+            "I read romantic novels and spend time drawing and doing craft work while exploring new skills.",
+          ].map((para, i) => (
+            <p key={i} style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: 1.85, margin: 0 }}>{para}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FutureGoals() {
+  const goals = [
+    "My career goal is to achieve a strong score in the Graduate Aptitude Test in Engineering and secure an opportunity to contribute to national defense by joining Defence Research and Development Organisation.",
+    "I also aspire to become an entrepreneur by transforming my project, Velora, into a real-time, practical implementation.",
+    "Beyond technology, I hope to establish a non-profit organization dedicated to supporting underprivileged children.",
+  ];
+
+  return (
+    <section id="goals" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
+      <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Looking Ahead</p>
+        <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Future Goals</h2>
+        <div className="card" style={{ background: "var(--background)", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+          {goals.map((goal, i) => (
+            <div key={i} style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
+              <ArrowRight size={14} style={{ color: "var(--primary)", flexShrink: 0, marginTop: "0.35rem" }} />
+              <p style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: 1.8, margin: 0 }}>{goal}</p>
             </div>
           ))}
         </div>
@@ -353,113 +481,14 @@ function Journey() {
   return (
     <section id="journey" style={{ padding: "5rem 1.5rem" }}>
       <div style={{ maxWidth: "720px", margin: "0 auto" }}>
-        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Personal</p>
+        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Story</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "0.75rem" }}>My Journey</h2>
-        <p style={{ textAlign: "center", fontStyle: "italic", color: "var(--muted-fg)", fontSize: "0.9rem", marginBottom: "3rem", opacity: 0.75 }}>
+        <p style={{ textAlign: "center", fontStyle: "italic", color: "var(--muted-fg)", fontSize: "0.88rem", marginBottom: "3rem", opacity: 0.75 }}>
           "A story of failure."
         </p>
         <div className="card" style={{ display: "flex", flexDirection: "column", gap: "1.125rem" }}>
           {paragraphs.map((para, i) => (
-            <p key={i} style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: 1.8, margin: 0 }}>{para}</p>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Experience() {
-  const certUrl = `${BASE}/hackforge-certificate.png`;
-
-  const entries = [
-    {
-      role: "EvolveX Intern",
-      description: "Currently working on building and improving web applications while gaining practical experience.",
-      extra: null,
-    },
-    {
-      role: "Hackforge Hackathon Participant",
-      description: "Participated in a 48-hour hackathon, working in a team to build a project under time constraints.",
-      extra: { label: "View Certificate", href: certUrl },
-    },
-  ];
-
-  return (
-    <section id="experience" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
-      <div style={{ maxWidth: "720px", margin: "0 auto" }}>
-        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Background</p>
-        <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Experience</h2>
-        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          {entries.map((entry) => (
-            <div key={entry.role} className="card" style={{ background: "var(--background)" }}>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem", marginBottom: "0.75rem" }}>
-                <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--primary)", flexShrink: 0, marginTop: "0.55rem" }}></div>
-                <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.05rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>
-                  {entry.role}
-                </h3>
-              </div>
-              <p style={{ color: "var(--muted-fg)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>
-                {entry.description}
-              </p>
-              {entry.extra && (
-                <div style={{ paddingLeft: "1.25rem", marginTop: "0.875rem" }}>
-                  <a
-                    href={entry.extra.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-text"
-                    style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem" }}
-                  >
-                    {entry.extra.label}
-                    <ExternalLink size={11} />
-                  </a>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FutureGoals() {
-  const goals = [
-    "My career goal is to achieve a strong score in the Graduate Aptitude Test in Engineering and secure an opportunity to contribute to national defense by joining Defence Research and Development Organisation.",
-    "I also aspire to become an entrepreneur by transforming my project, Velora, into a real-time, practical implementation.",
-    "Beyond technology, I hope to establish a non-profit organization dedicated to supporting underprivileged children.",
-  ];
-
-  return (
-    <section id="goals" style={{ padding: "5rem 1.5rem" }}>
-      <div style={{ maxWidth: "720px", margin: "0 auto" }}>
-        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Looking Ahead</p>
-        <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Future Goals</h2>
-        <div className="card" style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-          {goals.map((goal, i) => (
-            <div key={i} style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-              <ArrowRight size={15} style={{ color: "var(--primary)", flexShrink: 0, marginTop: "0.3rem" }} />
-              <p style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: 1.75, margin: 0 }}>{goal}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Hobbies() {
-  return (
-    <section id="hobbies" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
-      <div style={{ maxWidth: "720px", margin: "0 auto" }}>
-        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Interests</p>
-        <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Beyond Tech</h2>
-        <div className="card" style={{ background: "var(--background)", display: "flex", flexDirection: "column", gap: "0.875rem" }}>
-          {[
-            "Beyond my technical pursuits, I am a basketball player. I also play badminton and enjoy outdoor activities.",
-            "I read romantic novels and spend time drawing and doing craft work while exploring new skills.",
-          ].map((para, i) => (
-            <p key={i} style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: 1.8, margin: 0 }}>{para}</p>
+            <p key={i} style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: 1.85, margin: 0 }}>{para}</p>
           ))}
         </div>
       </div>
@@ -468,71 +497,113 @@ function Hobbies() {
 }
 
 function Contact() {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [sent, setSent] = useState(false);
+
+  const handleSend = (e: React.FormEvent) => {
+    e.preventDefault();
+    const subject = encodeURIComponent(`Portfolio Contact from ${form.name}`);
+    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`);
+    window.location.href = `mailto:laharicareer19@gmail.com?subject=${subject}&body=${body}`;
+    setSent(true);
+    setTimeout(() => setSent(false), 4000);
+  };
+
   const links = [
-    {
-      icon: <Github size={17} />,
-      label: "GitHub",
-      href: "https://github.com/laharixx908-star",
-      display: "laharixx908-star",
-    },
-    {
-      icon: <Linkedin size={17} />,
-      label: "LinkedIn",
-      href: "https://www.linkedin.com/in/sai-lahari-reddy-b-799818396",
-      display: "sai-lahari-reddy-b",
-    },
-    {
-      icon: <Mail size={17} />,
-      label: "Email",
-      href: "mailto:laharicareer19@gmail.com",
-      display: "laharicareer19@gmail.com",
-    },
+    { icon: <Github size={17} />, label: "GitHub", href: "https://github.com/laharixx908-star", display: "laharixx908-star" },
+    { icon: <Linkedin size={17} />, label: "LinkedIn", href: "https://www.linkedin.com/in/sai-lahari-reddy-b-799818396", display: "sai-lahari-reddy-b" },
+    { icon: <Mail size={17} />, label: "Email", href: "mailto:laharicareer19@gmail.com", display: "laharicareer19@gmail.com" },
   ];
 
   return (
-    <section id="contact" style={{ padding: "5rem 1.5rem" }}>
-      <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+    <section id="contact" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
+      <div style={{ maxWidth: "680px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Get In Touch</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Contact</h2>
-        <div className="card">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.375rem", marginBottom: "2rem", color: "var(--dusty-rose)", fontSize: "0.8rem", letterSpacing: "0.08em" }}>
-            <MapPin size={13} />
-            <span>Hyderabad, India</span>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+          <div className="card" style={{ background: "var(--background)" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.375rem", marginBottom: "1.5rem", color: "var(--dusty-rose)", fontSize: "0.8rem", letterSpacing: "0.08em" }}>
+              <MapPin size={13} />
+              <span>Hyderabad, India</span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem" }}>
+              {links.map((link) => (
+                <a key={link.label} href={link.href}
+                  target={link.href.startsWith("mailto") ? undefined : "_blank"}
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "flex", alignItems: "center", gap: "0.875rem",
+                    padding: "0.875rem 1rem",
+                    borderRadius: "8px", border: "0.5px solid var(--border-color)",
+                    background: "var(--surface)", textDecoration: "none", color: "inherit",
+                    transition: "border-color 0.2s",
+                  }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--dusty-rose)"; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--border-color)"; }}
+                >
+                  <span style={{ color: "var(--primary)" }}>{link.icon}</span>
+                  <div style={{ flex: 1 }}>
+                    <div className="label-upper" style={{ fontSize: "0.65rem", marginBottom: "0.15rem" }}>{link.label}</div>
+                    <div style={{ fontSize: "0.86rem", color: "var(--foreground)" }}>{link.display}</div>
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-            {links.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target={link.href.startsWith("mailto") ? undefined : "_blank"}
-                rel="noopener noreferrer"
-                style={{
-                  display: "flex", alignItems: "center", gap: "1rem",
-                  padding: "1rem 1.25rem",
-                  borderRadius: "8px",
-                  border: "0.5px solid var(--border-color)",
-                  background: "var(--background)",
-                  textDecoration: "none",
-                  transition: "all 0.2s ease",
-                  color: "inherit",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor = "var(--dusty-rose)";
-                  (e.currentTarget as HTMLElement).style.background = "#fdf0ec";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor = "var(--border-color)";
-                  (e.currentTarget as HTMLElement).style.background = "var(--background)";
-                }}
-              >
-                <span style={{ color: "var(--primary)" }}>{link.icon}</span>
-                <div style={{ flex: 1 }}>
-                  <div className="label-upper" style={{ fontSize: "0.68rem", marginBottom: "0.2rem" }}>{link.label}</div>
-                  <div style={{ fontSize: "0.88rem", color: "var(--foreground)" }}>{link.display}</div>
-                </div>
-                <ExternalLink size={13} style={{ color: "var(--border-color)" }} />
-              </a>
-            ))}
+
+          <div className="card" style={{ background: "var(--background)" }}>
+            <p className="label-upper" style={{ marginBottom: "1.5rem", color: "var(--primary)" }}>Send a Message</p>
+            <form onSubmit={handleSend} style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+              <div>
+                <label style={{ display: "block", fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>
+                  Name
+                </label>
+                <input
+                  className="contact-input"
+                  type="text"
+                  placeholder="Your name"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <label style={{ display: "block", fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>
+                  Email ID
+                </label>
+                <input
+                  className="contact-input"
+                  type="email"
+                  placeholder="your@email.com"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <label style={{ display: "block", fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>
+                  Message
+                </label>
+                <textarea
+                  className="contact-input"
+                  placeholder="Type your message here..."
+                  rows={5}
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                  required
+                  style={{ resize: "vertical", minHeight: "120px" }}
+                />
+              </div>
+              <button type="submit" className="btn-primary" style={{ alignSelf: "flex-start", marginTop: "0.25rem" }}>
+                {sent ? "Opening mail client..." : "Send Message"}
+              </button>
+              {sent && (
+                <p style={{ fontSize: "0.8rem", color: "var(--primary)", margin: 0, fontStyle: "italic" }}>
+                  Your email client should open with the message pre-filled.
+                </p>
+              )}
+            </form>
           </div>
         </div>
       </div>
@@ -540,11 +611,15 @@ function Contact() {
   );
 }
 
-function Footer() {
+function Footer({ dark }: { dark: boolean }) {
   return (
-    <footer style={{ padding: "2.5rem 1.5rem", borderTop: "0.5px solid var(--border-color)", background: "var(--surface)" }}>
+    <footer style={{
+      padding: "2.5rem 1.5rem",
+      borderTop: "0.5px solid var(--border-color)",
+      background: dark ? "var(--background)" : "var(--surface)"
+    }}>
       <div style={{ maxWidth: "1100px", margin: "0 auto", textAlign: "center" }}>
-        <p style={{ color: "var(--muted-fg)", fontSize: "0.78rem", letterSpacing: "0.08em", opacity: 0.7, margin: 0 }}>
+        <p style={{ color: "var(--muted-fg)", fontSize: "0.75rem", letterSpacing: "0.08em", opacity: 0.65, margin: 0 }}>
           © 2025 Sai Lahari Reddy
         </p>
       </div>
@@ -553,19 +628,23 @@ function Footer() {
 }
 
 export default function Portfolio() {
+  const [dark, setDark] = useState(false);
+
+  const toggleDark = () => setDark((d) => !d);
+
   return (
-    <div style={{ minHeight: "100vh" }}>
-      <Navbar />
+    <div className={dark ? "dark-mode" : ""} style={{ minHeight: "100vh", background: "var(--background)", transition: "background 0.3s ease" }}>
+      <Navbar dark={dark} toggleDark={toggleDark} />
       <Hero />
       <About />
       <Projects />
       <Skills />
-      <Journey />
       <Experience />
-      <FutureGoals />
       <Hobbies />
+      <FutureGoals />
+      <Journey />
       <Contact />
-      <Footer />
+      <Footer dark={dark} />
     </div>
   );
 }
