@@ -155,7 +155,6 @@ function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void })
 }
 function Hero() {
  const [emailModal, setEmailModal] = useState(false);
- const [copied, setCopied] = useState(false);
   return (
     <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", paddingTop: "58px" }}>
       <div style={{ maxWidth: "1180px", margin: "0 auto", width: "100%", padding: "3rem 2rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "3rem" }}>
@@ -192,12 +191,8 @@ function Hero() {
             <a href="https://www.linkedin.com/in/sai-lahari-reddy-b-799818396" target="_blank" rel="noopener noreferrer" className="icon-link" title="LinkedIn">
               <Linkedin size={17} />
             </a>
-           <button className="btn-text" onClick={() => {
-  navigator.clipboard.writeText("laharicareer.19@gmail.com");
-  setCopied(true);
-  setTimeout(() => setCopied(false), 2000);
-}}>
-  {copied ? "Copied!" : "Copy Email"}
+           <button className="icon-link" title="Email" onClick={() => setEmailModal(true)}>
+  <Mail size={17} />
 </button>
           </div>
         </div>
