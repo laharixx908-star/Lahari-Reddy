@@ -467,9 +467,9 @@ function Hobbies() {
 
 function FutureGoals() {
   const goals = [
-    "My career goal is to achieve a strong score in the Graduate Aptitude Test in Engineering and secure an opportunity to contribute to national defense by joining Defence Research and Development Organisation.",
+    "My career goal is to achieve a strong score in the GATE and secure an opportunity to contribute to national defense by joining DRDO.",
     "I also aspire to become an entrepreneur by transforming my project, Velora, into a real-time, practical implementation.",
-    "Beyond technology, I hope to establish a non-profit organization dedicated to supporting underprivileged children.",
+    "Beyond technology, I hope to establish a NPO dedicated to supporting underprivileged children.",
   ];
 
   return (
