@@ -193,7 +193,7 @@ function Hero() {
             </a>
            <button className="icon-link" title="Email" onClick={() => setEmailModal(true)}>
   <Mail size={17} />
-</button>
+          </button>
           </div>
         </div>
 
