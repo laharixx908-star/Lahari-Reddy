@@ -492,11 +492,12 @@ function FutureGoals() {
 
 function Journey() {
   const paragraphs = [
-    "I come from a single-parent family and grew up as an only child. For a long time, I struggled with consistency and direction. I used to give up easily and didn't take things seriously, which affected my academics and confidence.",
-    "I had dreams like joining the Indian Navy through NDA, but I couldn't clear the first stage. I also wrote several Olympiad exams in school and couldn't clear them, which made me question myself a lot.",
-    "A lot was invested in my education—my intermediate alone cost around 8 lakhs—but I still couldn't even score 90%. That made me feel like I wasn't doing justice to the opportunities I was given.",
-    "I was also involved in sports like basketball and kho-kho. Even though I didn't win, those experiences taught me how to keep going and not quit easily.",
-    "My family had expectations from me, and I often felt like I wasn't meeting them. But things started to change when I qualified EAMCET with very limited preparation. That moment made my family slowly start believing in me, and it made me realize that I had potential—I just wasn't using it properly.",
+    "I grew up in a single-parent household, raised by my mother. For a long time, I lacked direction and consistency — I would give up too easily and not take my responsibilities seriously enough.",
+    "My mother always wanted a passionate, studious, and well-mannered child. What she got was someone lazy, mischievous, and consistently inconsistent. That gap between who she hoped I would be and who I actually was — I felt it, even when I pretended not to.",
+    "I appeared for the NDA examination twice, aspiring to join the Indian Navy, but could not clear the first stage either time. I participated in numerous Olympiad examinations throughout school without qualifying a single one. These experiences led me to doubt my own abilities significantly.",
+    "A considerable amount was invested in my intermediate education — approximately 8 lakhs — yet I was unable to score 90%. That made me feel like I wasn't doing justice to the opportunities I was given.",
+    "Alongside academics, I was involved in sports — basketball and kho-kho. Not even a single win to my name — but those experiences instilled in me the discipline to keep going despite setbacks.",
+    "Qualifying EAMCET with limited preparation marked a turning point. My family began to see me in a new light, and more importantly, I began to see myself differently — not as someone defined by failure, but as someone who finally understood what it meant to apply herself.",
     "Getting selected as an intern at EvolveX meant a lot—after all the failures, it felt like a step forward.",
     "There was one moment that stayed with me. My mother once said that instead of spending so much on me, the same could have helped a hardworking child who needed it more. That line didn't leave me.",
     "I didn't take it as discouragement—I took it as responsibility. Someday, I want to build something meaningful and give back by starting a non-profit for children who don't have the opportunities I had.",
