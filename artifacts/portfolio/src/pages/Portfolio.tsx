@@ -569,7 +569,7 @@ function Contact() {
   const links = [
     { icon: <Github size={17} />, label: "GitHub", href: "https://github.com/laharixx908-star", display: "laharixx908-star" },
     { icon: <Linkedin size={17} />, label: "LinkedIn", href: "https://www.linkedin.com/in/sai-lahari-reddy-b-799818396", display: "sai-lahari-reddy-b" },
-    { icon: <Mail size={17} />, label: "Email", href: "mailto:laharicareer.19@gmail.com", display: "laharicareer.19@gmail.com" },
+   { icon: <Mail size={17} />, label: "Email", href: "https://mail.google.com/mail/?view=cm&to=laharicareer.19@gmail.com", display: "laharicareer.19@gmail.com" },
   ];
 
   return (
