@@ -191,7 +191,7 @@ function Hero() {
             <a href="https://www.linkedin.com/in/sai-lahari-reddy-b-799818396" target="_blank" rel="noopener noreferrer" className="icon-link" title="LinkedIn">
               <Linkedin size={17} />
             </a>
-            <a href="mailto:laharicareer19@gmail.com" className="icon-link" title="Email">
+            <a href="mailto:laharicareer.19@gmail.com" className="icon-link" title="Email">
               <Mail size={17} />
             </a>
           </div>
@@ -520,7 +520,7 @@ function Contact() {
     e.preventDefault();
     const subject = encodeURIComponent(`Portfolio Contact from ${form.name}`);
     const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`);
-    window.location.href = `mailto:laharicareer19@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:laharicareer.19@gmail.com?subject=${subject}&body=${body}`;
     setSent(true);
     setTimeout(() => setSent(false), 4000);
   };
@@ -528,7 +528,7 @@ function Contact() {
   const links = [
     { icon: <Github size={17} />, label: "GitHub", href: "https://github.com/laharixx908-star", display: "laharixx908-star" },
     { icon: <Linkedin size={17} />, label: "LinkedIn", href: "https://www.linkedin.com/in/sai-lahari-reddy-b-799818396", display: "sai-lahari-reddy-b" },
-    { icon: <Mail size={17} />, label: "Email", href: "mailto:laharicareer19@gmail.com", display: "laharicareer19@gmail.com" },
+    { icon: <Mail size={17} />, label: "Email", href: "mailto:laharicareer.19@gmail.com", display: "laharicareer.19@gmail.com" },
   ];
 
   return (
@@ -585,7 +585,7 @@ function Contact() {
                 {sent ? "Opening mail client..." : "Send Message"}
               </button>
               {sent && (
-                <p style={{ fontSize: "0.8rem", color: "var(--primary)", margin: 0, fontStyle: "italic" }}>Your email client should open with the message pre-filled.</p>
+                <p style={{ fontSize: "0.8rem", color: "var(--primary)", margin: 0, fontStyle: "italic" }}>Stay connected! your response will be replied soon.</p>
               )}
             </form>
           </div>
