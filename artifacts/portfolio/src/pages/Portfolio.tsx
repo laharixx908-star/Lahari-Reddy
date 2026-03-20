@@ -572,63 +572,81 @@ function Contact() {
   };
 
   const links = [
-    { icon: <Github size={17} />, label: "GitHub", href: "https://github.com/laharixx908-star", display: "laharixx908-star" },
-    { icon: <Linkedin size={17} />, label: "LinkedIn", href: "https://www.linkedin.com/in/sai-lahari-reddy-b-799818396", display: "sai-lahari-reddy-b" },
-   { icon: <Mail size={17} />, label: "Email", href: "https://mail.google.com/mail/?view=cm&to=laharicareer.19@gmail.com", display: "laharicareer.19@gmail.com" },
+    { icon: <Github size={18} />, label: "GitHub", href: "https://github.com/laharixx908-star", display: "laharixx908-star" },
+    { icon: <Linkedin size={18} />, label: "LinkedIn", href: "https://www.linkedin.com/in/sai-lahari-reddy-b-799818396", display: "sai-lahari-reddy-b" },
+    { icon: <Mail size={18} />, label: "Email", href: "https://mail.google.com/mail/?view=cm&to=laharicareer.19@gmail.com", display: "laharicareer.19@gmail.com" },
   ];
 
   return (
     <section id="contact" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
       <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
-        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Get In Touch</p>
-        <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Contact</h2>
+
+        <div style={{ marginBottom: "3rem" }}>
+          <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontSize: "clamp(2rem, 5vw, 3.2rem)", lineHeight: 1.1, color: "var(--foreground)", margin: "0 0 0.25rem" }}>
+            wanna build something
+          </h2>
+          <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2rem, 5vw, 3.2rem)", lineHeight: 1.1, color: "var(--primary)", margin: "0 0 1.25rem" }}>
+            new & crazy?
+          </h2>
+          <p style={{ color: "var(--muted-fg)", fontSize: "0.92rem", lineHeight: 1.75, maxWidth: "420px" }}>
+            open to ideas, collabs, wild projects, or just a random convo. drop a text — i'll get back to you, no cap.
+          </p>
+        </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem", alignItems: "start" }}>
 
           <div className="card" style={{ background: "var(--background)" }}>
-            <p className="label-upper" style={{ marginBottom: "1.5rem", color: "var(--primary)" }}>Contact Details</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem" }}>
+            <p className="label-upper" style={{ marginBottom: "1.5rem", color: "var(--primary)" }}>Find Me Here</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
               {links.map((link) => (
                 <a key={link.label} href={link.href}
-                  target={link.href.startsWith("mailto") ? undefined : "_blank"}
+                  target="_blank"
                   rel="noopener noreferrer"
                   style={{
                     display: "flex", alignItems: "center", gap: "0.875rem",
-                    padding: "0.875rem 1rem", borderRadius: "8px",
-                    border: "0.5px solid var(--border-color)",
-                    background: "var(--surface)", textDecoration: "none", color: "inherit",
-                    transition: "border-color 0.2s",
+                    padding: "0.75rem 0.875rem", borderRadius: "10px",
+                    textDecoration: "none", color: "inherit",
+                    transition: "background 0.2s",
                   }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--primary)"; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--border-color)"; }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--surface)"; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
                 >
-                  <span style={{ color: "var(--primary)" }}>{link.icon}</span>
+                  <span style={{ color: "var(--primary)", background: "var(--surface)", padding: "0.5rem", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    {link.icon}
+                  </span>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div className="label-upper" style={{ fontSize: "0.65rem", marginBottom: "0.15rem" }}>{link.label}</div>
+                    <div className="label-upper" style={{ fontSize: "0.65rem", marginBottom: "0.1rem" }}>{link.label}</div>
                     <div style={{ fontSize: "0.83rem", color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{link.display}</div>
                   </div>
+                  <span style={{ color: "var(--muted-fg)", fontSize: "0.8rem" }}>›</span>
                 </a>
               ))}
             </div>
           </div>
 
           <div className="card" style={{ background: "var(--background)" }}>
-            <p className="label-upper" style={{ marginBottom: "1.5rem", color: "var(--primary)" }}>Send a Message</p>
+            <p className="label-upper" style={{ marginBottom: "1.5rem", color: "var(--primary)" }}>Slide Into My Inbox</p>
             <form onSubmit={handleSend} style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
-              <div>
-                <label style={{ display: "block", fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Name</label>
-                <input className="contact-input" type="text" placeholder="Your name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Your Name</label>
+                  <input className="contact-input" type="text" placeholder="your name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required
+                    style={{ background: "var(--foreground)", color: "var(--background)", borderColor: "var(--foreground)" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Email</label>
+                  <input className="contact-input" type="email" placeholder="your@email.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required
+                    style={{ background: "var(--foreground)", color: "var(--background)", borderColor: "var(--foreground)" }}
+                  />
+                </div>
               </div>
               <div>
-                <label style={{ display: "block", fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Email ID</label>
-                <input className="contact-input" type="email" placeholder="your@email.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+                <label style={{ display: "block", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Message</label>
+                <textarea className="contact-input" placeholder="spill it, don't hold back..." rows={5} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} required style={{ resize: "vertical", minHeight: "110px" }} />
               </div>
-              <div>
-                <label style={{ display: "block", fontSize: "0.72rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Message</label>
-                <textarea className="contact-input" placeholder="Type your message here..." rows={5} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} required style={{ resize: "vertical", minHeight: "110px" }} />
-              </div>
-              <button type="submit" className="btn-primary" style={{ alignSelf: "flex-start", marginTop: "0.25rem" }} disabled={status === "sending"}>
-                {status === "sending" ? "Sending..." : status === "sent" ? "Message Sent!" : status === "error" ? "Failed, Try Again" : "Send Message"}
+              <button type="submit" className="btn-primary" style={{ width: "100%", justifyContent: "center", marginTop: "0.25rem", display: "flex", alignItems: "center", gap: "0.5rem" }} disabled={status === "sending"}>
+                {status === "sending" ? "Sending..." : status === "sent" ? "Message Sent! ✓" : status === "error" ? "Failed, Try Again" : <>Send <span style={{ fontSize: "1rem" }}>›</span></>}
               </button>
             </form>
           </div>
