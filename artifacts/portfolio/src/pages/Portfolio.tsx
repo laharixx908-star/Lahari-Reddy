@@ -226,7 +226,7 @@ function Hero() {
           <div style={{
             width: "clamp(220px, 28vw, 340px)",
             height: "clamp(220px, 28vw, 340px)",
-            borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
+            borderRadius: "50%",
             overflow: "hidden",
             border: "3px solid var(--primary)",
             background: "#ede0da",
