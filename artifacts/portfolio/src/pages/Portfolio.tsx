@@ -141,7 +141,7 @@ function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void })
           style={{
             background: "none", border: "0.5px solid var(--border-color)", cursor: "pointer",
             color: "var(--muted-fg)", padding: "0.375rem", borderRadius: "50%",
-            display: "flex", alignItems: "center", justifyContent: "center",
+            display: "flex", alignItems: "center", flex: 1, flexWrap: "nowrap", overflow: "hidden", justifyContent: "flex-end", gap: "0rem"
             transition: "all 0.2s ease", width: "30px", height: "30px", flexShrink: 0,
           }}
           title={dark ? "Light mode" : "Dark mode"}
