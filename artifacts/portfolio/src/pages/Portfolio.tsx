@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Github, Linkedin, Mail, X, ArrowRight, Moon, Sun, Circle, Video, BookOpen, Pencil, LayoutGrid, Globe, Film, Music as MusicIcon } from "lucide-react";
+import { Github, Linkedin, Mail, X, ArrowRight, Moon, Sun, Dribbble, Video, BookOpen, Pencil, Scissors, Globe, Film, Music as MusicIcon } from "lucide-react";
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const navItems = [
@@ -448,7 +448,7 @@ function Experience() {
 function Hobbies() {
   const hobbies = [
     {
-      icon: <Circle size={20} />,
+      icon: <Dribbble size={20} />,     
       title: "Basketball",
       desc: "I'm a basketball player — on the court is where I feel most alive",
       badge: "PLAYER",
@@ -472,7 +472,7 @@ function Hobbies() {
       badge: null,
     },
     {
-      icon: <LayoutGrid size={20} />,
+      icon: <Scissors size={20} />,
       title: "Craft work",
       desc: "Making things with my hands",
       badge: null,
