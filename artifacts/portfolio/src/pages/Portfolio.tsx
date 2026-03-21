@@ -13,7 +13,29 @@ const navItems = [
   { label: "Journey", href: "#journey" },
   { label: "Contact", href: "#contact" },
 ];
-
+function useScrollReveal() {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).style.opacity = "1";
+            (entry.target as HTMLElement).style.transform = "translateY(0)";
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    const elements = document.querySelectorAll(".reveal");
+    elements.forEach((el) => {
+      (el as HTMLElement).style.opacity = "0";
+      (el as HTMLElement).style.transform = "translateY(40px)";
+      (el as HTMLElement).style.transition = "opacity 0.6s ease, transform 0.6s ease";
+      observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+}
 function scrollTo(href: string) { 
   const el = document.querySelector(href);
   if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -275,7 +297,7 @@ function Hero() {
 function About() {
   return (
     <section id="about" style={{ padding: "3rem 1.5rem 5rem" }}>
-      <div style={{ maxWidth: "700px", margin: "0 auto" }}>
+     <div className="reveal" style={{ maxWidth: "700px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Introduction</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "2rem" }}>About Me</h2>
         <div className="card" style={{ textAlign: "center" }}>
@@ -335,7 +357,7 @@ function Projects() {
 
   return (
     <section id="projects" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
-      <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+      <div className="reveal" style={{ maxWidth: "1000px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Work</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Projects</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
@@ -393,7 +415,7 @@ function Skills() {
 
   return (
     <section id="skills" style={{ padding: "5rem 1.5rem" }}>
-      <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+      <div className="reveal" style={{ maxWidth: "900px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Expertise</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Skills</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.25rem" }}>
@@ -425,7 +447,7 @@ function Experience() {
 
   return (
     <section id="experience" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
-      <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+      <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Professional Path</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Experience</h2>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -516,7 +538,7 @@ function Hobbies() {
 
   return (
     <section id="hobbies" style={{ padding: "5rem 1.5rem" }}>
-      <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+      <div className="reveal" style={{ maxWidth: "1000px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Interests & Hobbies</p>
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
           <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.1, color: "var(--foreground)", margin: "0" }}>
@@ -569,7 +591,7 @@ function FutureGoals() {
 
   return (
     <section id="goals" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
-      <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+      <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Looking Ahead</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Future Goals</h2>
         <div className="card" style={{ background: "var(--background)", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
@@ -603,7 +625,7 @@ function Journey() {
 
   return (
     <section id="journey" style={{ padding: "5rem 1.5rem" }}>
-      <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+      <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Personal Narrative</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "0.75rem" }}>My Journey</h2>
         <p style={{ textAlign: "center", fontStyle: "italic", color: "var(--muted-fg)", fontSize: "0.88rem", marginBottom: "3rem", opacity: 0.75 }}>
@@ -675,7 +697,7 @@ function Contact() {
 
   return (
     <section id="contact" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
-      <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+      <div className="reveal" style={{ maxWidth: "1000px", margin: "0 auto" }}>
 
         <div style={{ marginBottom: "3rem" }}>
           <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontSize: "clamp(2rem, 5vw, 3.2rem)", lineHeight: 1.1, color: "var(--foreground)", margin: "0 0 0.25rem" }}>
@@ -764,6 +786,7 @@ function Footer({ dark }: { dark: boolean }) {
 
 export default function Portfolio() {
   const [dark, setDark] = useState(false);
+  useScrollReveal();
   return (
     <div className={dark ? "dark-mode" : ""} style={{ minHeight: "100vh", background: "var(--background)", transition: "background 0.3s ease" }}>
       <Navbar dark={dark} toggleDark={() => setDark((d) => !d)} />
