@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+/\import { useState, useEffect } from "react";
 import { Github, Linkedin, Mail, X, ArrowRight, Moon, Sun, Dribbble, Video, BookOpen, Pencil, Scissors, Globe, Film, Music as MusicIcon } from "lucide-react";
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
@@ -123,7 +123,7 @@ function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void })
           LAHARI
         </button>
 
-       <div style={{ display: "flex", alignItems: "center", flex: 1, flexWrap: "nowrap", overflow: "hidden", justifyContent: "flex-end" }}>
+       <div style={{ display: "flex", alignItems: "center", flex: 1, flexWrap: "nowrap", overflowX: "auto", justifyContent: "flex-end", scrollbarWidth: "none" }}>
           {navItems.map((item) => (
             <button
               key={item.label}
@@ -141,7 +141,7 @@ function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void })
           style={{
             background: "none", border: "0.5px solid var(--border-color)", cursor: "pointer",
             color: "var(--muted-fg)", padding: "0.375rem", borderRadius: "50%",
-            display: "flex", alignItems: "center", justifyContent: "center",
+           display: "flex", alignItems: "center", justifyContent: "space-between", gap: "3rem", flexWrap: "wrap-reverse",
             transition: "all 0.2s ease", width: "30px", height: "30px", flexShrink: 0,
           }}
           title={dark ? "Light mode" : "Dark mode"}
