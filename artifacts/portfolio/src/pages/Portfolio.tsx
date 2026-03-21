@@ -449,49 +449,49 @@ function Experience() {
 function Hobbies() {
   const hobbies = [
     {
-      icon: <Circle size={20} />,
+      icon: "⊕",
       title: "Basketball",
       desc: "I'm a basketball player — on the court is where I feel most alive",
       badge: "PLAYER",
     },
     {
-      icon: <Video size={20} />,
+      icon: "📹",
       title: "Badminton",
       desc: "Fast rallies & outdoor fun",
       badge: null,
     },
     {
-      icon: <BookOpen size={20} />,
+      icon: "📖",
       title: "Reading",
       desc: "Romantic novels & storytelling",
       badge: null,
     },
     {
-      icon: <Pencil size={20} />,
+      icon: "✏️",
       title: "Drawing",
       desc: "Sketching & visual expression",
       badge: null,
     },
     {
-      icon: <LayoutGrid size={20} />,
+      icon: "⊞",
       title: "Craft work",
       desc: "Making things with my hands",
       badge: null,
     },
     {
-      icon: <Globe size={20} />,
+      icon: "🌐",
       title: "Outdoor activities",
       desc: "Exploring & staying active outside",
       badge: null,
     },
     {
-      icon: <Film size={20} />,
+      icon: "🎞",
       title: "Films",
       desc: "Cinema, stories & everything in between",
       badge: null,
     },
     {
-      icon: <Music size={20} />,
+      icon: "🎵",
       title: "Music",
       desc: "Good music for every mood",
       badge: null,
@@ -516,7 +516,7 @@ function Hobbies() {
               <div style={{
                 width: "44px", height: "44px", borderRadius: "12px",
                 background: "var(--primary)", display: "flex", alignItems: "center",
-                justifyContent: "center", color: "#fdf8f6",
+                justifyContent: "center", fontSize: "1.1rem", color: "#fdf8f6",
               }}>
                 {hobby.icon}
               </div>
@@ -544,7 +544,6 @@ function Hobbies() {
     </section>
   );
 }
-
 function FutureGoals() {
   const goals = [
     "My career goal is to achieve a strong score in the GATE and secure an opportunity to contribute to national defense by joining DRDO.",
