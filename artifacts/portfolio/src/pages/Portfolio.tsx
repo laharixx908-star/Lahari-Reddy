@@ -198,27 +198,27 @@ function Hero() {
         </div>
 
         <div style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <div style={{
-            width: "clamp(220px, 28vw, 340px)",
-            height: "clamp(220px, 28vw, 340px)",
-            borderRadius: "50%",
-            overflow: "hidden",
-            border: "0.5px solid var(--border-color)",
-            background: "#ede0da",
-            position: "relative",
-          }}>
-            <img
-              src={`${BASE}/profile.jpeg`}
-              alt="Sai Lahari Reddy"
-              style={{
-                width: "100%",
-                height: "133%",
-                objectFit: "cover",
-                objectPosition: "top center",
-                display: "block",
-              }}
-            />
-          </div>
+         <div style={{
+  width: "clamp(220px, 28vw, 340px)",
+  height: "clamp(220px, 28vw, 340px)",
+  borderRadius: "60% 40% 55% 45% / 50% 45% 55% 50%",
+  overflow: "hidden",
+  border: "0.5px solid var(--border-color)",
+  background: "#ede0da",
+  position: "relative",
+}}>
+  <img
+    src={`${BASE}/profile.jpeg`}
+    alt="Sai Lahari Reddy"
+    style={{
+      width: "100%",
+      height: "133%",
+      objectFit: "cover",
+      objectPosition: "top center",
+      display: "block",
+    }}
+  />
+</div>
         </div>
 
       </div>
