@@ -170,10 +170,10 @@
 
 .section-title {
   font-family: var(--app-font-serif);
-  font-size: 2rem;
-  font-weight: 400;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 300;
   color: var(--foreground);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .label-upper {
