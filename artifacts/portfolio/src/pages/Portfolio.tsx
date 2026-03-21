@@ -447,17 +447,97 @@ function Experience() {
 }
 
 function Hobbies() {
+  const hobbies = [
+    {
+      icon: "⊕",
+      title: "Basketball",
+      desc: "I'm a basketball player — on the court is where I feel most alive",
+      badge: "PLAYER",
+    },
+    {
+      icon: "📹",
+      title: "Badminton",
+      desc: "Fast rallies & outdoor fun",
+      badge: null,
+    },
+    {
+      icon: "📖",
+      title: "Reading",
+      desc: "Romantic novels & storytelling",
+      badge: null,
+    },
+    {
+      icon: "✏️",
+      title: "Drawing",
+      desc: "Sketching & visual expression",
+      badge: null,
+    },
+    {
+      icon: "⊞",
+      title: "Craft work",
+      desc: "Making things with my hands",
+      badge: null,
+    },
+    {
+      icon: "🌐",
+      title: "Outdoor activities",
+      desc: "Exploring & staying active outside",
+      badge: null,
+    },
+    {
+      icon: "🎞",
+      title: "Films",
+      desc: "Cinema, stories & everything in between",
+      badge: null,
+    },
+    {
+      icon: "🎵",
+      title: "Music",
+      desc: "Good music for every mood",
+      badge: null,
+    },
+  ];
+
   return (
     <section id="hobbies" style={{ padding: "5rem 1.5rem" }}>
-      <div style={{ maxWidth: "720px", margin: "0 auto" }}>
-        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Personal</p>
-        <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Interests & Hobbies</h2>
-        <div className="card" style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
-          {[
-            "Beyond my technical pursuits, I am a basketball player. I also play badminton and enjoy outdoor activities.",
-            "I read romantic novels and spend time drawing and doing craft work while exploring new skills.",
-          ].map((para, i) => (
-            <p key={i} style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: 1.85, margin: 0 }}>{para}</p>
+      <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+        <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Interests & Hobbies</p>
+        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.1, color: "var(--foreground)", margin: "0" }}>
+            beyond my
+          </h2>
+          <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.1, color: "var(--primary)", margin: "0 0 1rem" }}>
+            technical pursuits
+          </h2>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1.25rem" }}>
+          {hobbies.map((hobby) => (
+            <div key={hobby.title} className="card" style={{ background: "var(--background)", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              <div style={{
+                width: "44px", height: "44px", borderRadius: "12px",
+                background: "var(--primary)", display: "flex", alignItems: "center",
+                justifyContent: "center", fontSize: "1.1rem", color: "#fdf8f6",
+              }}>
+                {hobby.icon}
+              </div>
+              <h3 style={{ fontFamily: "var(--app-font-sans)", fontSize: "1rem", fontWeight: 500, color: "var(--foreground)", margin: 0 }}>
+                {hobby.title}
+              </h3>
+              <p style={{ color: "var(--muted-fg)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0 }}>
+                {hobby.desc}
+              </p>
+              {hobby.badge && (
+                <span style={{
+                  display: "inline-block", alignSelf: "flex-start",
+                  fontSize: "0.65rem", letterSpacing: "0.1em",
+                  border: "0.5px solid var(--border-color)",
+                  borderRadius: "999px", padding: "0.25rem 0.75rem",
+                  color: "var(--muted-fg)", marginTop: "0.25rem",
+                }}>
+                  {hobby.badge}
+                </span>
+              )}
+            </div>
           ))}
         </div>
       </div>
