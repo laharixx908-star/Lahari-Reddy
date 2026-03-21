@@ -1,4 +1,4 @@
-/\import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Github, Linkedin, Mail, X, ArrowRight, Moon, Sun, Dribbble, Video, BookOpen, Pencil, Scissors, Globe, Film, Music as MusicIcon } from "lucide-react";
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
