@@ -213,15 +213,6 @@ function Hero() {
         </div>
 
         <div style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-          
-          {/* Brown circle above */}
-          <div style={{
-            position: "absolute", top: "-40px", right: "-20px",
-            width: "clamp(80px, 10vw, 120px)", height: "clamp(80px, 10vw, 120px)",
-            borderRadius: "50%", background: "var(--surface)",
-            border: "2px solid var(--primary)", opacity: 0.5,
-            zIndex: 0,
-          }} />
 
           <div style={{
             width: "clamp(220px, 28vw, 340px)",
