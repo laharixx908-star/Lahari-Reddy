@@ -14,7 +14,7 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ];
 
-function scrollTo(href: string) {
+function scrollTo(href: string) { 
   const el = document.querySelector(href);
   if (el) el.scrollIntoView({ behavior: "smooth" });
 }
