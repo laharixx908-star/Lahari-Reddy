@@ -153,14 +153,27 @@ function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void })
   );
 }
 function Hero() {
- const [emailModal, setEmailModal] = useState(false);
- const [copied, setCopied] = useState(false);
+  const [emailModal, setEmailModal] = useState(false);
+  const [copied, setCopied] = useState(false);
   return (
-    <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", paddingTop: "58px" }}>
-      <div style={{ maxWidth: "1180px", margin: "0 auto", width: "100%", padding: "3rem 2rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "3rem" }}>
+    <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", paddingTop: "58px", position: "relative", overflow: "hidden" }}>
+      
+      {/* Watermark */}
+      <div style={{
+        position: "absolute", bottom: "0", left: "0", right: "0",
+        fontFamily: "var(--app-font-serif)", fontSize: "clamp(6rem, 18vw, 14rem)",
+        fontWeight: 700, color: "var(--foreground)", opacity: 0.04,
+        letterSpacing: "0.05em", textAlign: "center", lineHeight: 1,
+        pointerEvents: "none", userSelect: "none",
+      }}>
+        LAHARI
+      </div>
+
+      <div style={{ maxWidth: "1180px", margin: "0 auto", width: "100%", padding: "3rem 2rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "3rem", flexWrap: "wrap-reverse", position: "relative", zIndex: 1 }}>
 
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p className="label-upper" style={{ color: "var(--primary)", marginBottom: "1.25rem", letterSpacing: "0.15em" }}>
+          <p className="label-upper" style={{ color: "var(--primary)", marginBottom: "1.25rem", letterSpacing: "0.15em", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <span style={{ display: "inline-block", width: "2rem", height: "1px", background: "var(--primary)" }}></span>
             Portfolio
           </p>
 
@@ -172,13 +185,15 @@ function Hero() {
             Sai Lahari Reddy
           </h1>
 
-          <p style={{
-            fontFamily: "var(--app-font-serif)", fontStyle: "italic",
-            fontSize: "clamp(1rem, 2vw, 1.25rem)",
-            color: "var(--primary)", lineHeight: 1.5, margin: "0 0 1rem", maxWidth: "480px",
-          }}>
-            I build, experiment, and turn ideas into reality.
-          </p>
+          <div style={{ borderLeft: "3px solid var(--primary)", paddingLeft: "1rem", marginBottom: "1rem" }}>
+            <p style={{
+              fontFamily: "var(--app-font-serif)", fontStyle: "italic",
+              fontSize: "clamp(1rem, 2vw, 1.25rem)",
+              color: "var(--primary)", lineHeight: 1.5, margin: 0, maxWidth: "480px",
+            }}>
+              I build, experiment, and turn ideas into reality.
+            </p>
+          </div>
 
           <p style={{ fontSize: "0.92rem", color: "var(--muted-fg)", lineHeight: 1.75, margin: "0 0 2rem", maxWidth: "440px" }}>
             ECE student and GATE aspirant exploring the intersection of hardware and software.
@@ -191,70 +206,81 @@ function Hero() {
             <a href="https://www.linkedin.com/in/sai-lahari-reddy-b-799818396" target="_blank" rel="noopener noreferrer" className="icon-link" title="LinkedIn">
               <Linkedin size={17} />
             </a>
-           <button className="icon-link" title="Email" onClick={() => setEmailModal(true)}>
-  <Mail size={17} />
-          </button>
+            <button className="icon-link" title="Email" onClick={() => setEmailModal(true)}>
+              <Mail size={17} />
+            </button>
           </div>
         </div>
 
-        <div style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-         <div style={{
-  width: "clamp(220px, 28vw, 340px)",
-  height: "clamp(220px, 28vw, 340px)",
-  borderRadius: "50%",
-  overflow: "hidden",
-  border: "0.5px solid var(--border-color)",
-  background: "#ede0da",
-  position: "relative",
-}}>
-  <img
-    src={`${BASE}/profile.jpeg`}
-    alt="Sai Lahari Reddy"
-    style={{
-      width: "100%",
-      height: "133%",
-      objectFit: "cover",
-      objectPosition: "top center",
-      display: "block",
-    }}
-  />
-</div>
+        <div style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+          
+          {/* Brown circle above */}
+          <div style={{
+            position: "absolute", top: "-40px", right: "-20px",
+            width: "clamp(80px, 10vw, 120px)", height: "clamp(80px, 10vw, 120px)",
+            borderRadius: "50%", background: "var(--surface)",
+            border: "2px solid var(--primary)", opacity: 0.5,
+            zIndex: 0,
+          }} />
+
+          <div style={{
+            width: "clamp(220px, 28vw, 340px)",
+            height: "clamp(220px, 28vw, 340px)",
+            borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
+            overflow: "hidden",
+            border: "3px solid var(--primary)",
+            background: "#ede0da",
+            position: "relative",
+            zIndex: 1,
+          }}>
+            <img
+              src={`${BASE}/profile.jpeg`}
+              alt="Sai Lahari Reddy"
+              style={{
+                width: "100%",
+                height: "133%",
+                objectFit: "cover",
+                objectPosition: "top center",
+                display: "block",
+              }}
+            />
+          </div>
         </div>
 
       </div>
+
       {emailModal && (
-  <div className="modal-overlay" onClick={() => setEmailModal(false)}>
-    <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "380px", textAlign: "center" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-        <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.2rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>Send an Email</h3>
-        <button onClick={() => setEmailModal(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted-fg)", padding: "0.25rem" }}>
-          <X size={17} />
-        </button>
-      </div>
-      <hr className="divider" style={{ marginBottom: "1.5rem" }} />
-      <p style={{ color: "var(--muted-fg)", fontSize: "0.85rem", marginBottom: "1.25rem" }}>You can reach me at</p>
-      <div style={{ background: "var(--surface)", border: "0.5px solid var(--border-color)", borderRadius: "8px", padding: "0.875rem 1rem", marginBottom: "1.5rem", fontFamily: "monospace", fontSize: "0.9rem", color: "var(--foreground)" }}>
-        laharicareer.19@gmail.com
-      </div>
-      <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center" }}>
-  <button className="btn-text" onClick={() => {
-    navigator.clipboard.writeText("laharicareer.19@gmail.com");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }}>
-    {copied ? "Copied!" : "Copy Email"}
-  </button>
-  <a href="https://mail.google.com/mail/?view=cm&to=laharicareer.19@gmail.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>
-    Open Gmail
-  </a>
-</div>
-    </div>
-  </div>
-)}
+        <div className="modal-overlay" onClick={() => setEmailModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "380px", textAlign: "center" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+              <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.2rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>Send an Email</h3>
+              <button onClick={() => setEmailModal(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted-fg)", padding: "0.25rem" }}>
+                <X size={17} />
+              </button>
+            </div>
+            <hr className="divider" style={{ marginBottom: "1.5rem" }} />
+            <p style={{ color: "var(--muted-fg)", fontSize: "0.85rem", marginBottom: "1.25rem" }}>You can reach me at</p>
+            <div style={{ background: "var(--surface)", border: "0.5px solid var(--border-color)", borderRadius: "8px", padding: "0.875rem 1rem", marginBottom: "1.5rem", fontFamily: "monospace", fontSize: "0.9rem", color: "var(--foreground)" }}>
+              laharicareer.19@gmail.com
+            </div>
+            <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center" }}>
+              <button className="btn-text" onClick={() => {
+                navigator.clipboard.writeText("laharicareer.19@gmail.com");
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+              }}>
+                {copied ? "Copied!" : "Copy Email"}
+              </button>
+              <a href="https://mail.google.com/mail/?view=cm&to=laharicareer.19@gmail.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>
+                Open Gmail
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
-
 function About() {
   return (
     <section id="about" style={{ padding: "3rem 1.5rem 5rem" }}>
