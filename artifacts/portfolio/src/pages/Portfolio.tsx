@@ -265,7 +265,7 @@ function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void })
     </nav>
   );
 }
-function Hero() {
+function Hero({ visible = false }: { visible?: boolean }) {
   const [emailModal, setEmailModal] = useState(false);
   const [copied, setCopied] = useState(false);
   return (
@@ -284,7 +284,7 @@ function Hero() {
 
       <div style={{ maxWidth: "1180px", margin: "0 auto", width: "100%", padding: "3rem 2rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "3rem", flexWrap: "wrap-reverse", position: "relative", zIndex: 1 }}>
 
-            <div className="reveal-left" style={{ flex: 1, minWidth: 0, animationDelay: "0.2s" }}>   
+            <div style={{ flex: 1, minWidth: 0, opacity: visible ? 1 : 0, transform: visible ? "translateX(0)" : "translateX(-60px)", transition: "opacity 0.8s ease, transform 0.8s ease" }}>  
             <p className="label-upper" style={{ color: "var(--primary)", marginBottom: "1.25rem", letterSpacing: "0.15em", display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <span style={{ display: "inline-block", width: "2rem", height: "1px", background: "var(--primary)" }}></span>
             Portfolio
@@ -325,7 +325,7 @@ function Hero() {
           </div>
         </div>
 
-        <div className="reveal-right" style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", animationDelay: "0.4s" }}>
+        <div style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", opacity: visible ? 1 : 0, transform: visible ? "translateX(0)" : "translateX(60px)", transition: "opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s" }}>
 
           <div style={{
             width: "clamp(220px, 28vw, 340px)",
@@ -878,12 +878,13 @@ function Footer({ dark }: { dark: boolean }) {
 export default function Portfolio() {
   const [dark, setDark] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+const [heroVisible, setHeroVisible] = useState(false);
   useScrollReveal(!showSplash);
   return (
     <div className={dark ? "dark-mode" : ""} style={{ minHeight: "100vh", background: "var(--background)", transition: "background 0.3s ease" }}>
-      {showSplash && <SplashScreen onDismiss={() => setShowSplash(false)} />}
+      {showSplash && <SplashScreen onDismiss={() => { setShowSplash(false); setTimeout(() => setHeroVisible(true), 100); }} />}
       <Navbar dark={dark} toggleDark={() => setDark((d) => !d)} />
-      <Hero />
+      <Hero visible={heroVisible} />
       <About />
       <Projects />
       <Skills />
