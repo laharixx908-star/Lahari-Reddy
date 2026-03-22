@@ -675,9 +675,30 @@ function Hobbies() {
 }
 function FutureGoals() {
   const goals = [
-    "My career goal is to achieve a strong score in the GATE and secure an opportunity to contribute to national defense by joining DRDO.",
-    "I also aspire to become an entrepreneur by transforming my project, Velora, into a real-time, practical implementation.",
-    "Beyond technology, I hope to establish a NPO dedicated to supporting underprivileged children.",
+    {
+      badge: "Career Goal",
+      color: "#e8f0e8",
+      textColor: "#3a6b3a",
+      borderColor: "#b5d4b5",
+      icon: "◎",
+      desc: "Achieve a strong score in GATE and secure an opportunity to contribute to national defense by joining DRDO.",
+    },
+    {
+      badge: "Venture",
+      color: "#eef5e8",
+      textColor: "#4a6b2a",
+      borderColor: "#c0d4a0",
+      icon: "⊛",
+      desc: "Aspire to become an entrepreneur by transforming my project, Velora, into a real-time, practical implementation.",
+    },
+    {
+      badge: "Beyond Tech",
+      color: "#e8eef5",
+      textColor: "#2a4a6b",
+      borderColor: "#a0b8d4",
+      icon: "⊕",
+      desc: "Hope to establish an NPO dedicated to supporting underprivileged children and making a meaningful impact beyond technology.",
+    },
   ];
 
   return (
@@ -685,11 +706,26 @@ function FutureGoals() {
       <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Looking Ahead</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Future Goals</h2>
-        <div className="card" style={{ background: "var(--background)", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+        <div className="card" style={{ background: "var(--background)", display: "flex", flexDirection: "column", gap: "0" }}>
           {goals.map((goal, i) => (
-            <div key={i} style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-              <ArrowRight size={14} style={{ color: "var(--primary)", flexShrink: 0, marginTop: "0.35rem" }} />
-              <p style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: 1.8, margin: 0 }}>{goal}</p>
+            <div key={i}>
+              {i > 0 && <hr className="divider" style={{ margin: "1.5rem 0" }} />}
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", padding: i === 0 ? "0 0 0" : "0" }}>
+                <span style={{
+                  display: "inline-flex", alignItems: "center", gap: "0.4rem",
+                  alignSelf: "flex-start",
+                  background: goal.color, color: goal.textColor,
+                  border: `1px solid ${goal.borderColor}`,
+                  borderRadius: "999px", padding: "0.3rem 0.75rem",
+                  fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 500,
+                }}>
+                  <span style={{ fontSize: "0.75rem" }}>{goal.icon}</span>
+                  {goal.badge}
+                </span>
+                <p style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: 1.8, margin: 0 }}>
+                  {goal.desc}
+                </p>
+              </div>
             </div>
           ))}
         </div>
