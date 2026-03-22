@@ -99,7 +99,7 @@ function SplashScreen({ onDismiss }: { onDismiss: () => void }) {
         color: "#9c7b6e", margin: 0, textAlign: "center",
         animation: "splashFadeUp 0.6s ease 2s both, splashPulse 2s ease 2.6s infinite",
       }}>
-        tap anywhere to view my portfolio
+        tap anywhere
       </p>
       <style>{`
         @keyframes splashBounce {
