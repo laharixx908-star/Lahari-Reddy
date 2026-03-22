@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Github, Linkedin, Mail, X, ArrowRight, Moon, Sun, Dribbble, Video, BookOpen, Pencil, Scissors, Globe, Film, Music as MusicIcon } from "lucide-react";
+import { Github, Linkedin, Mail, X, ArrowRight, Moon, Sun, Dribbble, Video, BookOpen, Pencil, Scissors, Globe, Film, Music as MusicIcon, BadgeCheck, Layers, Users } from "lucide-react";
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const navItems = [
@@ -677,26 +677,26 @@ function FutureGoals() {
   const goals = [
     {
       badge: "Career Goal",
-      color: "#e8f0e8",
-      textColor: "#3a6b3a",
-      borderColor: "#b5d4b5",
-      icon: "◎",
+      color: "#fdecea",
+      textColor: "#c0392b",
+      borderColor: "#f5b7b1",
+      icon: <BadgeCheck size={13} />,
       desc: "Achieve a strong score in GATE and secure an opportunity to contribute to national defense by joining DRDO.",
     },
     {
       badge: "Venture",
-      color: "#eef5e8",
-      textColor: "#4a6b2a",
-      borderColor: "#c0d4a0",
-      icon: "⊛",
+      color: "#eafaf1",
+      textColor: "#1e8449",
+      borderColor: "#a9dfbf",
+      icon: <Layers size={13} />,
       desc: "Aspire to become an entrepreneur by transforming my project, Velora, into a real-time, practical implementation.",
     },
     {
       badge: "Beyond Tech",
-      color: "#e8eef5",
-      textColor: "#2a4a6b",
-      borderColor: "#a0b8d4",
-      icon: "⊕",
+      color: "#eaf4fb",
+      textColor: "#1a5276",
+      borderColor: "#a9cce3",
+      icon: <Users size={13} />,
       desc: "Hope to establish an NPO dedicated to supporting underprivileged children and making a meaningful impact beyond technology.",
     },
   ];
