@@ -284,8 +284,8 @@ function Hero() {
 
       <div style={{ maxWidth: "1180px", margin: "0 auto", width: "100%", padding: "3rem 2rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "3rem", flexWrap: "wrap-reverse", position: "relative", zIndex: 1 }}>
 
-        <div className="reveal-left" style={{ flex: 1, minWidth: 0 }}>
-          <p className="label-upper" style={{ color: "var(--primary)", marginBottom: "1.25rem", letterSpacing: "0.15em", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <div className="reveal-left" style={{ flex: 1, minWidth: 0, animationDelay: "0.2s" }}>   
+            <p className="label-upper" style={{ color: "var(--primary)", marginBottom: "1.25rem", letterSpacing: "0.15em", display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <span style={{ display: "inline-block", width: "2rem", height: "1px", background: "var(--primary)" }}></span>
             Portfolio
           </p>
@@ -325,7 +325,7 @@ function Hero() {
           </div>
         </div>
 
-        <div className="reveal-right" style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+        <div className="reveal-right" style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", animationDelay: "0.4s" }}>
 
           <div style={{
             width: "clamp(220px, 28vw, 340px)",
