@@ -525,7 +525,7 @@ function Projects() {
                   {project.descPoints.map((pt, i) => (
                     <li key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
                       <span style={{ color: "var(--primary)", marginTop: "0.35rem", flexShrink: 0, fontSize: "0.65rem" }}>—</span>
-                      <p style={{ color: "var(--muted-fg)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0 }}>{pt}</p>
+                      <p style={{ color: "var(--foreground)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0 }}>{pt}</p>
                     </li>
                   ))}
                 </ul>
@@ -611,7 +611,7 @@ function Experience() {
               <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.05rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>EvolveX Intern</h3>
               <span className="highlight-badge">Full Stack Dev</span>
             </div>
-            <p style={{ color: "var(--muted-fg)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>
+            <p style={{ color: "var(--foreground)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>
               Currently working on building and improving web applications while gaining practical experience.
             </p>
           </div>
@@ -784,7 +784,7 @@ function FutureGoals() {
                   <span style={{ fontSize: "0.75rem" }}>{goal.icon}</span>
                   {goal.badge}
                 </span>
-                <p style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: 1.8, margin: 0 }}>
+                <p style={{ color: "var(--foreground))", fontSize: "0.9rem", lineHeight: 1.8, margin: 0 }}>
                   {goal.desc}
                 </p>
               </div>
@@ -822,7 +822,7 @@ function Journey() {
         </p>
         <div className="card" style={{ display: "flex", flexDirection: "column", gap: "1.125rem" }}>
           {paragraphs.map((para, i) => (
-            <p key={i} style={{ color: "#2C1810", fontSize: "0.9rem", lineHeight: 1.85, margin: 0 }}>{para}</p>
+            <p key={i} style={{ color: "var(--foreground)", fontSize: "0.9rem", lineHeight: 1.85, margin: 0 }}>{para}</p>
           ))}
 
           <blockquote style={{
