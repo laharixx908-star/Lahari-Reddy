@@ -409,18 +409,20 @@ function About() {
                 }}>
                   {item.label}
                 </span>
-                <p style={{ color: "var(--muted-fg)", fontSize: "0.92rem", lineHeight: 1.8, margin: 0 }}>{item.text}</p>
+               <p style={{ color: "var(--foreground)", fontSize: "0.92rem", lineHeight: 1.8, margin: 0 }}>{item.text}</p>
               </div>
             </div>
           ))}
-
-          <div style={{ background: "var(--foreground)", borderRadius: "8px", padding: "1.25rem 1.5rem", marginTop: "0.5rem" }}>
-            <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "0.95rem", lineHeight: 1.8, color: "#f0e6e0", margin: 0 }}>
-              "I care about understanding things deeply — not just well enough to get by.{" "}
-              <span style={{ fontStyle: "normal", fontWeight: 500 }}>That's what keeps me building."</span>
-            </p>
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "1.5rem" }}>
+            <button
+              onClick={() => { const el = document.querySelector("#projects"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
+              style={{ width: "36px", height: "36px", borderRadius: "50%", background: "var(--muted-fg)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", transition: "background 0.2s" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--primary)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--muted-fg)"; }}
+            >
+              <ArrowRight size={16} style={{ transform: "rotate(90deg)" }} />
+            </button>
           </div>
-
         </div>
       </div>
     </section>
