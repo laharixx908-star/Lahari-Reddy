@@ -13,7 +13,7 @@ const navItems = [
   { label: "Journey", href: "#journey" },
   { label: "Contact", href: "#contact" },
 ];
-function useScrollReveal() {
+function useScrollReveal() { 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
