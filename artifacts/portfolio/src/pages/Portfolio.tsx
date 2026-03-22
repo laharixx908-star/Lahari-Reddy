@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Github, Linkedin, Mail, X, ArrowRight, Moon, Sun, Dribbble, Video, BookOpen, Pencil, Scissors, Globe, Film, Music as MusicIcon, BadgeCheck, Layers, Users } from "lucide-react";
+import { Github, Linkedin, Mail, X, ArrowRight, Moon, Sun, Dribbble, Video, BookOpen, Pencil, Scissors, Globe, Film, Music as MusicIcon, BadgeCheck, Layers, Users, Cpu, Heart, ShieldCheck } from "lucide-react";
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const navItems = [
@@ -386,13 +386,50 @@ function Hero({ visible = false }: { visible?: boolean }) {
 function About() {
   return (
     <section id="about" style={{ padding: "3rem 1.5rem 5rem" }}>
-     <div className="reveal" style={{ maxWidth: "700px", margin: "0 auto" }}>
+      <div className="reveal" style={{ maxWidth: "700px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Introduction</p>
-        <h2 className="section-title" style={{ textAlign: "center", marginBottom: "2rem" }}>About Me</h2>
-        <div className="card" style={{ textAlign: "center" }}>
-          <p style={{ color: "var(--muted-fg)", fontSize: "0.95rem", lineHeight: 1.85, margin: 0 }}>
-            My interests span embedded systems, digital design, and software development. Currently preparing for GATE while building projects that push me to think critically — both as an engineer and a problem-solver. I'm always looking to grow through work that has real technical depth.
-          </p>
+        <h2 className="section-title" style={{ textAlign: "center", marginBottom: "2rem" }}>
+          About <span style={{ fontStyle: "italic", color: "var(--primary)" }}>Me</span>
+        </h2>
+        <div className="card" style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+          
+          {[
+            { label: "The Spark", text: "Grew up endlessly curious about how things work — from circuits to code. ECE felt like the natural path to chase that curiosity." },
+            { label: "How I Work", text: "I learn best by building. I don't just study concepts — I find ways to see them in action, even if that means starting from scratch." },
+            { label: "What Drives Me", text: "The belief that good engineering solves real problems for real people — not just passing exams or shipping code." },
+          ].map((item, i, arr) => (
+            <div key={i} style={{ display: "flex", gap: "1.25rem", paddingBottom: i < arr.length - 1 ? "1.5rem" : "1.5rem" }}>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
+                <div style={{ width: "14px", height: "14px", borderRadius: "50%", border: "2px solid var(--primary)", background: "var(--surface)", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "2px" }}>
+                  <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--primary)" }} />
+                </div>
+                {i < arr.length - 1 && <div style={{ width: "1px", flex: 1, background: "var(--border-color)", marginTop: "4px" }} />}
+              </div>
+              <div style={{ flex: 1, paddingBottom: i < arr.length - 1 ? "1rem" : "0" }}>
+                <p className="label-upper" style={{ color: "var(--primary)", marginBottom: "0.5rem" }}>{item.label}</p>
+                <p style={{ color: "var(--muted-fg)", fontSize: "0.92rem", lineHeight: 1.8, margin: 0 }}>{item.text}</p>
+              </div>
+            </div>
+          ))}
+
+          <div style={{ background: "var(--foreground)", borderRadius: "8px", padding: "1.25rem 1.5rem", marginTop: "0.5rem" }}>
+            <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "0.95rem", lineHeight: 1.8, color: "#f0e6e0", margin: 0 }}>
+              "I care about understanding things deeply — not just well enough to get by.{" "}
+              <span style={{ fontStyle: "normal", fontWeight: 500 }}>That's what keeps me building."</span>
+            </p>
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "1.5rem" }}>
+            <button
+              onClick={() => { const el = document.querySelector("#projects"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
+              style={{ width: "36px", height: "36px", borderRadius: "50%", background: "var(--muted-fg)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", transition: "background 0.2s" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--primary)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--muted-fg)"; }}
+            >
+              <ArrowRight size={16} style={{ transform: "rotate(90deg)" }} />
+            </button>
+          </div>
+
         </div>
       </div>
     </section>
@@ -416,31 +453,52 @@ function Projects() {
 
   const projects = [
     {
-      title: "Line Follower Robot", tag: "Hardware",
+      tag: "Hardware",
+      tagColor: "#f5ede8",
+      tagText: "#8a4a3a",
+      tagBorder: "#d4a090",
+      iconBg: "#2a1a14",
+      iconColor: "#fdf8f6",
+      icon: <Cpu size={22} />,
+      title: "Line Follower Robot",
       shortDesc: "An autonomous mobile system that detects and follows a predefined path using DC motors and IR sensors.",
+      descPoints: undefined,
       actions: [
         { label: "View more details", type: "text", onClick: () => setActiveModal({ title: "Line Follower Robot", content: lineFollowerDesc }) },
         { label: "View Project", type: "primary", onClick: () => setActiveModal({ title: "Line Follower Robot — Build", images: lfImages, videoUrl: `${BASE}/lf-video.mp4` }) },
       ],
-      descPoints: undefined,
     },
     {
-      title: "Mind-Mate", tag: null,
+      tag: "AI · Wellness",
+      tagColor: "#eafaf0",
+      tagText: "#1e7a4a",
+      tagBorder: "#a0d4b8",
+      iconBg: "#fdeef0",
+      iconColor: "#c0706a",
+      icon: <Heart size={22} />,
+      title: "Mind-Mate",
       shortDesc: "A platform designed to support students who experience emotional imbalance or frequent mood swings — powered by an AI companion and a rewards system.",
+      descPoints: undefined,
       actions: [
         { label: "View more details", type: "text", onClick: () => setActiveModal({ title: "Mind-Mate", content: mindMateDesc }) },
         { label: "Visit Project", type: "primary-link", href: "https://mind-mate-orpin.vercel.app/" },
       ],
-      descPoints: undefined,
     },
     {
-      title: "Velora", tag: "Upcoming",
+      tag: "Upcoming",
+      tagColor: "#f5f5f5",
+      tagText: "#4a4a4a",
+      tagBorder: "#d0d0d0",
+      iconBg: "#2a1a14",
+      iconColor: "#fdf8f6",
+      icon: <ShieldCheck size={22} />,
+      title: "Velora",
       shortDesc: null,
-      actions: [{ label: "Coming Soon", type: "muted", onClick: undefined }],
       descPoints: [
-        "It explore's around Women Safety, and how technology can help create safer environments and faster support systems.",
+        "Explores women's safety and how technology can create safer environments and faster support systems.",
         "A wearable safety concept designed as a stylish accessory that enables instant emergency alerts.",
       ],
+      actions: [{ label: "Coming Soon", type: "muted", onClick: undefined }],
     },
   ];
 
@@ -452,11 +510,33 @@ function Projects() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
           {projects.map((project) => (
             <div key={project.title} className="card" style={{ display: "flex", flexDirection: "column", gap: "1rem", background: "var(--background)" }}>
-              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.75rem" }}>
-                <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.15rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>{project.title}</h3>
-                {project.tag && <span className="tag">{project.tag}</span>}
+              
+              <span style={{
+                alignSelf: "flex-start",
+                background: project.tagColor, color: project.tagText,
+                border: `1px solid ${project.tagBorder}`,
+                borderRadius: "999px", padding: "0.25rem 0.875rem",
+                fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase",
+              }}>
+                {project.tag}
+              </span>
+
+              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                <div style={{
+                  width: "52px", height: "52px", borderRadius: "14px",
+                  background: project.iconBg, color: project.iconColor,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  flexShrink: 0,
+                }}>
+                  {project.icon}
+                </div>
+                <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.3rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>
+                  {project.title}
+                </h3>
               </div>
+
               <hr className="divider" />
+
               {project.descPoints ? (
                 <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: "0.6rem", flex: 1 }}>
                   {project.descPoints.map((pt, i) => (
@@ -469,6 +549,7 @@ function Projects() {
               ) : (
                 <p style={{ color: "var(--muted-fg)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0, flex: 1 }}>{project.shortDesc}</p>
               )}
+
               <div style={{ display: "flex", gap: "0.625rem", alignItems: "center", flexWrap: "wrap", marginTop: "auto", paddingTop: "0.375rem" }}>
                 {project.actions.map((action, i) => {
                   if (action.type === "text") return <button key={i} className="btn-text" onClick={action.onClick}>{action.label}</button>;
@@ -478,6 +559,7 @@ function Projects() {
                   return null;
                 })}
               </div>
+
             </div>
           ))}
         </div>
@@ -494,7 +576,6 @@ function Projects() {
     </section>
   );
 }
-
 function Skills() {
   const categories = [
     { label: "Core", skills: ["C", "Python"], exploring: ["IoT", "VLSI"] },
