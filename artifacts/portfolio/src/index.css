@@ -1,3 +1,8 @@
+/* Sad Punch - https://www.cursors-4u.com/cursor/sad-punch */
+* {
+  cursor: url('https://cdn.cursors-4u.net/previews/sad-punch-939fd4fb-bbf581f2-128.webp') 0 0, auto !important;
+}
+/* End www.Cursors-4U.com Code */
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
