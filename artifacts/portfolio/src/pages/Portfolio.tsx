@@ -248,7 +248,7 @@ function Hero() {
           </div>
         </div>
 
-        <<div className="reveal-right" style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+        <div className="reveal-right" style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
 
           <div style={{
             width: "clamp(220px, 28vw, 340px)",
