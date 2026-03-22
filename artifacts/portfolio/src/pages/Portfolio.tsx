@@ -13,24 +13,38 @@ const navItems = [
   { label: "Journey", href: "#journey" },
   { label: "Contact", href: "#contact" },
 ];
-function useScrollReveal() { 
+function useScrollReveal() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             (entry.target as HTMLElement).style.opacity = "1";
-            (entry.target as HTMLElement).style.transform = "translateY(0)";
+            (entry.target as HTMLElement).style.transform = "translate(0, 0)";
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.15 }
     );
-    const elements = document.querySelectorAll(".reveal");
-    elements.forEach((el) => {
+    const reveals = document.querySelectorAll(".reveal");
+    const lefts = document.querySelectorAll(".reveal-left");
+    const rights = document.querySelectorAll(".reveal-right");
+    reveals.forEach((el) => {
       (el as HTMLElement).style.opacity = "0";
       (el as HTMLElement).style.transform = "translateY(40px)";
       (el as HTMLElement).style.transition = "opacity 0.6s ease, transform 0.6s ease";
+      observer.observe(el);
+    });
+    lefts.forEach((el) => {
+      (el as HTMLElement).style.opacity = "0";
+      (el as HTMLElement).style.transform = "translateX(-60px)";
+      (el as HTMLElement).style.transition = "opacity 0.8s ease, transform 0.8s ease";
+      observer.observe(el);
+    });
+    rights.forEach((el) => {
+      (el as HTMLElement).style.opacity = "0";
+      (el as HTMLElement).style.transform = "translateX(60px)";
+      (el as HTMLElement).style.transition = "opacity 0.8s ease, transform 0.8s ease";
       observer.observe(el);
     });
     return () => observer.disconnect();
@@ -193,7 +207,7 @@ function Hero() {
 
       <div style={{ maxWidth: "1180px", margin: "0 auto", width: "100%", padding: "3rem 2rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "3rem", flexWrap: "wrap-reverse", position: "relative", zIndex: 1 }}>
 
-        <div style={{ flex: 1, minWidth: 0 }}>
+        <div className="reveal-left" style={{ flex: 1, minWidth: 0 }}>
           <p className="label-upper" style={{ color: "var(--primary)", marginBottom: "1.25rem", letterSpacing: "0.15em", display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <span style={{ display: "inline-block", width: "2rem", height: "1px", background: "var(--primary)" }}></span>
             Portfolio
@@ -234,7 +248,7 @@ function Hero() {
           </div>
         </div>
 
-        <div style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+        <<div className="reveal-right" style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
 
           <div style={{
             width: "clamp(220px, 28vw, 340px)",
