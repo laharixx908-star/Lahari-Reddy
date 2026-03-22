@@ -88,8 +88,9 @@ function SplashScreen({ onDismiss }: { onDismiss: () => void }) {
     </div>
   );
 }
-function useScrollReveal() {
+function useScrollReveal(active: boolean = true) {
   useEffect(() => {
+    if (!active) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -876,7 +877,7 @@ function Footer({ dark }: { dark: boolean }) {
 export default function Portfolio() {
   const [dark, setDark] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
-  useScrollReveal();
+  useScrollReveal(!showSplash);
   return (
     <div className={dark ? "dark-mode" : ""} style={{ minHeight: "100vh", background: "var(--background)", transition: "background 0.3s ease" }}>
       {showSplash && <SplashScreen onDismiss={() => setShowSplash(false)} />}
