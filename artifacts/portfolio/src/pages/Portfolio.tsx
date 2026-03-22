@@ -50,6 +50,81 @@ function useScrollReveal() {
     return () => observer.disconnect();
   }, []);
 }
+function SplashScreen({ onDismiss }: { onDismiss: () => void }) {
+  const [dismissing, setDismissing] = useState(false);
+
+  const handleDismiss = () => {
+    setDismissing(true);
+    setTimeout(onDismiss, 500);
+  };
+
+  return (
+    <div
+      onClick={handleDismiss}
+      style={{
+        position: "fixed", inset: 0, zIndex: 9999,
+        background: "#fdf8f6",
+        display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center", gap: "1.5rem",
+        cursor: "pointer",
+        transition: "opacity 0.5s ease, transform 0.5s ease",
+        opacity: dismissing ? 0 : 1,
+        transform: dismissing ? "scale(0.95)" : "scale(1)",
+      }}
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{
+          width: "120px", height: "120px",
+          animation: "splashBounce 0.8s ease forwards, splashFlip 1s ease 1.2s",
+        }}
+      >
+        <g transform="translate(50,50) rotate(-15)">
+          <circle cx="0" cy="0" r="48" fill="#5c3022"/>
+          <line x1="-15" y1="-14" x2="-15" y2="-6" stroke="#fdf8f6" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="15" y1="-14" x2="15" y2="-6" stroke="#fdf8f6" strokeWidth="4" strokeLinecap="round"/>
+          <path d="M -20 10 Q 0 26 20 10" stroke="#fdf8f6" strokeWidth="4" fill="none" strokeLinecap="round"/>
+        </g>
+      </svg>
+      <p style={{
+        fontFamily: "var(--app-font-serif)", fontSize: "clamp(1.2rem, 3vw, 1.6rem)",
+        color: "#3a1f14", margin: 0, textAlign: "center",
+        animation: "splashFadeUp 0.6s ease 1.5s both",
+      }}>
+        hoping you're doing fine!
+      </p>
+      <p style={{
+        fontSize: "0.72rem", letterSpacing: "0.15em", textTransform: "uppercase",
+        color: "#9c7b6e", margin: 0, textAlign: "center",
+        animation: "splashFadeUp 0.6s ease 2s both, splashPulse 2s ease 2.6s infinite",
+      }}>
+        tap anywhere to view my portfolio
+      </p>
+      <style>{`
+        @keyframes splashBounce {
+          0% { transform: scale(0) translateY(-200px); opacity: 0; }
+          60% { transform: scale(1.2) translateY(10px); opacity: 1; }
+          80% { transform: scale(0.9) translateY(-5px); }
+          100% { transform: scale(1) translateY(0); }
+        }
+        @keyframes splashFlip {
+          0% { transform: rotateY(0deg); }
+          50% { transform: rotateY(180deg); }
+          100% { transform: rotateY(360deg); }
+        }
+        @keyframes splashFadeUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes splashPulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+      `}</style>
+    </div>
+  );
+}
 function scrollTo(href: string) { 
   const el = document.querySelector(href);
   if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -800,9 +875,11 @@ function Footer({ dark }: { dark: boolean }) {
 
 export default function Portfolio() {
   const [dark, setDark] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
   useScrollReveal();
   return (
     <div className={dark ? "dark-mode" : ""} style={{ minHeight: "100vh", background: "var(--background)", transition: "background 0.3s ease" }}>
+      {showSplash && <SplashScreen onDismiss={() => setShowSplash(false)} />}
       <Navbar dark={dark} toggleDark={() => setDark((d) => !d)} />
       <Hero />
       <About />
