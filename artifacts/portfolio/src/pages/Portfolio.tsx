@@ -16,6 +16,21 @@ const navItems = [
 function useScrollReveal(active: boolean = true) {
   useEffect(() => {
     if (!active) return;
+
+    const reveals = document.querySelectorAll(".reveal");
+    const lefts = document.querySelectorAll(".reveal-left");
+    const rights = document.querySelectorAll(".reveal-right");
+
+    const setInitial = (el: Element, transform: string) => {
+      (el as HTMLElement).style.opacity = "0";
+      (el as HTMLElement).style.transform = transform;
+      (el as HTMLElement).style.transition = "opacity 0.8s ease, transform 0.8s ease";
+    };
+
+    reveals.forEach((el) => setInitial(el, "translateY(40px)"));
+    lefts.forEach((el) => setInitial(el, "translateX(-60px)"));
+    rights.forEach((el) => setInitial(el, "translateX(60px)"));
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -25,31 +40,17 @@ function useScrollReveal(active: boolean = true) {
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
-    const reveals = document.querySelectorAll(".reveal");
-    const lefts = document.querySelectorAll(".reveal-left");
-    const rights = document.querySelectorAll(".reveal-right");
-    reveals.forEach((el) => {
-      (el as HTMLElement).style.opacity = "0";
-      (el as HTMLElement).style.transform = "translateY(40px)";
-      (el as HTMLElement).style.transition = "opacity 0.6s ease, transform 0.6s ease";
-      observer.observe(el);
-    });
-    lefts.forEach((el) => {
-      (el as HTMLElement).style.opacity = "0";
-      (el as HTMLElement).style.transform = "translateX(-60px)";
-      (el as HTMLElement).style.transition = "opacity 0.8s ease, transform 0.8s ease";
-      observer.observe(el);
-    });
-    rights.forEach((el) => {
-      (el as HTMLElement).style.opacity = "0";
-      (el as HTMLElement).style.transform = "translateX(60px)";
-      (el as HTMLElement).style.transition = "opacity 0.8s ease, transform 0.8s ease";
-      observer.observe(el);
-    });
+
+    setTimeout(() => {
+      reveals.forEach((el) => observer.observe(el));
+      lefts.forEach((el) => observer.observe(el));
+      rights.forEach((el) => observer.observe(el));
+    }, 100);
+
     return () => observer.disconnect();
-  }, []);
+  }, [active]);
 }
 function SplashScreen({ onDismiss }: { onDismiss: () => void }) {
   const [dismissing, setDismissing] = useState(false);
