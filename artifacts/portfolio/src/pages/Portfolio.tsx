@@ -271,7 +271,6 @@ function Hero({ visible = false }: { visible?: boolean }) {
   return (
     <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", paddingTop: "58px", position: "relative", overflow: "hidden" }}>
       
-      {/* Watermark */}
       <div style={{
         position: "absolute", bottom: "0", left: "0", right: "0",
         fontFamily: "var(--app-font-serif)", fontSize: "clamp(6rem, 18vw, 14rem)",
@@ -282,10 +281,10 @@ function Hero({ visible = false }: { visible?: boolean }) {
         LAHARI
       </div>
 
-      <div style={{ maxWidth: "1180px", margin: "0 auto", width: "100%", padding: "3rem 2rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "3rem", flexWrap: "wrap-reverse", position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: "1180px", margin: "0 auto", width: "100%", padding: "3rem 2rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "2rem", flexWrap: "wrap", position: "relative", zIndex: 1 }}>
 
-            <div style={{ flex: 1, minWidth: 0, opacity: visible ? 1 : 0, transform: visible ? "translateX(0)" : "translateX(-60px)", transition: "opacity 0.8s ease, transform 0.8s ease" }}>  
-            <p className="label-upper" style={{ color: "var(--primary)", marginBottom: "1.25rem", letterSpacing: "0.15em", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+        <div style={{ flex: 1, minWidth: "min(100%, 300px)", opacity: visible ? 1 : 0, transform: visible ? "translateX(0)" : "translateX(-60px)", transition: "opacity 0.8s ease, transform 0.8s ease" }}>
+          <p className="label-upper" style={{ color: "var(--primary)", marginBottom: "1.25rem", letterSpacing: "0.15em", display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <span style={{ display: "inline-block", width: "2rem", height: "1px", background: "var(--primary)" }}></span>
             Portfolio
           </p>
@@ -326,10 +325,9 @@ function Hero({ visible = false }: { visible?: boolean }) {
         </div>
 
         <div style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", opacity: visible ? 1 : 0, transform: visible ? "translateX(0)" : "translateX(60px)", transition: "opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s" }}>
-
           <div style={{
-            width: "clamp(220px, 28vw, 340px)",
-            height: "clamp(220px, 28vw, 340px)",
+            width: "clamp(160px, 40vw, 340px)",
+            height: "clamp(160px, 40vw, 340px)",
             borderRadius: "50%",
             overflow: "hidden",
             border: "3px solid var(--primary)",
