@@ -13,6 +13,44 @@ const navItems = [
   { label: "Journey", href: "#journey" },
   { label: "Contact", href: "#contact" },
 ];
+function useScrollReveal(active: boolean = true) {
+  useEffect(() => {
+    if (!active) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).style.opacity = "1";
+            (entry.target as HTMLElement).style.transform = "translate(0, 0)";
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    const reveals = document.querySelectorAll(".reveal");
+    const lefts = document.querySelectorAll(".reveal-left");
+    const rights = document.querySelectorAll(".reveal-right");
+    reveals.forEach((el) => {
+      (el as HTMLElement).style.opacity = "0";
+      (el as HTMLElement).style.transform = "translateY(40px)";
+      (el as HTMLElement).style.transition = "opacity 0.6s ease, transform 0.6s ease";
+      observer.observe(el);
+    });
+    lefts.forEach((el) => {
+      (el as HTMLElement).style.opacity = "0";
+      (el as HTMLElement).style.transform = "translateX(-60px)";
+      (el as HTMLElement).style.transition = "opacity 0.8s ease, transform 0.8s ease";
+      observer.observe(el);
+    });
+    rights.forEach((el) => {
+      (el as HTMLElement).style.opacity = "0";
+      (el as HTMLElement).style.transform = "translateX(60px)";
+      (el as HTMLElement).style.transition = "opacity 0.8s ease, transform 0.8s ease";
+      observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+}
 function SplashScreen({ onDismiss }: { onDismiss: () => void }) {
   const [dismissing, setDismissing] = useState(false);
 
@@ -87,44 +125,6 @@ function SplashScreen({ onDismiss }: { onDismiss: () => void }) {
       `}</style>
     </div>
   );
-}
-function useScrollReveal(active: boolean = true) {
-  useEffect(() => {
-    if (!active) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            (entry.target as HTMLElement).style.opacity = "1";
-            (entry.target as HTMLElement).style.transform = "translate(0, 0)";
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    const reveals = document.querySelectorAll(".reveal");
-    const lefts = document.querySelectorAll(".reveal-left");
-    const rights = document.querySelectorAll(".reveal-right");
-    reveals.forEach((el) => {
-      (el as HTMLElement).style.opacity = "0";
-      (el as HTMLElement).style.transform = "translateY(40px)";
-      (el as HTMLElement).style.transition = "opacity 0.6s ease, transform 0.6s ease";
-      observer.observe(el);
-    });
-    lefts.forEach((el) => {
-      (el as HTMLElement).style.opacity = "0";
-      (el as HTMLElement).style.transform = "translateX(-60px)";
-      (el as HTMLElement).style.transition = "opacity 0.8s ease, transform 0.8s ease";
-      observer.observe(el);
-    });
-    rights.forEach((el) => {
-      (el as HTMLElement).style.opacity = "0";
-      (el as HTMLElement).style.transform = "translateX(60px)";
-      (el as HTMLElement).style.transition = "opacity 0.8s ease, transform 0.8s ease";
-      observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, []);
 }
 function scrollTo(href: string) { 
   const el = document.querySelector(href);
