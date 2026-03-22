@@ -233,7 +233,7 @@ function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void })
           LAHARI
         </button>
 
-       <div style={{ display: "flex", alignItems: "center", flex: 1, flexWrap: "nowrap", overflowX: "auto", justifyContent: "flex-start", scrollbarWidth: "none", marginLeft: "1rem" }}>
+      <div style={{ display: "flex", alignItems: "center", flex: 1, flexWrap: "nowrap", overflowX: "auto", justifyContent: "center", scrollbarWidth: "none" }}>
           {navItems.map((item) => (
             <button
               key={item.label}
@@ -413,16 +413,6 @@ function About() {
               </div>
             </div>
           ))}
-          <div style={{ display: "flex", justifyContent: "center", marginTop: "1.5rem" }}>
-            <button
-              onClick={() => { const el = document.querySelector("#projects"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
-              style={{ width: "36px", height: "36px", borderRadius: "50%", background: "var(--muted-fg)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", transition: "background 0.2s" }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--primary)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--muted-fg)"; }}
-            >
-              <ArrowRight size={16} style={{ transform: "rotate(90deg)" }} />
-            </button>
-          </div>
         </div>
       </div>
     </section>
@@ -832,7 +822,7 @@ function Journey() {
         </p>
         <div className="card" style={{ display: "flex", flexDirection: "column", gap: "1.125rem" }}>
           {paragraphs.map((para, i) => (
-            <p key={i} style={{ color: "var(--muted-fg)", fontSize: "0.9rem", lineHeight: 1.85, margin: 0 }}>{para}</p>
+            <p key={i} style={{ color: "#2C1810", fontSize: "0.9rem", lineHeight: 1.85, margin: 0 }}>{para}</p>
           ))}
 
           <blockquote style={{
