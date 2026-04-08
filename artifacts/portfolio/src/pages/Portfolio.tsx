@@ -91,7 +91,7 @@ function SplashScreen({ onDismiss }: { onDismiss: () => void }) {
         color: "#3a1f14", margin: 0, textAlign: "center",
         animation: "splashFadeUp 0.6s ease 1.5s both",
       }}>
-        hoping you're doing fine!
+        hope you're doing fine!
       </p>
       <p style={{
         fontSize: "0.72rem", letterSpacing: "0.15em", textTransform: "uppercase",
