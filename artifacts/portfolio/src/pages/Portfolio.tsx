@@ -381,6 +381,23 @@ function Hero({ visible = false }: { visible?: boolean }) {
   );
 }
 function About() {
+  const [blocks, setBlocks] = useState<{label:string; text:string}[]>([]);
+
+  useEffect(() => {
+    import("@/lib/supabase").then(({ supabase }) => {
+      supabase.from("about").select("*").order("order_index")
+        .then(({ data }) => { if (data && data.length > 0) setBlocks(data); });
+    });
+  }, []);
+
+  const staticBlocks = [
+    { label: "The Spark", text: "Grew up endlessly curious about how things work — from circuits to code. ECE felt like the natural path to chase that curiosity." },
+    { label: "How I Work", text: "I learn best by building. I don't just study concepts — I find ways to see them in action, even if that means starting from scratch." },
+    { label: "What Drives Me", text: "The belief that good engineering solves real problems for real people — not just passing exams or shipping code." },
+  ];
+
+  const items = blocks.length > 0 ? blocks : staticBlocks;
+
   return (
     <section id="about" style={{ padding: "3rem 1.5rem 5rem" }}>
       <div className="reveal" style={{ maxWidth: "700px", margin: "0 auto" }}>
@@ -389,27 +406,17 @@ function About() {
           About <span style={{ fontStyle: "italic", color: "var(--primary)" }}>Me</span>
         </h2>
         <div className="card" style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-          
-          {[
-            { label: "The Spark", text: "Grew up endlessly curious about how things work — from circuits to code. ECE felt like the natural path to chase that curiosity." },
-            { label: "How I Work", text: "I learn best by building. I don't just study concepts — I find ways to see them in action, even if that means starting from scratch." },
-            { label: "What Drives Me", text: "The belief that good engineering solves real problems for real people — not just passing exams or shipping code." },
-          ].map((item, i, arr) => (
+          {items.map((item, i, arr) => (
             <div key={i} style={{ display: "flex", gap: "1.25rem", paddingBottom: i < arr.length - 1 ? "1.5rem" : "1.5rem" }}>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
                 <div style={{ width: "14px", height: "14px", borderRadius: "50%", background: "var(--primary)", marginTop: "4px", flexShrink: 0 }} />
                 {i < arr.length - 1 && <div style={{ width: "1px", flex: 1, background: "var(--border-color)", marginTop: "4px" }} />}
               </div>
               <div style={{ flex: 1, paddingBottom: i < arr.length - 1 ? "1rem" : "0" }}>
-                <span style={{
-                  display: "inline-block", marginBottom: "0.5rem",
-                  fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase",
-                  color: "var(--primary)", border: "1px solid var(--primary)",
-                  borderRadius: "999px", padding: "0.2rem 0.75rem",
-                }}>
+                <span style={{ display: "inline-block", marginBottom: "0.5rem", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--primary)", border: "1px solid var(--primary)", borderRadius: "999px", padding: "0.2rem 0.75rem" }}>
                   {item.label}
                 </span>
-               <p style={{ color: "var(--foreground)", fontSize: "0.92rem", lineHeight: 1.8, margin: 0 }}>{item.text}</p>
+                <p style={{ color: "var(--foreground)", fontSize: "0.92rem", lineHeight: 1.8, margin: 0 }}>{item.text}</p>
               </div>
             </div>
           ))}
@@ -421,68 +428,23 @@ function About() {
 
 function Projects() {
   const [activeModal, setActiveModal] = useState<null | { title: string; content?: string | string[]; images?: string[]; videoUrl?: string }>(null);
+  const [dbProjects, setDbProjects] = useState<{id:string; title:string; short_desc:string; tag:string; link:string; link_label:string; status:string}[]>([]);
 
-  const mindMateDesc = [
-    "A platform designed to support students who experience emotional imbalance or frequent mood swings. The platform provides an AI companion that listens and offers supportive guidance, along with tasks and activities that help users build healthier habits and improve their emotional well-being. To keep users engaged, the platform includes a points and rewards system, where users can earn points by completing activities and playing games, and later redeem them to purchase coupons.",
-  ];
+  useEffect(() => {
+    import("@/lib/supabase").then(({ supabase }) => {
+      supabase.from("projects").select("*").order("order_index")
+        .then(({ data }) => { if (data && data.length > 0) setDbProjects(data); });
+    });
+  }, []);
 
-  const lineFollowerDesc = [
-    "A line follower robot is an autonomous mobile system designed to detect and follow a predefined path, usually a black line on a white surface (or vice versa). This project uses DC motors for movement and basic sensors to guide navigation.",
-    "The robot operates using infrared (IR) sensors that continuously detect the line's position. Based on sensor input, a microcontroller processes the data and controls the DC motors accordingly—adjusting their speed and direction to keep the robot aligned with the path. When the robot deviates, the control system corrects its movement by varying motor rotation, enabling smooth and accurate tracking.",
-    "This project demonstrates fundamental concepts of robotics such as sensor integration, motor control, and real-time decision-making. It is widely used in automation applications like industrial transport systems and smart delivery robots.",
-  ];
-
+  const mindMateDesc = ["A platform designed to support students who experience emotional imbalance or frequent mood swings. The platform provides an AI companion that listens and offers supportive guidance, along with tasks and activities that help users build healthier habits and improve their emotional well-being."];
+  const lineFollowerDesc = ["A line follower robot is an autonomous mobile system designed to detect and follow a predefined path, usually a black line on a white surface. This project uses DC motors for movement and basic sensors to guide navigation.", "The robot operates using infrared (IR) sensors that continuously detect the line's position. Based on sensor input, a microcontroller processes the data and controls the DC motors accordingly.", "This project demonstrates fundamental concepts of robotics such as sensor integration, motor control, and real-time decision-making."];
   const lfImages = [`${BASE}/lf1.jpeg`, `${BASE}/lf2.jpeg`, `${BASE}/lf3.jpeg`];
 
-  const projects = [
-    {
-      tag: "Hardware",
-      tagColor: "#f5ede8",
-      tagText: "#8a4a3a",
-      tagBorder: "#d4a090",
-      iconBg: "#2a1a14",
-      iconColor: "#fdf8f6",
-      icon: <Cpu size={22} />,
-      title: "Line Follower Robot",
-      shortDesc: "An autonomous mobile system that detects and follows a predefined path using DC motors and IR sensors.",
-      descPoints: undefined,
-      actions: [
-        { label: "View more details", type: "text", onClick: () => setActiveModal({ title: "Line Follower Robot", content: lineFollowerDesc }) },
-        { label: "View Project", type: "primary", onClick: () => setActiveModal({ title: "Line Follower Robot — Build", images: lfImages, videoUrl: `${BASE}/lf-video.mp4` }) },
-      ],
-    },
-    {
-      tag: "AI · Wellness",
-      tagColor: "#eafaf0",
-      tagText: "#1e7a4a",
-      tagBorder: "#a0d4b8",
-      iconBg: "#fdeef0",
-      iconColor: "#c0706a",
-      icon: <Heart size={22} />,
-      title: "Mind-Mate",
-      shortDesc: "A platform designed to support students who experience emotional imbalance or frequent mood swings — powered by an AI companion and a rewards system.",
-      descPoints: undefined,
-      actions: [
-        { label: "View more details", type: "text", onClick: () => setActiveModal({ title: "Mind-Mate", content: mindMateDesc }) },
-        { label: "Visit Project", type: "primary-link", href: "https://mind-mate-orpin.vercel.app/" },
-      ],
-    },
-    {
-      tag: "Upcoming",
-      tagColor: "#f5f5f5",
-      tagText: "#4a4a4a",
-      tagBorder: "#d0d0d0",
-      iconBg: "#2a1a14",
-      iconColor: "#fdf8f6",
-      icon: <ShieldCheck size={22} />,
-      title: "Velora",
-      shortDesc: null,
-      descPoints: [
-        "Explores women's safety and how technology can create safer environments and faster support systems.",
-        "A wearable safety concept designed as a stylish accessory that enables instant emergency alerts.",
-      ],
-      actions: [{ label: "Coming Soon", type: "muted", onClick: undefined }],
-    },
+  const staticProjects = [
+    { tag: "Hardware", tagColor: "#f5ede8", tagText: "#8a4a3a", tagBorder: "#d4a090", iconBg: "#2a1a14", iconColor: "#fdf8f6", icon: <Cpu size={22} />, title: "Line Follower Robot", shortDesc: "An autonomous mobile system that detects and follows a predefined path using DC motors and IR sensors.", descPoints: undefined, actions: [{ label: "View more details", type: "text", onClick: () => setActiveModal({ title: "Line Follower Robot", content: lineFollowerDesc }) }, { label: "View Project", type: "primary", onClick: () => setActiveModal({ title: "Line Follower Robot — Build", images: lfImages, videoUrl: `${BASE}/lf-video.mp4` }) }] },
+    { tag: "AI · Wellness", tagColor: "#eafaf0", tagText: "#1e7a4a", tagBorder: "#a0d4b8", iconBg: "#fdeef0", iconColor: "#c0706a", icon: <Heart size={22} />, title: "Mind-Mate", shortDesc: "A platform designed to support students who experience emotional imbalance or frequent mood swings — powered by an AI companion and a rewards system.", descPoints: undefined, actions: [{ label: "View more details", type: "text", onClick: () => setActiveModal({ title: "Mind-Mate", content: mindMateDesc }) }, { label: "Visit Project", type: "primary-link", href: "https://mind-mate-orpin.vercel.app/" }] },
+    { tag: "Upcoming", tagColor: "#f5f5f5", tagText: "#4a4a4a", tagBorder: "#d0d0d0", iconBg: "#2a1a14", iconColor: "#fdf8f6", icon: <ShieldCheck size={22} />, title: "Velora", shortDesc: null, descPoints: ["Explores women's safety and how technology can create safer environments.", "A wearable safety concept designed as a stylish accessory that enables instant emergency alerts."], actions: [{ label: "Coming Soon", type: "muted", onClick: undefined }] },
   ];
 
   return (
@@ -491,80 +453,81 @@ function Projects() {
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Work</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Projects</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
-          {projects.map((project) => (
+
+          {/* Static hardcoded projects always show */}
+          {staticProjects.map((project) => (
             <div key={project.title} className="card" style={{ display: "flex", flexDirection: "column", gap: "1rem", background: "var(--background)" }}>
-              
-              <span style={{
-                alignSelf: "flex-start",
-                background: project.tagColor, color: project.tagText,
-                border: `1px solid ${project.tagBorder}`,
-                borderRadius: "999px", padding: "0.25rem 0.875rem",
-                fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase",
-              }}>
-                {project.tag}
-              </span>
-
+              <span style={{ alignSelf: "flex-start", background: project.tagColor, color: project.tagText, border: `1px solid ${project.tagBorder}`, borderRadius: "999px", padding: "0.25rem 0.875rem", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>{project.tag}</span>
               <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                <div style={{
-                  width: "52px", height: "52px", borderRadius: "14px",
-                  background: project.iconBg, color: project.iconColor,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  flexShrink: 0,
-                }}>
-                  {project.icon}
-                </div>
-                <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.3rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>
-                  {project.title}
-                </h3>
+                <div style={{ width: "52px", height: "52px", borderRadius: "14px", background: project.iconBg, color: project.iconColor, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{project.icon}</div>
+                <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.3rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>{project.title}</h3>
               </div>
-
               <hr className="divider" />
-
               {project.descPoints ? (
                 <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: "0.6rem", flex: 1 }}>
-                  {project.descPoints.map((pt, i) => (
-                    <li key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
-                      <span style={{ color: "var(--primary)", marginTop: "0.35rem", flexShrink: 0, fontSize: "0.65rem" }}>—</span>
-                      <p style={{ color: "var(--foreground)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0 }}>{pt}</p>
-                    </li>
-                  ))}
+                  {project.descPoints.map((pt, i) => (<li key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start" }}><span style={{ color: "var(--primary)", marginTop: "0.35rem", flexShrink: 0, fontSize: "0.65rem" }}>—</span><p style={{ color: "var(--foreground)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0 }}>{pt}</p></li>))}
                 </ul>
               ) : (
                 <p style={{ color: "var(--muted-fg)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0, flex: 1 }}>{project.shortDesc}</p>
               )}
-
               <div style={{ display: "flex", gap: "0.625rem", alignItems: "center", flexWrap: "wrap", marginTop: "auto", paddingTop: "0.375rem" }}>
                 {project.actions.map((action, i) => {
                   if (action.type === "text") return <button key={i} className="btn-text" onClick={action.onClick}>{action.label}</button>;
                   if (action.type === "primary") return <button key={i} className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }} onClick={action.onClick}>{action.label}</button>;
-                  if (action.type === "primary-link") return <a key={i} href={(action as { href?: string }).href} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>{action.label}</a>;
+                  if (action.type === "primary-link") return <a key={i} href={(action as any).href} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>{action.label}</a>;
                   if (action.type === "muted") return <span key={i} style={{ fontSize: "0.75rem", color: "var(--muted-fg)", letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.65 }}>{action.label}</span>;
                   return null;
                 })}
               </div>
-
             </div>
           ))}
+
+          {/* Dynamic projects from Supabase */}
+          {dbProjects.map((proj) => (
+            <div key={proj.id} className="card" style={{ display: "flex", flexDirection: "column", gap: "1rem", background: "var(--background)" }}>
+              <span style={{ alignSelf: "flex-start", background: "#f5ede8", color: "#8a4a3a", border: "1px solid #d4a090", borderRadius: "999px", padding: "0.25rem 0.875rem", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>{proj.tag || "Project"}</span>
+              <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.3rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>{proj.title}</h3>
+              <hr className="divider" />
+              <p style={{ color: "var(--muted-fg)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0, flex: 1 }}>{proj.short_desc}</p>
+              <div style={{ marginTop: "auto", paddingTop: "0.375rem" }}>
+                {proj.status === "upcoming" ? (
+                  <span style={{ fontSize: "0.75rem", color: "var(--muted-fg)", letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.65 }}>Coming Soon</span>
+                ) : proj.link ? (
+                  <a href={proj.link} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>{proj.link_label || "Visit Project"}</a>
+                ) : null}
+              </div>
+            </div>
+          ))}
+
         </div>
       </div>
-      {activeModal && (
-        <Modal
-          title={activeModal.title}
-          content={activeModal.content}
-          images={activeModal.images}
-          videoUrl={activeModal.videoUrl}
-          onClose={() => setActiveModal(null)}
-        />
-      )}
+      {activeModal && <Modal title={activeModal.title} content={activeModal.content} images={activeModal.images} videoUrl={activeModal.videoUrl} onClose={() => setActiveModal(null)} />}
     </section>
   );
 }
 function Skills() {
-  const categories = [
+  const [dbSkills, setDbSkills] = useState<{id:string; category:string; name:string; is_exploring:boolean}[]>([]);
+
+  useEffect(() => {
+    import("@/lib/supabase").then(({ supabase }) => {
+      supabase.from("skills").select("*").order("order_index")
+        .then(({ data }) => { if (data && data.length > 0) setDbSkills(data); });
+    });
+  }, []);
+
+  const staticCategories = [
     { label: "Core", skills: ["C", "Python"], exploring: ["IoT", "VLSI"] },
     { label: "Tools", skills: ["GitHub", "Vercel", "Canva", "AI Studio", "Antigravity"], exploring: [] },
     { label: "Hardware", skills: ["Arduino", "Sensors", "Basic Electronics"], exploring: [] },
   ];
+
+  const categories = dbSkills.length > 0
+    ? ["Core", "Tools", "Hardware"].map(cat => ({
+        label: cat,
+        skills: dbSkills.filter(s => s.category === cat && !s.is_exploring).map(s => s.name),
+        exploring: dbSkills.filter(s => s.category === cat && s.is_exploring).map(s => s.name),
+      }))
+    : staticCategories;
 
   return (
     <section id="skills" style={{ padding: "5rem 1.5rem" }}>
@@ -593,7 +556,6 @@ function Skills() {
     </section>
   );
 }
-
 function Experience() {
   const [certModal, setCertModal] = useState(false);
   const [dbExperience, setDbExperience] = useState<any[]>([]);
@@ -658,93 +620,48 @@ function Experience() {
   );
 }
 function Hobbies() {
-  const hobbies = [
-    {
-      icon: <Dribbble size={20} />,     
-      title: "Basketball",
-      desc: "I'm a basketball player — on the court is where I feel most alive",
-      badge: "PLAYER",
-    },
-    {
-      icon: <Video size={20} />,
-      title: "Badminton",
-      desc: "Fast rallies & outdoor fun",
-      badge: null,
-    },
-    {
-      icon: <BookOpen size={20} />,
-      title: "Reading",
-      desc: "Romantic novels & storytelling",
-      badge: null,
-    },
-    {
-      icon: <Pencil size={20} />,
-      title: "Drawing",
-      desc: "Sketching & visual expression",
-      badge: null,
-    },
-    {
-      icon: <Scissors size={20} />,
-      title: "Craft work",
-      desc: "Making things with my hands",
-      badge: null,
-    },
-    {
-      icon: <Globe size={20} />,
-      title: "Outdoor activities",
-      desc: "Exploring & staying active outside",
-      badge: null,
-    },
-    {
-      icon: <Film size={20} />,
-      title: "Films",
-      desc: "Cinema, stories & everything in between",
-      badge: null,
-    },
-    {
-      icon: <MusicIcon size={20} />,
-      title: "Music",
-      desc: "Good music for every mood",
-      badge: null,
-    },
+  const [dbHobbies, setDbHobbies] = useState<{id:string; title:string; description:string; badge:string}[]>([]);
+
+  useEffect(() => {
+    import("@/lib/supabase").then(({ supabase }) => {
+      supabase.from("hobbies").select("*").order("order_index")
+        .then(({ data }) => { if (data && data.length > 0) setDbHobbies(data); });
+    });
+  }, []);
+
+  const staticHobbies = [
+    { icon: <Dribbble size={20} />, title: "Basketball", desc: "I'm a basketball player — on the court is where I feel most alive", badge: "PLAYER" },
+    { icon: <Video size={20} />, title: "Badminton", desc: "Fast rallies & outdoor fun", badge: null },
+    { icon: <BookOpen size={20} />, title: "Reading", desc: "Romantic novels & storytelling", badge: null },
+    { icon: <Pencil size={20} />, title: "Drawing", desc: "Sketching & visual expression", badge: null },
+    { icon: <Scissors size={20} />, title: "Craft work", desc: "Making things with my hands", badge: null },
+    { icon: <Globe size={20} />, title: "Outdoor activities", desc: "Exploring & staying active outside", badge: null },
+    { icon: <Film size={20} />, title: "Films", desc: "Cinema, stories & everything in between", badge: null },
+    { icon: <MusicIcon size={20} />, title: "Music", desc: "Good music for every mood", badge: null },
   ];
+
+  const hobbies = dbHobbies.length > 0
+    ? dbHobbies.map(h => ({ icon: <Heart size={20} />, title: h.title, desc: h.description, badge: h.badge || null }))
+    : staticHobbies;
 
   return (
     <section id="hobbies" style={{ padding: "5rem 1.5rem" }}>
       <div className="reveal" style={{ maxWidth: "1000px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Interests & Hobbies</p>
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.1, color: "var(--foreground)", margin: "0" }}>
-            beyond my
-          </h2>
-          <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.1, color: "var(--primary)", margin: "0 0 1rem" }}>
-            technical pursuits
-          </h2>
+          <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.1, color: "var(--foreground)", margin: "0" }}>beyond my</h2>
+          <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.1, color: "var(--primary)", margin: "0 0 1rem" }}>technical pursuits</h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1.25rem" }}>
           {hobbies.map((hobby) => (
             <div key={hobby.title} className="card" style={{ background: "var(--background)", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-              <div style={{
-                width: "44px", height: "44px", borderRadius: "12px",
-                background: "var(--primary)", display: "flex", alignItems: "center",
-                justifyContent: "center", color: "#fdf8f6",
-              }}>
+              <div style={{ width: "44px", height: "44px", borderRadius: "12px", background: "var(--primary)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fdf8f6" }}>
                 {hobby.icon}
               </div>
-              <h3 style={{ fontFamily: "var(--app-font-sans)", fontSize: "1rem", fontWeight: 500, color: "var(--foreground)", margin: 0 }}>
-                {hobby.title}
-              </h3>
-              <p style={{ color: "var(--muted-fg)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0 }}>
-                {hobby.desc}
-              </p>
+              <h3 style={{ fontFamily: "var(--app-font-sans)", fontSize: "1rem", fontWeight: 500, color: "var(--foreground)", margin: 0 }}>{hobby.title}</h3>
+              <p style={{ color: "var(--muted-fg)", fontSize: "0.86rem", lineHeight: 1.7, margin: 0 }}>{hobby.desc}</p>
               {hobby.badge && (
-                <span style={{
-                  display: "inline-block", alignSelf: "flex-start",
-                  fontSize: "0.65rem", letterSpacing: "0.1em",
-                  border: "0.5px solid var(--border-color)",
-                  borderRadius: "999px", padding: "0.25rem 0.75rem",
-                  color: "var(--muted-fg)", marginTop: "0.25rem",
-                }}>
+                <span style={{ display: "inline-block", alignSelf: "flex-start", fontSize: "0.65rem", letterSpacing: "0.1em", border: "0.5px solid var(--border-color)", borderRadius: "999px", padding: "0.25rem 0.75rem", color: "var(--muted-fg)", marginTop: "0.25rem" }}>
                   {hobby.badge}
                 </span>
               )}
@@ -756,32 +673,24 @@ function Hobbies() {
   );
 }
 function FutureGoals() {
-  const goals = [
-    {
-      badge: "Career Goal",
-      color: "#fdecea",
-      textColor: "#c0392b",
-      borderColor: "#f5b7b1",
-      icon: <BadgeCheck size={13} />,
-      desc: "Achieve a strong score in GATE and secure an opportunity to contribute to national defense by joining DRDO.",
-    },
-    {
-      badge: "Venture",
-      color: "#eafaf1",
-      textColor: "#1e8449",
-      borderColor: "#a9dfbf",
-      icon: <Layers size={13} />,
-      desc: "Aspire to become an entrepreneur by transforming my project, Velora, into a real-time, practical implementation.",
-    },
-    {
-      badge: "Beyond Tech",
-      color: "#eaf4fb",
-      textColor: "#1a5276",
-      borderColor: "#a9cce3",
-      icon: <Users size={13} />,
-      desc: "Hope to establish an NPO dedicated to supporting underprivileged children and making a meaningful impact beyond technology.",
-    },
+  const [dbGoals, setDbGoals] = useState<{id:string; badge:string; description:string; color:string; text_color:string; border_color:string}[]>([]);
+
+  useEffect(() => {
+    import("@/lib/supabase").then(({ supabase }) => {
+      supabase.from("future_goals").select("*").order("order_index")
+        .then(({ data }) => { if (data && data.length > 0) setDbGoals(data); });
+    });
+  }, []);
+
+  const staticGoals = [
+    { badge: "Career Goal", color: "#fdecea", textColor: "#c0392b", borderColor: "#f5b7b1", icon: <BadgeCheck size={13} />, desc: "Achieve a strong score in GATE and secure an opportunity to contribute to national defense by joining DRDO." },
+    { badge: "Venture", color: "#eafaf1", textColor: "#1e8449", borderColor: "#a9dfbf", icon: <Layers size={13} />, desc: "Aspire to become an entrepreneur by transforming my project, Velora, into a real-time, practical implementation." },
+    { badge: "Beyond Tech", color: "#eaf4fb", textColor: "#1a5276", borderColor: "#a9cce3", icon: <Users size={13} />, desc: "Hope to establish an NPO dedicated to supporting underprivileged children and making a meaningful impact beyond technology." },
   ];
+
+  const goals = dbGoals.length > 0
+    ? dbGoals.map(g => ({ badge: g.badge, color: g.color, textColor: g.text_color, borderColor: g.border_color, icon: <BadgeCheck size={13} />, desc: g.description }))
+    : staticGoals;
 
   return (
     <section id="goals" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
@@ -792,21 +701,12 @@ function FutureGoals() {
           {goals.map((goal, i) => (
             <div key={i}>
               {i > 0 && <hr className="divider" style={{ margin: "1.5rem 0" }} />}
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", padding: i === 0 ? "0 0 0" : "0" }}>
-                <span style={{
-                  display: "inline-flex", alignItems: "center", gap: "0.4rem",
-                  alignSelf: "flex-start",
-                  background: goal.color, color: goal.textColor,
-                  border: `1px solid ${goal.borderColor}`,
-                  borderRadius: "999px", padding: "0.3rem 0.75rem",
-                  fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 500,
-                }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", alignSelf: "flex-start", background: goal.color, color: goal.textColor, border: `1px solid ${goal.borderColor}`, borderRadius: "999px", padding: "0.3rem 0.75rem", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 500 }}>
                   <span style={{ fontSize: "0.75rem" }}>{goal.icon}</span>
                   {goal.badge}
                 </span>
-                <p style={{ color: "var(--foreground))", fontSize: "0.9rem", lineHeight: 1.8, margin: 0 }}>
-                  {goal.desc}
-                </p>
+                <p style={{ color: "var(--foreground)", fontSize: "0.9rem", lineHeight: 1.8, margin: 0 }}>{goal.desc}</p>
               </div>
             </div>
           ))}
@@ -815,53 +715,51 @@ function FutureGoals() {
     </section>
   );
 }
-
 function Journey() {
-  const paragraphs = [
+  const [dbJourney, setDbJourney] = useState<{id:string; type:string; content:string; order_index:number}[]>([]);
+
+  useEffect(() => {
+    import("@/lib/supabase").then(({ supabase }) => {
+      supabase.from("journey").select("*").order("order_index")
+        .then(({ data }) => { if (data && data.length > 0) setDbJourney(data); });
+    });
+  }, []);
+
+  const staticParagraphs = [
     "I grew up in a single-parent household, raised by my mother. For a long time, I lacked direction and consistency — I would give up too easily and not take my responsibilities seriously enough.",
-    "My mother always wanted a passionate, studious, and well-mannered child. What she got was someone lazy, mischievous, and consistently inconsistent. That gap between who she hoped I would be and who I actually was — I felt it, even when I pretended not to.",
-    "I appeared for the NDA examination twice, aspiring to join the Indian Navy, but could not clear the first stage either time. I participated in numerous Olympiad examinations throughout school without qualifying a single one. These experiences led me to doubt my own abilities significantly.",
-    "A considerable amount was invested in my intermediate education — approximately 8 lakhs — yet I was unable to score 90%. That made me feel like I wasn't doing justice to the opportunities I was given.",
+    "My mother always wanted a passionate, studious, and well-mannered child. What she got was someone lazy, mischievous, and consistently inconsistent.",
+    "I appeared for the NDA examination twice, aspiring to join the Indian Navy, but could not clear the first stage either time.",
+    "A considerable amount was invested in my intermediate education — approximately 8 lakhs — yet I was unable to score 90%.",
     "Alongside academics, I was involved in sports — basketball and kho-kho. Not even a single win to my name — but those experiences instilled in me the discipline to keep going despite setbacks.",
-    "My family had expectations from me, and I often felt like I wasn't meeting them. But things started to change when I qualified EAMCET with very limited preparation. That moment made my family slowly start believing in me, and it made everyone including me realize that I had potential—I just wasn't using it properly.",
-    "Getting selected as an intern at EvolveX meant a lot—after all the failures, it felt like a step forward.",
-    "There was one moment that stayed with me. My mother once said that instead of spending so much on me, the same could have helped a hardworking child who needed it more. That line didn't leave me.",
-    "I didn't take it as discouragement—I took it as responsibility. Someday, I want to build something meaningful and give back by starting a non-profit for children who don't have the opportunities I had.",
+    "My family had expectations from me, and I often felt like I wasn't meeting them. But things started to change when I qualified EAMCET with very limited preparation.",
+    "Getting selected as an intern at EvolveX meant a lot — after all the failures, it felt like a step forward.",
+    "There was one moment that stayed with me. My mother once said that instead of spending so much on me, the same could have helped a hardworking child who needed it more.",
+    "I didn't take it as discouragement — I took it as responsibility.",
     "Over time, I started reflecting on myself and decided to change. I'm now working on becoming more focused, disciplined, and consistent.",
   ];
 
-  const closingQuote = "Today, my goals are clear: improve my skills, prepare for GATE, work towards opportunities like DRDO, build Velora into something real, and give back through that non-profit. Most importantly, I want to make my mother proud.";
+  const staticQuote = "Today, my goals are clear: improve my skills, prepare for GATE, work towards opportunities like DRDO, build Velora into something real, and give back through that non-profit. Most importantly, I want to make my mother proud.";
+
+  const paragraphs = dbJourney.length > 0
+    ? dbJourney.filter(j => j.type === "paragraph").map(j => j.content)
+    : staticParagraphs;
+
+  const quote = dbJourney.length > 0
+    ? dbJourney.find(j => j.type === "quote")?.content || staticQuote
+    : staticQuote;
 
   return (
     <section id="journey" style={{ padding: "5rem 1.5rem" }}>
       <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Personal Narrative</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "0.75rem" }}>My Journey</h2>
-        <p style={{ textAlign: "center", fontStyle: "italic", color: "var(--muted-fg)", fontSize: "0.88rem", marginBottom: "3rem", opacity: 0.75 }}>
-          "A story of failure."
-        </p>
+        <p style={{ textAlign: "center", fontStyle: "italic", color: "var(--muted-fg)", fontSize: "0.88rem", marginBottom: "3rem", opacity: 0.75 }}>"A story of failure."</p>
         <div className="card" style={{ display: "flex", flexDirection: "column", gap: "1.125rem" }}>
           {paragraphs.map((para, i) => (
             <p key={i} style={{ color: "var(--foreground)", fontSize: "0.9rem", lineHeight: 1.85, margin: 0 }}>{para}</p>
           ))}
-
-          <blockquote style={{
-            margin: "0.5rem 0 0",
-            padding: "1.125rem 1.5rem",
-            borderLeft: "3px solid var(--primary)",
-            background: "var(--surface)",
-            borderRadius: "0 6px 6px 0",
-          }}>
-            <p style={{
-              fontFamily: "var(--app-font-serif)",
-              fontStyle: "italic",
-              fontSize: "0.975rem",
-              lineHeight: 1.85,
-              color: "var(--foreground)",
-              margin: 0,
-            }}>
-              {closingQuote}
-            </p>
+          <blockquote style={{ margin: "0.5rem 0 0", padding: "1.125rem 1.5rem", borderLeft: "3px solid var(--primary)", background: "var(--surface)", borderRadius: "0 6px 6px 0" }}>
+            <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "0.975rem", lineHeight: 1.85, color: "var(--foreground)", margin: 0 }}>{quote}</p>
           </blockquote>
         </div>
       </div>
