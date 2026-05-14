@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Github, Linkedin, Mail, X, ArrowRight, Moon, Sun, Dribbble, Video, BookOpen, Pencil, Scissors, Globe, Film, Music as MusicIcon, BadgeCheck, Layers, Users, Cpu, Heart, ShieldCheck } from "lucide-react";
+import { Github, Linkedin, Mail, X, Moon, Sun, Dribbble, Video, BookOpen, Pencil, Scissors, Globe, Film, Music as MusicIcon, BadgeCheck, Layers, Users, Cpu, Heart, ShieldCheck } from "lucide-react";
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const navItems = [
@@ -10,24 +10,21 @@ const navItems = [
   { label: "Future Goals", href: "#goals" },
   { label: "Journey", href: "#journey" },
 ];
+
 function useScrollReveal(active: boolean = true) {
   useEffect(() => {
     if (!active) return;
-
     const reveals = document.querySelectorAll(".reveal");
     const lefts = document.querySelectorAll(".reveal-left");
     const rights = document.querySelectorAll(".reveal-right");
-
     const setInitial = (el: Element, transform: string) => {
       (el as HTMLElement).style.opacity = "0";
       (el as HTMLElement).style.transform = transform;
       (el as HTMLElement).style.transition = "opacity 0.8s ease, transform 0.8s ease";
     };
-
     reveals.forEach((el) => setInitial(el, "translateY(40px)"));
     lefts.forEach((el) => setInitial(el, "translateX(-60px)"));
     rights.forEach((el) => setInitial(el, "translateX(60px)"));
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -39,24 +36,75 @@ function useScrollReveal(active: boolean = true) {
       },
       { threshold: 0.1 }
     );
-
     setTimeout(() => {
       reveals.forEach((el) => observer.observe(el));
       lefts.forEach((el) => observer.observe(el));
       rights.forEach((el) => observer.observe(el));
     }, 100);
-
     return () => observer.disconnect();
   }, [active]);
 }
+
+function FloatingIcons() {
+  const icons = [
+    { icon: "💡", x: 4,  y: 8,  size: 1.5, duration: 18, delay: 0  },
+    { icon: "⚡", x: 90, y: 6,  size: 1.1, duration: 22, delay: 3  },
+    { icon: "🔧", x: 12, y: 68, size: 1.3, duration: 20, delay: 6  },
+    { icon: "📡", x: 94, y: 52, size: 1.4, duration: 25, delay: 1  },
+    { icon: "🔬", x: 78, y: 18, size: 1.0, duration: 17, delay: 8  },
+    { icon: "⚙️", x: 6,  y: 38, size: 1.6, duration: 23, delay: 4  },
+    { icon: "🧩", x: 48, y: 4,  size: 1.1, duration: 19, delay: 7  },
+    { icon: "📐", x: 62, y: 88, size: 1.2, duration: 21, delay: 2  },
+    { icon: "🖥️", x: 28, y: 92, size: 1.0, duration: 24, delay: 9  },
+    { icon: "🔋", x: 82, y: 76, size: 1.1, duration: 16, delay: 5  },
+    { icon: "📟", x: 40, y: 50, size: 0.9, duration: 28, delay: 11 },
+    { icon: "🧲", x: 18, y: 24, size: 1.0, duration: 20, delay: 13 },
+    { icon: "🔭", x: 70, y: 42, size: 1.2, duration: 26, delay: 10 },
+    { icon: "🧪", x: 55, y: 72, size: 1.0, duration: 22, delay: 14 },
+    { icon: "📱", x: 3,  y: 55, size: 0.9, duration: 19, delay: 16 },
+  ];
+
+  return (
+    <>
+      <style>{`
+        @keyframes floatUp {
+          0%   { transform: translateY(0px)   rotate(0deg);  opacity: 0.06; }
+          50%  { transform: translateY(-30px) rotate(6deg);  opacity: 0.12; }
+          100% { transform: translateY(0px)   rotate(0deg);  opacity: 0.06; }
+        }
+      `}</style>
+      <div style={{
+        position: "fixed", inset: 0,
+        pointerEvents: "none", zIndex: 0, overflow: "hidden",
+      }}>
+        {icons.map((item, i) => (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              left: `${item.x}%`,
+              top: `${item.y}%`,
+              fontSize: `${item.size}rem`,
+              animation: `floatUp ${item.duration}s ease-in-out ${item.delay}s infinite`,
+              filter: "grayscale(1) sepia(0.5) brightness(0.7)",
+              opacity: 0.06,
+              userSelect: "none",
+            }}
+          >
+            {item.icon}
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
 function SplashScreen({ onDismiss }: { onDismiss: () => void }) {
   const [dismissing, setDismissing] = useState(false);
-
   const handleDismiss = () => {
     setDismissing(true);
     setTimeout(onDismiss, 500);
   };
-
   return (
     <div
       onClick={handleDismiss}
@@ -71,14 +119,8 @@ function SplashScreen({ onDismiss }: { onDismiss: () => void }) {
         transform: dismissing ? "scale(0.95)" : "scale(1)",
       }}
     >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{
-          width: "120px", height: "120px",
-          animation: "splashBounce 0.8s ease forwards, splashFlip 1s ease 1.2s",
-        }}
-      >
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
+        style={{ width: "120px", height: "120px", animation: "splashBounce 0.8s ease forwards, splashFlip 1s ease 1.2s" }}>
         <g transform="translate(50,50) rotate(-15)">
           <circle cx="0" cy="0" r="48" fill="#5c3022"/>
           <line x1="-15" y1="-14" x2="-15" y2="-6" stroke="#fdf8f6" strokeWidth="4" strokeLinecap="round"/>
@@ -86,45 +128,38 @@ function SplashScreen({ onDismiss }: { onDismiss: () => void }) {
           <path d="M -20 10 Q 0 26 20 10" stroke="#fdf8f6" strokeWidth="4" fill="none" strokeLinecap="round"/>
         </g>
       </svg>
-      <p style={{
-        fontFamily: "var(--app-font-serif)", fontSize: "clamp(1.2rem, 3vw, 1.6rem)",
-        color: "#3a1f14", margin: 0, textAlign: "center",
-        animation: "splashFadeUp 0.6s ease 1.5s both",
-      }}>
+      <p style={{ fontFamily: "var(--app-font-serif)", fontSize: "clamp(1.2rem, 3vw, 1.6rem)", color: "#3a1f14", margin: 0, textAlign: "center", animation: "splashFadeUp 0.6s ease 1.5s both" }}>
         hope you're doing fine!
       </p>
-      <p style={{
-        fontSize: "0.72rem", letterSpacing: "0.15em", textTransform: "uppercase",
-        color: "#9c7b6e", margin: 0, textAlign: "center",
-        animation: "splashFadeUp 0.6s ease 2s both, splashPulse 2s ease 2.6s infinite",
-      }}>
+      <p style={{ fontSize: "0.72rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "#9c7b6e", margin: 0, textAlign: "center", animation: "splashFadeUp 0.6s ease 2s both, splashPulse 2s ease 2.6s infinite" }}>
         tap anywhere
       </p>
       <style>{`
         @keyframes splashBounce {
-          0% { transform: scale(0) translateY(-200px); opacity: 0; }
-          60% { transform: scale(1.2) translateY(10px); opacity: 1; }
-          80% { transform: scale(0.9) translateY(-5px); }
+          0%   { transform: scale(0) translateY(-200px); opacity: 0; }
+          60%  { transform: scale(1.2) translateY(10px);  opacity: 1; }
+          80%  { transform: scale(0.9) translateY(-5px); }
           100% { transform: scale(1) translateY(0); }
         }
         @keyframes splashFlip {
-          0% { transform: rotateY(0deg); }
-          50% { transform: rotateY(180deg); }
+          0%   { transform: rotateY(0deg);   }
+          50%  { transform: rotateY(180deg); }
           100% { transform: rotateY(360deg); }
         }
         @keyframes splashFadeUp {
           from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
+          to   { opacity: 1; transform: translateY(0);    }
         }
         @keyframes splashPulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
+          0%, 100% { opacity: 1;   }
+          50%      { opacity: 0.5; }
         }
       `}</style>
     </div>
   );
 }
-function scrollTo(href: string) { 
+
+function scrollTo(href: string) {
   const el = document.querySelector(href);
   if (el) el.scrollIntoView({ behavior: "smooth" });
 }
@@ -148,25 +183,18 @@ function Modal({ title, content, imageUrl, images, videoUrl, onClose }: ModalPro
       document.body.style.overflow = "";
     };
   }, [onClose]);
-
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.5rem" }}>
-          <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.3rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>
-            {title}
-          </h3>
+          <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.3rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>{title}</h3>
           <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted-fg)", padding: "0.25rem", lineHeight: 1 }}>
             <X size={17} />
           </button>
         </div>
         <hr className="divider" style={{ marginBottom: "1.5rem" }} />
         {videoUrl && (
-          <video
-            src={videoUrl}
-            controls
-            style={{ width: "100%", borderRadius: "6px", border: "0.5px solid var(--border-color)", display: "block", marginBottom: images || imageUrl ? "1rem" : 0, background: "#000" }}
-          />
+          <video src={videoUrl} controls style={{ width: "100%", borderRadius: "6px", border: "0.5px solid var(--border-color)", display: "block", marginBottom: images || imageUrl ? "1rem" : 0, background: "#000" }} />
         )}
         {imageUrl && (
           <img src={imageUrl} alt={title} style={{ width: "100%", borderRadius: "6px", border: "0.5px solid var(--border-color)", display: "block" }} />
@@ -196,17 +224,14 @@ function Modal({ title, content, imageUrl, images, videoUrl, onClose }: ModalPro
 
 function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void }) {
   const [scrolled, setScrolled] = useState(false);
-
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
   const navBg = dark
     ? scrolled ? "rgba(26,13,10,0.96)" : "rgba(26,13,10,0.80)"
     : scrolled ? "rgba(253,248,246,0.96)" : "rgba(253,248,246,0.80)";
-
   return (
     <nav style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
@@ -215,147 +240,68 @@ function Navbar({ dark, toggleDark }: { dark: boolean; toggleDark: () => void })
       borderBottom: scrolled ? "0.5px solid var(--border-color)" : "0.5px solid transparent",
       transition: "all 0.3s ease",
     }}>
-      <div style={{
-        maxWidth: "1280px", margin: "0 auto", padding: "0 1.5rem",
-        display: "flex", alignItems: "center", height: "52px", gap: "0.25rem",
-        flexWrap: "nowrap", overflow: "hidden",
-      }}>
-        <button
-          onClick={() => scrollTo("#home")}
-          style={{
-            fontFamily: "var(--app-font-serif)", fontSize: "1.05rem",
-            color: "#5c3022",
-            letterSpacing: "0.06em", background: "none", border: "none",
-            cursor: "pointer", padding: 0, marginRight: "0.5rem", flexShrink: 0,
-            fontWeight: 700,
-          }}
-        >
+      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 1.5rem", display: "flex", alignItems: "center", height: "52px", gap: "0.25rem", flexWrap: "nowrap", overflow: "hidden" }}>
+        <button onClick={() => scrollTo("#home")} style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.05rem", color: "#5c3022", letterSpacing: "0.06em", background: "none", border: "none", cursor: "pointer", padding: 0, marginRight: "0.5rem", flexShrink: 0, fontWeight: 700 }}>
           LAHARI
         </button>
-
-      <div style={{ display: "flex", alignItems: "center", flex: 1, flexWrap: "nowrap", overflowX: "auto", justifyContent: "center", scrollbarWidth: "none" }}>
+        <div style={{ display: "flex", alignItems: "center", flex: 1, flexWrap: "nowrap", overflowX: "auto", justifyContent: "center", scrollbarWidth: "none" }}>
           {navItems.map((item) => (
-            <button
-              key={item.label}
-              className="nav-link"
-              onClick={() => scrollTo(item.href)}
-              style={{ whiteSpace: "nowrap", fontSize: "0.68rem", padding: "0.25rem 0.5rem" }}
-            >
+            <button key={item.label} className="nav-link" onClick={() => scrollTo(item.href)} style={{ whiteSpace: "nowrap", fontSize: "0.68rem", padding: "0.25rem 0.5rem" }}>
               {item.label}
             </button>
           ))}
         </div>
-
-        <button
-          onClick={toggleDark}
-          style={{
-            background: "none", border: "0.5px solid var(--border-color)", cursor: "pointer",
-            color: "var(--muted-fg)", padding: "0.375rem", borderRadius: "50%",
-           display: "flex", alignItems: "center", justifyContent: "space-between", gap: "3rem", flexWrap: "wrap-reverse",
-            transition: "all 0.2s ease", width: "30px", height: "30px", flexShrink: 0,
-          }}
-          title={dark ? "Light mode" : "Dark mode"}
-        >
+        <button onClick={toggleDark} style={{ background: "none", border: "0.5px solid var(--border-color)", cursor: "pointer", color: "var(--muted-fg)", padding: "0.375rem", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.2s ease", width: "30px", height: "30px", flexShrink: 0 }} title={dark ? "Light mode" : "Dark mode"}>
           {dark ? <Sun size={13} /> : <Moon size={13} />}
         </button>
       </div>
     </nav>
   );
 }
+
 function Hero({ visible = false }: { visible?: boolean }) {
   const [emailModal, setEmailModal] = useState(false);
   const [copied, setCopied] = useState(false);
   return (
     <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", paddingTop: "58px", position: "relative", overflow: "hidden" }}>
-      
-      <div style={{
-        position: "absolute", bottom: "0", left: "0", right: "0",
-        fontFamily: "var(--app-font-serif)", fontSize: "clamp(6rem, 18vw, 14rem)",
-        fontWeight: 700, color: "var(--foreground)", opacity: 0.04,
-        letterSpacing: "0.05em", textAlign: "center", lineHeight: 1,
-        pointerEvents: "none", userSelect: "none",
-      }}>
+      <div style={{ position: "absolute", bottom: "0", left: "0", right: "0", fontFamily: "var(--app-font-serif)", fontSize: "clamp(6rem, 18vw, 14rem)", fontWeight: 700, color: "var(--foreground)", opacity: 0.04, letterSpacing: "0.05em", textAlign: "center", lineHeight: 1, pointerEvents: "none", userSelect: "none" }}>
         LAHARI
       </div>
-
       <div style={{ maxWidth: "1180px", margin: "0 auto", width: "100%", padding: "3rem 2rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "2rem", flexWrap: "wrap", position: "relative", zIndex: 1 }}>
-
         <div style={{ flex: 1, minWidth: "min(100%, 300px)", opacity: visible ? 1 : 0, transform: visible ? "translateX(0)" : "translateX(-60px)", transition: "opacity 0.8s ease, transform 0.8s ease" }}>
           <p className="label-upper" style={{ color: "var(--primary)", marginBottom: "1.25rem", letterSpacing: "0.15em", display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <span style={{ display: "inline-block", width: "2rem", height: "1px", background: "var(--primary)" }}></span>
             Portfolio
           </p>
-
-          <h1 style={{
-            fontFamily: "var(--app-font-serif)", fontWeight: 400,
-            fontSize: "clamp(2.8rem, 5.5vw, 4.2rem)",
-            lineHeight: 1.05, color: "var(--foreground)", margin: "0 0 1.25rem",
-          }}>
+          <h1 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontSize: "clamp(2.8rem, 5.5vw, 4.2rem)", lineHeight: 1.05, color: "var(--foreground)", margin: "0 0 1.25rem" }}>
             Sai Lahari Reddy
           </h1>
-
           <div style={{ borderLeft: "3px solid var(--primary)", paddingLeft: "1rem", marginBottom: "1rem" }}>
-            <p style={{
-              fontFamily: "var(--app-font-serif)", fontStyle: "italic",
-              fontSize: "clamp(1rem, 2vw, 1.25rem)",
-              color: "var(--primary)", lineHeight: 1.5, margin: 0, maxWidth: "480px",
-            }}>
+            <p style={{ fontFamily: "var(--app-font-serif)", fontStyle: "italic", fontSize: "clamp(1rem, 2vw, 1.25rem)", color: "var(--primary)", lineHeight: 1.5, margin: 0, maxWidth: "480px" }}>
               I build, experiment, and turn ideas into reality.
             </p>
           </div>
-
           <p style={{ fontSize: "0.92rem", color: "var(--muted-fg)", lineHeight: 1.75, margin: "0 0 2rem", maxWidth: "440px" }}>
             ECE student and GATE aspirant exploring the intersection of hardware and software.
           </p>
-
           <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-            <a href="https://github.com/laharixx908-star" target="_blank" rel="noopener noreferrer" className="icon-link" title="GitHub">
-              <Github size={17} />
-            </a>
-            <a href="https://www.linkedin.com/in/sai-lahari-reddy-b-799818396" target="_blank" rel="noopener noreferrer" className="icon-link" title="LinkedIn">
-              <Linkedin size={17} />
-            </a>
-            <button className="icon-link" title="Email" onClick={() => setEmailModal(true)}>
-              <Mail size={17} />
-            </button>
+            <a href="https://github.com/laharixx908-star" target="_blank" rel="noopener noreferrer" className="icon-link" title="GitHub"><Github size={17} /></a>
+            <a href="https://www.linkedin.com/in/sai-lahari-reddy-b-799818396" target="_blank" rel="noopener noreferrer" className="icon-link" title="LinkedIn"><Linkedin size={17} /></a>
+            <button className="icon-link" title="Email" onClick={() => setEmailModal(true)}><Mail size={17} /></button>
           </div>
         </div>
-
         <div style={{ flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", opacity: visible ? 1 : 0, transform: visible ? "translateX(0)" : "translateX(60px)", transition: "opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s" }}>
-          <div style={{
-            width: "clamp(160px, 40vw, 340px)",
-            height: "clamp(160px, 40vw, 340px)",
-            borderRadius: "50%",
-            overflow: "hidden",
-            border: "3px solid var(--primary)",
-            background: "#ede0da",
-            position: "relative",
-            zIndex: 1,
-          }}>
-            <img
-              src={`${BASE}/profile.jpeg`}
-              alt="Sai Lahari Reddy"
-              style={{
-                width: "100%",
-                height: "133%",
-                objectFit: "cover",
-                objectPosition: "top center",
-                display: "block",
-              }}
-            />
+          <div style={{ width: "clamp(160px, 40vw, 340px)", height: "clamp(160px, 40vw, 340px)", borderRadius: "50%", overflow: "hidden", border: "3px solid var(--primary)", background: "#ede0da", position: "relative", zIndex: 1 }}>
+            <img src={`${BASE}/profile.jpeg`} alt="Sai Lahari Reddy" style={{ width: "100%", height: "133%", objectFit: "cover", objectPosition: "top center", display: "block" }} />
           </div>
         </div>
-
       </div>
-
       {emailModal && (
         <div className="modal-overlay" onClick={() => setEmailModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "380px", textAlign: "center" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
               <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.2rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>Send an Email</h3>
-              <button onClick={() => setEmailModal(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted-fg)", padding: "0.25rem" }}>
-                <X size={17} />
-              </button>
+              <button onClick={() => setEmailModal(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted-fg)", padding: "0.25rem" }}><X size={17} /></button>
             </div>
             <hr className="divider" style={{ marginBottom: "1.5rem" }} />
             <p style={{ color: "var(--muted-fg)", fontSize: "0.85rem", marginBottom: "1.25rem" }}>You can reach me at</p>
@@ -363,16 +309,10 @@ function Hero({ visible = false }: { visible?: boolean }) {
               laharicareer.19@gmail.com
             </div>
             <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center" }}>
-              <button className="btn-text" onClick={() => {
-                navigator.clipboard.writeText("laharicareer.19@gmail.com");
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
-              }}>
+              <button className="btn-text" onClick={() => { navigator.clipboard.writeText("laharicareer.19@gmail.com"); setCopied(true); setTimeout(() => setCopied(false), 2000); }}>
                 {copied ? "Copied!" : "Copy Email"}
               </button>
-              <a href="https://mail.google.com/mail/?view=cm&to=laharicareer.19@gmail.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>
-                Open Gmail
-              </a>
+              <a href="https://mail.google.com/mail/?view=cm&to=laharicareer.19@gmail.com" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }}>Open Gmail</a>
             </div>
           </div>
         </div>
@@ -380,24 +320,21 @@ function Hero({ visible = false }: { visible?: boolean }) {
     </section>
   );
 }
+
 function About() {
   const [blocks, setBlocks] = useState<{label:string; text:string}[]>([]);
-
   useEffect(() => {
     import("@/lib/supabase").then(({ supabase }) => {
       supabase.from("about").select("*").order("order_index")
         .then(({ data }) => { if (data && data.length > 0) setBlocks(data); });
     });
   }, []);
-
   const staticBlocks = [
     { label: "The Spark", text: "Grew up endlessly curious about how things work — from circuits to code. ECE felt like the natural path to chase that curiosity." },
     { label: "How I Work", text: "I learn best by building. I don't just study concepts — I find ways to see them in action, even if that means starting from scratch." },
     { label: "What Drives Me", text: "The belief that good engineering solves real problems for real people — not just passing exams or shipping code." },
   ];
-
   const items = blocks.length > 0 ? blocks : staticBlocks;
-
   return (
     <section id="about" style={{ padding: "3rem 1.5rem 5rem" }}>
       <div className="reveal" style={{ maxWidth: "700px", margin: "0 auto" }}>
@@ -429,32 +366,26 @@ function About() {
 function Projects() {
   const [activeModal, setActiveModal] = useState<null | { title: string; content?: string | string[]; images?: string[]; videoUrl?: string }>(null);
   const [dbProjects, setDbProjects] = useState<{id:string; title:string; short_desc:string; tag:string; link:string; link_label:string; status:string}[]>([]);
-
   useEffect(() => {
     import("@/lib/supabase").then(({ supabase }) => {
       supabase.from("projects").select("*").order("order_index")
         .then(({ data }) => { if (data && data.length > 0) setDbProjects(data); });
     });
   }, []);
-
   const mindMateDesc = ["A platform designed to support students who experience emotional imbalance or frequent mood swings. The platform provides an AI companion that listens and offers supportive guidance, along with tasks and activities that help users build healthier habits and improve their emotional well-being."];
   const lineFollowerDesc = ["A line follower robot is an autonomous mobile system designed to detect and follow a predefined path, usually a black line on a white surface. This project uses DC motors for movement and basic sensors to guide navigation.", "The robot operates using infrared (IR) sensors that continuously detect the line's position. Based on sensor input, a microcontroller processes the data and controls the DC motors accordingly.", "This project demonstrates fundamental concepts of robotics such as sensor integration, motor control, and real-time decision-making."];
   const lfImages = [`${BASE}/lf1.jpeg`, `${BASE}/lf2.jpeg`, `${BASE}/lf3.jpeg`];
-
   const staticProjects = [
     { tag: "Hardware", tagColor: "#f5ede8", tagText: "#8a4a3a", tagBorder: "#d4a090", iconBg: "#2a1a14", iconColor: "#fdf8f6", icon: <Cpu size={22} />, title: "Line Follower Robot", shortDesc: "An autonomous mobile system that detects and follows a predefined path using DC motors and IR sensors.", descPoints: undefined, actions: [{ label: "View more details", type: "text", onClick: () => setActiveModal({ title: "Line Follower Robot", content: lineFollowerDesc }) }, { label: "View Project", type: "primary", onClick: () => setActiveModal({ title: "Line Follower Robot — Build", images: lfImages, videoUrl: `${BASE}/lf-video.mp4` }) }] },
     { tag: "AI · Wellness", tagColor: "#eafaf0", tagText: "#1e7a4a", tagBorder: "#a0d4b8", iconBg: "#fdeef0", iconColor: "#c0706a", icon: <Heart size={22} />, title: "Mind-Mate", shortDesc: "A platform designed to support students who experience emotional imbalance or frequent mood swings — powered by an AI companion and a rewards system.", descPoints: undefined, actions: [{ label: "View more details", type: "text", onClick: () => setActiveModal({ title: "Mind-Mate", content: mindMateDesc }) }, { label: "Visit Project", type: "primary-link", href: "https://mind-mate-orpin.vercel.app/" }] },
     { tag: "Upcoming", tagColor: "#f5f5f5", tagText: "#4a4a4a", tagBorder: "#d0d0d0", iconBg: "#2a1a14", iconColor: "#fdf8f6", icon: <ShieldCheck size={22} />, title: "Velora", shortDesc: null, descPoints: ["Explores women's safety and how technology can create safer environments.", "A wearable safety concept designed as a stylish accessory that enables instant emergency alerts."], actions: [{ label: "Coming Soon", type: "muted", onClick: undefined }] },
   ];
-
   return (
     <section id="projects" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
       <div className="reveal" style={{ maxWidth: "1000px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Work</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Projects</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
-
-          {/* Static hardcoded projects always show */}
           {staticProjects.map((project) => (
             <div key={project.title} className="card" style={{ display: "flex", flexDirection: "column", gap: "1rem", background: "var(--background)" }}>
               <span style={{ alignSelf: "flex-start", background: project.tagColor, color: project.tagText, border: `1px solid ${project.tagBorder}`, borderRadius: "999px", padding: "0.25rem 0.875rem", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>{project.tag}</span>
@@ -481,8 +412,6 @@ function Projects() {
               </div>
             </div>
           ))}
-
-          {/* Dynamic projects from Supabase */}
           {dbProjects.map((proj) => (
             <div key={proj.id} className="card" style={{ display: "flex", flexDirection: "column", gap: "1rem", background: "var(--background)" }}>
               <span style={{ alignSelf: "flex-start", background: "#f5ede8", color: "#8a4a3a", border: "1px solid #d4a090", borderRadius: "999px", padding: "0.25rem 0.875rem", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>{proj.tag || "Project"}</span>
@@ -498,37 +427,33 @@ function Projects() {
               </div>
             </div>
           ))}
-
         </div>
       </div>
       {activeModal && <Modal title={activeModal.title} content={activeModal.content} images={activeModal.images} videoUrl={activeModal.videoUrl} onClose={() => setActiveModal(null)} />}
     </section>
   );
 }
+
 function Skills() {
   const [dbSkills, setDbSkills] = useState<{id:string; category:string; name:string; is_exploring:boolean}[]>([]);
-
   useEffect(() => {
     import("@/lib/supabase").then(({ supabase }) => {
       supabase.from("skills").select("*").order("order_index")
         .then(({ data }) => { if (data && data.length > 0) setDbSkills(data); });
     });
   }, []);
-
   const staticCategories = [
-    { label: "Core", skills: ["C", "Python"], exploring: ["IoT", "VLSI"] },
-    { label: "Tools", skills: ["GitHub", "Vercel", "Canva", "AI Studio", "Antigravity"], exploring: [] },
-    { label: "Hardware", skills: ["Arduino", "Sensors", "Basic Electronics"], exploring: [] },
+    { label: "Core",     skills: ["C", "Python"],                                        exploring: ["IoT", "VLSI"] },
+    { label: "Tools",    skills: ["GitHub", "Vercel", "Canva", "AI Studio", "Antigravity"], exploring: [] },
+    { label: "Hardware", skills: ["Arduino", "Sensors", "Basic Electronics"],             exploring: [] },
   ];
-
   const categories = dbSkills.length > 0
     ? ["Core", "Tools", "Hardware"].map(cat => ({
         label: cat,
-        skills: dbSkills.filter(s => s.category === cat && !s.is_exploring).map(s => s.name),
-        exploring: dbSkills.filter(s => s.category === cat && s.is_exploring).map(s => s.name),
+        skills:    dbSkills.filter(s => s.category === cat && !s.is_exploring).map(s => s.name),
+        exploring: dbSkills.filter(s => s.category === cat &&  s.is_exploring).map(s => s.name),
       }))
     : staticCategories;
-
   return (
     <section id="skills" style={{ padding: "5rem 1.5rem" }}>
       <div className="reveal" style={{ maxWidth: "900px", margin: "0 auto" }}>
@@ -556,52 +481,42 @@ function Skills() {
     </section>
   );
 }
+
 function Experience() {
   const [certModal, setCertModal] = useState(false);
-  const [dbExperience, setDbExperience] = useState<any[]>([]);
+  const [dbExperience, setDbExperience] = useState<{id:string; role:string; company:string; duration:string; description:string}[]>([]);
   const certUrl = `${BASE}/hackforge-certificate.png`;
-
   useEffect(() => {
     import("@/lib/supabase").then(({ supabase }) => {
       supabase.from("experience").select("*").order("order_index")
         .then(({ data }) => { if (data && data.length > 0) setDbExperience(data); });
     });
   }, []);
-
   return (
     <section id="experience" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
       <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto" }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Professional Path</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Experience</h2>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-
-          {/* Hardcoded entries always show */}
           <div className="card" style={{ background: "var(--background)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
               <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--primary)", flexShrink: 0 }}></div>
               <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.05rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>EvolveX Intern</h3>
               <span className="highlight-badge">Full Stack Dev</span>
             </div>
-            <p style={{ color: "var(--foreground)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>
-              Currently working on building and improving web applications while gaining practical experience.
-            </p>
+            <p style={{ color: "var(--foreground)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>Currently working on building and improving web applications while gaining practical experience.</p>
           </div>
-
           <div className="card" style={{ background: "var(--background)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
               <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--primary)", flexShrink: 0 }}></div>
               <h3 style={{ fontFamily: "var(--app-font-serif)", fontSize: "1.05rem", fontWeight: 400, color: "var(--foreground)", margin: 0 }}>Hackforge Hackathon Participant</h3>
             </div>
-            <p style={{ color: "var(--muted-fg)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>
-              Participated in HackForge Hackathon, a 48-hour hackathon conducted by StudentForge at CMR Institute of Technology.
-            </p>
+            <p style={{ color: "var(--muted-fg)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>Participated in HackForge Hackathon, a 48-hour hackathon conducted by StudentForge at CMR Institute of Technology.</p>
             <div style={{ paddingLeft: "1.25rem", marginTop: "0.875rem", display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
               <button className="btn-text" onClick={() => setCertModal(true)}>View Certificate</button>
               <button className="btn-primary" style={{ fontSize: "0.72rem", padding: "0.45rem 1.1rem" }} onClick={() => scrollTo("#projects")}>View Project</button>
             </div>
           </div>
-
-          {/* Dynamic entries from Supabase */}
           {dbExperience.map(exp => (
             <div key={exp.id} className="card" style={{ background: "var(--background)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
@@ -612,38 +527,34 @@ function Experience() {
               <p style={{ color: "var(--muted-fg)", fontSize: "0.87rem", lineHeight: 1.7, margin: 0, paddingLeft: "1.25rem" }}>{exp.description}</p>
             </div>
           ))}
-
         </div>
       </div>
       {certModal && <Modal title="Hackforge Certificate" imageUrl={certUrl} onClose={() => setCertModal(false)} />}
     </section>
   );
 }
+
 function Hobbies() {
   const [dbHobbies, setDbHobbies] = useState<{id:string; title:string; description:string; badge:string}[]>([]);
-
   useEffect(() => {
     import("@/lib/supabase").then(({ supabase }) => {
       supabase.from("hobbies").select("*").order("order_index")
         .then(({ data }) => { if (data && data.length > 0) setDbHobbies(data); });
     });
   }, []);
-
   const staticHobbies = [
-    { icon: <Dribbble size={20} />, title: "Basketball", desc: "I'm a basketball player — on the court is where I feel most alive", badge: "PLAYER" },
-    { icon: <Video size={20} />, title: "Badminton", desc: "Fast rallies & outdoor fun", badge: null },
-    { icon: <BookOpen size={20} />, title: "Reading", desc: "Romantic novels & storytelling", badge: null },
-    { icon: <Pencil size={20} />, title: "Drawing", desc: "Sketching & visual expression", badge: null },
-    { icon: <Scissors size={20} />, title: "Craft work", desc: "Making things with my hands", badge: null },
-    { icon: <Globe size={20} />, title: "Outdoor activities", desc: "Exploring & staying active outside", badge: null },
-    { icon: <Film size={20} />, title: "Films", desc: "Cinema, stories & everything in between", badge: null },
-    { icon: <MusicIcon size={20} />, title: "Music", desc: "Good music for every mood", badge: null },
+    { icon: <Dribbble size={20} />, title: "Basketball",         desc: "I'm a basketball player — on the court is where I feel most alive", badge: "PLAYER" },
+    { icon: <Video size={20} />,    title: "Badminton",          desc: "Fast rallies & outdoor fun",                                          badge: null },
+    { icon: <BookOpen size={20} />, title: "Reading",            desc: "Romantic novels & storytelling",                                      badge: null },
+    { icon: <Pencil size={20} />,   title: "Drawing",            desc: "Sketching & visual expression",                                       badge: null },
+    { icon: <Scissors size={20} />, title: "Craft work",         desc: "Making things with my hands",                                         badge: null },
+    { icon: <Globe size={20} />,    title: "Outdoor activities", desc: "Exploring & staying active outside",                                  badge: null },
+    { icon: <Film size={20} />,     title: "Films",              desc: "Cinema, stories & everything in between",                             badge: null },
+    { icon: <MusicIcon size={20} />,title: "Music",              desc: "Good music for every mood",                                           badge: null },
   ];
-
   const hobbies = dbHobbies.length > 0
     ? dbHobbies.map(h => ({ icon: <Heart size={20} />, title: h.title, desc: h.description, badge: h.badge || null }))
     : staticHobbies;
-
   return (
     <section id="hobbies" style={{ padding: "5rem 1.5rem" }}>
       <div className="reveal" style={{ maxWidth: "1000px", margin: "0 auto" }}>
@@ -672,26 +583,23 @@ function Hobbies() {
     </section>
   );
 }
+
 function FutureGoals() {
   const [dbGoals, setDbGoals] = useState<{id:string; badge:string; description:string; color:string; text_color:string; border_color:string}[]>([]);
-
   useEffect(() => {
     import("@/lib/supabase").then(({ supabase }) => {
       supabase.from("future_goals").select("*").order("order_index")
         .then(({ data }) => { if (data && data.length > 0) setDbGoals(data); });
     });
   }, []);
-
   const staticGoals = [
-    { badge: "Career Goal", color: "#fdecea", textColor: "#c0392b", borderColor: "#f5b7b1", icon: <BadgeCheck size={13} />, desc: "Achieve a strong score in GATE and secure an opportunity to contribute to national defense by joining DRDO." },
-    { badge: "Venture", color: "#eafaf1", textColor: "#1e8449", borderColor: "#a9dfbf", icon: <Layers size={13} />, desc: "Aspire to become an entrepreneur by transforming my project, Velora, into a real-time, practical implementation." },
-    { badge: "Beyond Tech", color: "#eaf4fb", textColor: "#1a5276", borderColor: "#a9cce3", icon: <Users size={13} />, desc: "Hope to establish an NPO dedicated to supporting underprivileged children and making a meaningful impact beyond technology." },
+    { badge: "Career Goal",  color: "#fdecea", textColor: "#c0392b", borderColor: "#f5b7b1", icon: <BadgeCheck size={13} />, desc: "Achieve a strong score in GATE and secure an opportunity to contribute to national defense by joining DRDO." },
+    { badge: "Venture",      color: "#eafaf1", textColor: "#1e8449", borderColor: "#a9dfbf", icon: <Layers size={13} />,     desc: "Aspire to become an entrepreneur by transforming my project, Velora, into a real-time, practical implementation." },
+    { badge: "Beyond Tech",  color: "#eaf4fb", textColor: "#1a5276", borderColor: "#a9cce3", icon: <Users size={13} />,      desc: "Hope to establish an NPO dedicated to supporting underprivileged children and making a meaningful impact beyond technology." },
   ];
-
   const goals = dbGoals.length > 0
     ? dbGoals.map(g => ({ badge: g.badge, color: g.color, textColor: g.text_color, borderColor: g.border_color, icon: <BadgeCheck size={13} />, desc: g.description }))
     : staticGoals;
-
   return (
     <section id="goals" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
       <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto" }}>
@@ -715,16 +623,15 @@ function FutureGoals() {
     </section>
   );
 }
+
 function Journey() {
   const [dbJourney, setDbJourney] = useState<{id:string; type:string; content:string; order_index:number}[]>([]);
-
   useEffect(() => {
     import("@/lib/supabase").then(({ supabase }) => {
       supabase.from("journey").select("*").order("order_index")
         .then(({ data }) => { if (data && data.length > 0) setDbJourney(data); });
     });
   }, []);
-
   const staticParagraphs = [
     "I grew up in a single-parent household, raised by my mother. For a long time, I lacked direction and consistency — I would give up too easily and not take my responsibilities seriously enough.",
     "My mother always wanted a passionate, studious, and well-mannered child. What she got was someone lazy, mischievous, and consistently inconsistent.",
@@ -737,17 +644,9 @@ function Journey() {
     "I didn't take it as discouragement — I took it as responsibility.",
     "Over time, I started reflecting on myself and decided to change. I'm now working on becoming more focused, disciplined, and consistent.",
   ];
-
   const staticQuote = "Today, my goals are clear: improve my skills, prepare for GATE, work towards opportunities like DRDO, build Velora into something real, and give back through that non-profit. Most importantly, I want to make my mother proud.";
-
-  const paragraphs = dbJourney.length > 0
-    ? dbJourney.filter(j => j.type === "paragraph").map(j => j.content)
-    : staticParagraphs;
-
-  const quote = dbJourney.length > 0
-    ? dbJourney.find(j => j.type === "quote")?.content || staticQuote
-    : staticQuote;
-
+  const paragraphs = dbJourney.length > 0 ? dbJourney.filter(j => j.type === "paragraph").map(j => j.content) : staticParagraphs;
+  const quote = dbJourney.length > 0 ? (dbJourney.find(j => j.type === "quote")?.content || staticQuote) : staticQuote;
   return (
     <section id="journey" style={{ padding: "5rem 1.5rem" }}>
       <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto" }}>
@@ -770,22 +669,12 @@ function Journey() {
 function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
-
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
     try {
       await import("@emailjs/browser").then(({ send }) =>
-        send(
-          "service_2wuux2h",
-          "template_au3tdn9",
-          {
-            from_name: form.name,
-            from_email: form.email,
-            message: form.message,
-          },
-          "bV0sHD8MKjCOTpr1v"
-        )
+        send("service_2wuux2h", "template_au3tdn9", { from_name: form.name, from_email: form.email, message: form.message }, "bV0sHD8MKjCOTpr1v")
       );
       setStatus("sent");
       setForm({ name: "", email: "", message: "" });
@@ -795,50 +684,28 @@ function Contact() {
       setTimeout(() => setStatus("idle"), 4000);
     }
   };
-
   const links = [
-    { icon: <Github size={18} />, label: "GitHub", href: "https://github.com/laharixx908-star", display: "laharixx908-star" },
-    { icon: <Linkedin size={18} />, label: "LinkedIn", href: "https://www.linkedin.com/in/sai-lahari-reddy-b-799818396", display: "sai-lahari-reddy-b" },
-    { icon: <Mail size={18} />, label: "Email", href: "https://mail.google.com/mail/?view=cm&to=laharicareer.19@gmail.com", display: "laharicareer.19@gmail.com" },
+    { icon: <Github size={18} />,   label: "GitHub",   href: "https://github.com/laharixx908-star",                          display: "laharixx908-star" },
+    { icon: <Linkedin size={18} />, label: "LinkedIn", href: "https://www.linkedin.com/in/sai-lahari-reddy-b-799818396",     display: "sai-lahari-reddy-b" },
+    { icon: <Mail size={18} />,     label: "Email",    href: "https://mail.google.com/mail/?view=cm&to=laharicareer.19@gmail.com", display: "laharicareer.19@gmail.com" },
   ];
-
   return (
     <section id="contact" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
       <div className="reveal" style={{ maxWidth: "1000px", margin: "0 auto" }}>
-
         <div style={{ marginBottom: "3rem" }}>
-          <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontSize: "clamp(2rem, 5vw, 3.2rem)", lineHeight: 1.1, color: "var(--foreground)", margin: "0 0 0.25rem" }}>
-            wanna build something
-          </h2>
-          <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2rem, 5vw, 3.2rem)", lineHeight: 1.1, color: "var(--primary)", margin: "0 0 1.25rem" }}>
-            new & crazy?
-          </h2>
-          <p style={{ color: "var(--muted-fg)", fontSize: "0.92rem", lineHeight: 1.75, maxWidth: "420px" }}>
-            open to ideas, collabs, wild projects, or just a random convo. drop a text — i'll get back to you, no cap.
-          </p>
+          <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontSize: "clamp(2rem, 5vw, 3.2rem)", lineHeight: 1.1, color: "var(--foreground)", margin: "0 0 0.25rem" }}>wanna build something</h2>
+          <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2rem, 5vw, 3.2rem)", lineHeight: 1.1, color: "var(--primary)", margin: "0 0 1.25rem" }}>new & crazy?</h2>
+          <p style={{ color: "var(--muted-fg)", fontSize: "0.92rem", lineHeight: 1.75, maxWidth: "420px" }}>open to ideas, collabs, wild projects, or just a random convo. drop a text — i'll get back to you, no cap.</p>
         </div>
-
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem", alignItems: "start" }}>
-
           <div className="card" style={{ background: "var(--background)" }}>
             <p className="label-upper" style={{ marginBottom: "1.5rem", color: "var(--primary)" }}>Find Me Here</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
               {links.map((link) => (
-                <a key={link.label} href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "flex", alignItems: "center", gap: "0.875rem",
-                    padding: "0.75rem 0.875rem", borderRadius: "10px",
-                    textDecoration: "none", color: "inherit",
-                    transition: "background 0.2s",
-                  }}
+                <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "0.875rem", padding: "0.75rem 0.875rem", borderRadius: "10px", textDecoration: "none", color: "inherit", transition: "background 0.2s" }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--surface)"; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
-                >
-                  <span style={{ color: "var(--primary)", background: "var(--surface)", padding: "0.5rem", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    {link.icon}
-                  </span>
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
+                  <span style={{ color: "var(--primary)", background: "var(--surface)", padding: "0.5rem", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{link.icon}</span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div className="label-upper" style={{ fontSize: "0.65rem", marginBottom: "0.1rem" }}>{link.label}</div>
                     <div style={{ fontSize: "0.83rem", color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{link.display}</div>
@@ -848,22 +715,17 @@ function Contact() {
               ))}
             </div>
           </div>
-
           <div className="card" style={{ background: "var(--background)" }}>
             <p className="label-upper" style={{ marginBottom: "1.5rem", color: "var(--primary)" }}>Slide Into My Inbox</p>
             <form onSubmit={handleSend} style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
                 <div>
                   <label style={{ display: "block", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Your Name</label>
-                  <input className="contact-input" type="text" placeholder="your name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required
-                    style={{}}
-                  />
+                  <input className="contact-input" type="text" placeholder="your name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required style={{}} />
                 </div>
                 <div>
                   <label style={{ display: "block", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted-fg)", marginBottom: "0.4rem" }}>Email</label>
-                  <input className="contact-input" type="email" placeholder="your@email.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required
-                    style={{}}
-                  />
+                  <input className="contact-input" type="email" placeholder="your@email.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required style={{}} />
                 </div>
               </div>
               <div>
@@ -875,12 +737,12 @@ function Contact() {
               </button>
             </form>
           </div>
-
         </div>
       </div>
     </section>
   );
 }
+
 function Footer({ dark }: { dark: boolean }) {
   return (
     <footer style={{ padding: "2.5rem 1.5rem", borderTop: "0.5px solid var(--border-color)", background: dark ? "var(--background)" : "var(--surface)" }}>
@@ -894,10 +756,11 @@ function Footer({ dark }: { dark: boolean }) {
 export default function Portfolio() {
   const [dark, setDark] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
-const [heroVisible, setHeroVisible] = useState(false);
+  const [heroVisible, setHeroVisible] = useState(false);
   useScrollReveal(!showSplash);
   return (
-    <div className={dark ? "dark-mode" : ""} style={{ minHeight: "100vh", background: "var(--background)", transition: "background 0.3s ease" }}>
+    <div className={dark ? "dark-mode" : ""} style={{ minHeight: "100vh", background: "var(--background)", transition: "background 0.3s ease", position: "relative" }}>
+      <FloatingIcons />
       {showSplash && <SplashScreen onDismiss={() => { setShowSplash(false); setTimeout(() => setHeroVisible(true), 100); }} />}
       <Navbar dark={dark} toggleDark={() => setDark((d) => !d)} />
       <Hero visible={heroVisible} />
