@@ -45,6 +45,171 @@ function useScrollReveal(active: boolean = true) {
   }, [active]);
 }
 
+// ── SVG bear/boba generators ──────────────────────────────────────────────────
+
+function svgBobaBear(s: number, fc: string, ec: string, ck: string, expr: "happy" | "sip" | "cozy"): string {
+  const W = s, H = s * 1.55;
+  const hx = W / 2, hy = W * 0.44, hr = W * 0.38;
+  const bx = W / 2, by = H * 0.72, bw = W * 0.54, bh = H * 0.3;
+  const n = "#5a3018";
+  const mouth =
+    expr === "happy"
+      ? `<path d="M${hx - hr * 0.22} ${hy + hr * 0.32} q${hr * 0.22} ${hr * 0.2} ${hr * 0.44} 0" stroke="${n}" stroke-width="${hr * 0.07}" fill="none" stroke-linecap="round"/>`
+      : expr === "sip"
+      ? `<line x1="${hx - hr * 0.15}" y1="${hy + hr * 0.38}" x2="${hx + hr * 0.15}" y2="${hy + hr * 0.38}" stroke="${n}" stroke-width="${hr * 0.07}" stroke-linecap="round"/>`
+      : `<path d="M${hx - hr * 0.22} ${hy + hr * 0.38} q${hr * 0.22} ${-hr * 0.14} ${hr * 0.44} 0" stroke="${n}" stroke-width="${hr * 0.07}" fill="none" stroke-linecap="round"/>`;
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="${hx - hr * 0.62}" cy="${hy - hr * 0.6}" r="${hr * 0.3}" fill="${ec}"/>
+    <circle cx="${hx + hr * 0.62}" cy="${hy - hr * 0.6}" r="${hr * 0.3}" fill="${ec}"/>
+    <circle cx="${hx - hr * 0.62}" cy="${hy - hr * 0.6}" r="${hr * 0.16}" fill="${fc}"/>
+    <circle cx="${hx + hr * 0.62}" cy="${hy - hr * 0.6}" r="${hr * 0.16}" fill="${fc}"/>
+    <circle cx="${hx}" cy="${hy}" r="${hr}" fill="${fc}"/>
+    <ellipse cx="${hx - hr * 0.35}" cy="${hy + hr * 0.3}" rx="${hr * 0.14}" ry="${hr * 0.09}" fill="${ck}" opacity=".45"/>
+    <ellipse cx="${hx + hr * 0.35}" cy="${hy + hr * 0.3}" rx="${hr * 0.14}" ry="${hr * 0.09}" fill="${ck}" opacity=".45"/>
+    <circle cx="${hx - hr * 0.28}" cy="${hy - hr * 0.08}" r="${hr * 0.09}" fill="${n}"/>
+    <circle cx="${hx + hr * 0.28}" cy="${hy - hr * 0.08}" r="${hr * 0.09}" fill="${n}"/>
+    <ellipse cx="${hx}" cy="${hy + hr * 0.2}" rx="${hr * 0.17}" ry="${hr * 0.1}" fill="${n}"/>
+    ${mouth}
+    <ellipse cx="${bx}" cy="${by - bh * 0.1}" rx="${bw * 0.5}" ry="${bh * 0.18}" fill="${ec}" opacity=".9"/>
+    <rect x="${bx - bw * 0.5}" y="${by - bh * 0.1}" width="${bw}" height="${bh * 0.9}" rx="${bw * 0.12}" fill="${ec}" opacity=".9"/>
+    <ellipse cx="${bx}" cy="${by + bh * 0.8}" rx="${bw * 0.42}" ry="${bh * 0.14}" fill="${ec}" opacity=".85"/>
+    <rect x="${bx - bw * 0.06}" y="${by - bh * 0.72}" width="${bw * 0.12}" height="${bh * 0.7}" rx="${bw * 0.05}" fill="#8b5c34"/>
+    <circle cx="${bx - bw * 0.22}" cy="${by + bh * 0.52}" r="${bw * 0.09}" fill="#6a3a20"/>
+    <circle cx="${bx}" cy="${by + bh * 0.62}" r="${bw * 0.09}" fill="#5a2e18"/>
+    <circle cx="${bx + bw * 0.22}" cy="${by + bh * 0.52}" r="${bw * 0.09}" fill="#6a3a20"/>
+    <circle cx="${bx - bw * 0.1}" cy="${by + bh * 0.38}" r="${bw * 0.07}" fill="#5a2e18"/>
+    <circle cx="${bx + bw * 0.12}" cy="${by + bh * 0.38}" r="${bw * 0.07}" fill="#6a3a20"/>
+    <rect x="${bx - bw * 0.5}" y="${by - bh * 0.12}" width="${bw}" height="${bh * 0.08}" rx="${bw * 0.04}" fill="#7a4a28" opacity=".5"/>
+    <path d="M${bx - bw * 0.1} ${by - bh * 0.12} L${bx - bw * 0.28} ${by - bh * 1.1}" stroke="#8b5c34" stroke-width="${bw * 0.07}" stroke-linecap="round" fill="none"/>
+  </svg>`;
+}
+
+function svgBobaOnly(s: number): string {
+  const W = s, H = s * 1.2;
+  const bx = W / 2, by = H * 0.5, bw = W * 0.7, bh = H * 0.55;
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+    <rect x="${bx - bw * 0.06}" y="0" width="${bw * 0.12}" height="${H * 0.38}" rx="${bw * 0.05}" fill="#8b5c34"/>
+    <rect x="${bx - bw * 0.5}" y="${H * 0.28}" width="${bw}" height="${H * 0.06}" rx="${H * 0.03}" fill="#7a4a28"/>
+    <ellipse cx="${bx}" cy="${by - bh * 0.1}" rx="${bw * 0.5}" ry="${bh * 0.16}" fill="#c8956a"/>
+    <rect x="${bx - bw * 0.5}" y="${by - bh * 0.1}" width="${bw}" height="${bh * 0.9}" rx="${bw * 0.1}" fill="#c8956a"/>
+    <ellipse cx="${bx}" cy="${by + bh * 0.8}" rx="${bw * 0.42}" ry="${bh * 0.12}" fill="#b07848"/>
+    <circle cx="${bx - bw * 0.2}" cy="${by + bh * 0.5}" r="${bw * 0.09}" fill="#6a3a20"/>
+    <circle cx="${bx}" cy="${by + bh * 0.62}" r="${bw * 0.09}" fill="#5a2e18"/>
+    <circle cx="${bx + bw * 0.2}" cy="${by + bh * 0.5}" r="${bw * 0.09}" fill="#6a3a20"/>
+    <circle cx="${bx - bw * 0.08}" cy="${by + bh * 0.36}" r="${bw * 0.07}" fill="#5a2e18"/>
+    <circle cx="${bx + bw * 0.1}" cy="${by + bh * 0.36}" r="${bw * 0.07}" fill="#6a3a20"/>
+  </svg>`;
+}
+
+function svgPaw(s: number): string {
+  return `<svg width="${s}" height="${s}" viewBox="0 0 ${s} ${s}" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="${s * 0.5}" cy="${s * 0.63}" rx="${s * 0.3}" ry="${s * 0.26}" fill="#8b5c34"/>
+    <circle cx="${s * 0.24}" cy="${s * 0.32}" r="${s * 0.12}" fill="#7a4a28"/>
+    <circle cx="${s * 0.5}" cy="${s * 0.22}" r="${s * 0.12}" fill="#7a4a28"/>
+    <circle cx="${s * 0.76}" cy="${s * 0.32}" r="${s * 0.12}" fill="#7a4a28"/>
+  </svg>`;
+}
+
+type FloaterItem = {
+  html: string;
+  x: number;
+  y: number;
+  dur: number;
+  delay: number;
+  dx: number;
+  dy: number;
+  r0: number;
+  r1: number;
+  op: number;
+};
+
+function buildFloaters(count: number): FloaterItem[] {
+  const makers: Array<(s: number) => string> = [
+    (s) => svgBobaBear(s, "#c8906a", "#8b5c34", "#e8a07a", "happy"),
+    (s) => svgBobaBear(s, "#b87848", "#7a4a28", "#d4906a", "sip"),
+    (s) => svgBobaBear(s, "#d4a87a", "#6b3e20", "#dba070", "cozy"),
+    (s) => svgBobaBear(s, "#a06438", "#5a3018", "#c8805a", "happy"),
+    (s) => svgBobaBear(s, "#c09058", "#7a4a28", "#d8a070", "sip"),
+    (s) => svgBobaBear(s, "#b87848", "#6b3e20", "#d09060", "cozy"),
+    (s) => svgBobaBear(s, "#a87040", "#5a3018", "#c07848", "happy"),
+    (s) => svgBobaOnly(s),
+    (s) => svgBobaOnly(s),
+    (s) => svgBobaOnly(s),
+    (s) => svgPaw(s),
+    (s) => svgPaw(s),
+    (s) => svgPaw(s),
+  ];
+
+  const items: FloaterItem[] = [];
+  for (let i = 0; i < count; i++) {
+    const fn = makers[Math.floor(Math.random() * makers.length)];
+    const s = 14 + Math.floor(Math.random() * 18);
+    items.push({
+      html: fn(s),
+      x: Math.random() * 97,
+      y: Math.random() * 100,
+      dur: 22 + Math.random() * 22,
+      delay: -(Math.random() * 44),
+      dx: (Math.random() - 0.5) * 55,
+      dy: -(70 + Math.random() * 120),
+      r0: (Math.random() - 0.5) * 16,
+      r1: (Math.random() - 0.5) * 16 + (Math.random() - 0.5) * 10,
+      op: 0.3 + Math.random() * 0.28,
+    });
+  }
+  return items;
+}
+
+// ── Section-scoped floating layer (About → end) ───────────────────────────────
+
+function SectionFloatingLayer() {
+  const [floaters] = useState<FloaterItem[]>(() => buildFloaters(88));
+
+  return (
+    <>
+      <style>{`
+        @keyframes sectionDrift {
+          0%   { transform: translateY(0)                      translateX(0)             rotate(var(--sr0)); }
+          25%  { transform: translateY(calc(var(--sdy)*.25))   translateX(calc(var(--sdx)*.6))  rotate(var(--sr1)); }
+          50%  { transform: translateY(calc(var(--sdy)*.5))    translateX(var(--sdx))    rotate(var(--sr0)); }
+          75%  { transform: translateY(calc(var(--sdy)*.75))   translateX(calc(var(--sdx)*.4)) rotate(var(--sr1)); }
+          100% { transform: translateY(var(--sdy))             translateX(0)             rotate(var(--sr0)); }
+        }
+      `}</style>
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          pointerEvents: "none",
+          zIndex: 0,
+          overflow: "hidden",
+        }}
+      >
+        {floaters.map((f, i) => (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              left: `${f.x}%`,
+              top: `${f.y}%`,
+              opacity: f.op,
+              // @ts-ignore
+              "--sdx": `${f.dx}px`,
+              "--sdy": `${f.dy}px`,
+              "--sr0": `${f.r0}deg`,
+              "--sr1": `${f.r1}deg`,
+              animation: `sectionDrift ${f.dur}s ${f.delay}s linear infinite`,
+            }}
+            dangerouslySetInnerHTML={{ __html: f.html }}
+          />
+        ))}
+      </div>
+    </>
+  );
+}
+
+// ── Original FloatingIcons kept only for Hero section ────────────────────────
+
 function FloatingIcons() {
   const icons = [
     { icon: "💡", x: 4,  y: 8,  size: 1.5, duration: 18, delay: 0  },
@@ -336,8 +501,8 @@ function About() {
   ];
   const items = blocks.length > 0 ? blocks : staticBlocks;
   return (
-    <section id="about" style={{ padding: "3rem 1.5rem 5rem" }}>
-      <div className="reveal" style={{ maxWidth: "700px", margin: "0 auto" }}>
+    <section id="about" style={{ padding: "3rem 1.5rem 5rem", position: "relative" }}>
+      <div className="reveal" style={{ maxWidth: "700px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Introduction</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "2rem" }}>
           About <span style={{ fontStyle: "italic", color: "var(--primary)" }}>Me</span>
@@ -381,8 +546,8 @@ function Projects() {
     { tag: "Upcoming", tagColor: "#f5f5f5", tagText: "#4a4a4a", tagBorder: "#d0d0d0", iconBg: "#2a1a14", iconColor: "#fdf8f6", icon: <ShieldCheck size={22} />, title: "Velora", shortDesc: null, descPoints: ["Explores women's safety and how technology can create safer environments.", "A wearable safety concept designed as a stylish accessory that enables instant emergency alerts."], actions: [{ label: "Coming Soon", type: "muted", onClick: undefined }] },
   ];
   return (
-    <section id="projects" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
-      <div className="reveal" style={{ maxWidth: "1000px", margin: "0 auto" }}>
+    <section id="projects" style={{ padding: "5rem 1.5rem", background: "var(--surface)", position: "relative" }}>
+      <div className="reveal" style={{ maxWidth: "1000px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Work</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Projects</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
@@ -455,8 +620,8 @@ function Skills() {
       }))
     : staticCategories;
   return (
-    <section id="skills" style={{ padding: "5rem 1.5rem" }}>
-      <div className="reveal" style={{ maxWidth: "900px", margin: "0 auto" }}>
+    <section id="skills" style={{ padding: "5rem 1.5rem", position: "relative" }}>
+      <div className="reveal" style={{ maxWidth: "900px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Expertise</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Skills</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.25rem" }}>
@@ -493,8 +658,8 @@ function Experience() {
     });
   }, []);
   return (
-    <section id="experience" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
-      <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto" }}>
+    <section id="experience" style={{ padding: "5rem 1.5rem", background: "var(--surface)", position: "relative" }}>
+      <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Professional Path</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Experience</h2>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -556,8 +721,8 @@ function Hobbies() {
     ? dbHobbies.map(h => ({ icon: <Heart size={20} />, title: h.title, desc: h.description, badge: h.badge || null }))
     : staticHobbies;
   return (
-    <section id="hobbies" style={{ padding: "5rem 1.5rem" }}>
-      <div className="reveal" style={{ maxWidth: "1000px", margin: "0 auto" }}>
+    <section id="hobbies" style={{ padding: "5rem 1.5rem", position: "relative" }}>
+      <div className="reveal" style={{ maxWidth: "1000px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Interests & Hobbies</p>
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
           <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.1, color: "var(--foreground)", margin: "0" }}>beyond my</h2>
@@ -601,8 +766,8 @@ function FutureGoals() {
     ? dbGoals.map(g => ({ badge: g.badge, color: g.color, textColor: g.text_color, borderColor: g.border_color, icon: <BadgeCheck size={13} />, desc: g.description }))
     : staticGoals;
   return (
-    <section id="goals" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
-      <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto" }}>
+    <section id="goals" style={{ padding: "5rem 1.5rem", background: "var(--surface)", position: "relative" }}>
+      <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Looking Ahead</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "3rem" }}>Future Goals</h2>
         <div className="card" style={{ background: "var(--background)", display: "flex", flexDirection: "column", gap: "0" }}>
@@ -648,8 +813,8 @@ function Journey() {
   const paragraphs = dbJourney.length > 0 ? dbJourney.filter(j => j.type === "paragraph").map(j => j.content) : staticParagraphs;
   const quote = dbJourney.length > 0 ? (dbJourney.find(j => j.type === "quote")?.content || staticQuote) : staticQuote;
   return (
-    <section id="journey" style={{ padding: "5rem 1.5rem" }}>
-      <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto" }}>
+    <section id="journey" style={{ padding: "5rem 1.5rem", position: "relative" }}>
+      <div className="reveal" style={{ maxWidth: "720px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <p className="label-upper" style={{ textAlign: "center", marginBottom: "1.5rem" }}>Personal Narrative</p>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: "0.75rem" }}>My Journey</h2>
         <p style={{ textAlign: "center", fontStyle: "italic", color: "var(--muted-fg)", fontSize: "0.88rem", marginBottom: "3rem", opacity: 0.75 }}>"A story of failure."</p>
@@ -690,8 +855,8 @@ function Contact() {
     { icon: <Mail size={18} />,     label: "Email",    href: "https://mail.google.com/mail/?view=cm&to=laharicareer.19@gmail.com", display: "laharicareer.19@gmail.com" },
   ];
   return (
-    <section id="contact" style={{ padding: "5rem 1.5rem", background: "var(--surface)" }}>
-      <div className="reveal" style={{ maxWidth: "1000px", margin: "0 auto" }}>
+    <section id="contact" style={{ padding: "5rem 1.5rem", background: "var(--surface)", position: "relative" }}>
+      <div className="reveal" style={{ maxWidth: "1000px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <div style={{ marginBottom: "3rem" }}>
           <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontSize: "clamp(2rem, 5vw, 3.2rem)", lineHeight: 1.1, color: "var(--foreground)", margin: "0 0 0.25rem" }}>wanna build something</h2>
           <h2 style={{ fontFamily: "var(--app-font-serif)", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(2rem, 5vw, 3.2rem)", lineHeight: 1.1, color: "var(--primary)", margin: "0 0 1.25rem" }}>new & crazy?</h2>
@@ -745,11 +910,22 @@ function Contact() {
 
 function Footer({ dark }: { dark: boolean }) {
   return (
-    <footer style={{ padding: "2.5rem 1.5rem", borderTop: "0.5px solid var(--border-color)", background: dark ? "var(--background)" : "var(--surface)" }}>
-      <div style={{ maxWidth: "1180px", margin: "0 auto", textAlign: "center" }}>
+    <footer style={{ padding: "2.5rem 1.5rem", borderTop: "0.5px solid var(--border-color)", background: dark ? "var(--background)" : "var(--surface)", position: "relative" }}>
+      <div style={{ maxWidth: "1180px", margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 }}>
         <p style={{ color: "var(--muted-fg)", fontSize: "0.75rem", letterSpacing: "0.08em", opacity: 0.65, margin: 0 }}>© 2025 Sai Lahari Reddy</p>
       </div>
     </footer>
+  );
+}
+
+// ── Root wrapper that holds the bear float layer ──────────────────────────────
+
+function BelowHeroWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ position: "relative" }}>
+      <SectionFloatingLayer />
+      {children}
+    </div>
   );
 }
 
@@ -760,19 +936,27 @@ export default function Portfolio() {
   useScrollReveal(!showSplash);
   return (
     <div className={dark ? "dark-mode" : ""} style={{ minHeight: "100vh", background: "var(--background)", transition: "background 0.3s ease", position: "relative" }}>
+      {/* Hero-only floating icons — kept exactly as original */}
       <FloatingIcons />
+
       {showSplash && <SplashScreen onDismiss={() => { setShowSplash(false); setTimeout(() => setHeroVisible(true), 100); }} />}
       <Navbar dark={dark} toggleDark={() => setDark((d) => !d)} />
+
+      {/* Hero section — untouched, no bears */}
       <Hero visible={heroVisible} />
-      <About />
-      <Projects />
-      <Skills />
-      <Experience />
-      <Hobbies />
-      <FutureGoals />
-      <Journey />
-      <Contact />
-      <Footer dark={dark} />
+
+      {/* Everything from About onwards gets the bear/boba/paw float layer */}
+      <BelowHeroWrapper>
+        <About />
+        <Projects />
+        <Skills />
+        <Experience />
+        <Hobbies />
+        <FutureGoals />
+        <Journey />
+        <Contact />
+        <Footer dark={dark} />
+      </BelowHeroWrapper>
     </div>
   );
 }
