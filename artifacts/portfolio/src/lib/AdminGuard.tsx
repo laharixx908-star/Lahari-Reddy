@@ -8,21 +8,14 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        navigate("/admin");
-      } else {
-        setChecking(false);
-      }
+      if (!session) navigate("/admin");
+      else setChecking(false);
     });
   }, []);
 
-  if (checking) {
-    return (
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", fontFamily: "sans-serif", color: "#9c7b6e" }}>
-        Verifying access...
-      </div>
-    );
-  }
+  if (checking) return (
+    <div style={{ minHeight: "100vh", background: "#000000" }} />
+  );
 
   return <>{children}</>;
 }
